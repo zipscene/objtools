@@ -1,0 +1,4 @@
+This is a zs-api library: objtools
+
+Various utility functions for working with object, including object merging, inheritance, deep copying, etc.
+
