@@ -13,8 +13,7 @@
   },
   "dependencies": {
     "zs-linter": "git+ssh://git@git.zipscene.com:zsapicore/zs-linter.git",
-    "zs-error": "git+ssh://git@git.zipscene.com:zsapicore/zs-error.git#v0.0.4"
+    "zs-error": "git+ssh://git@git.zipscene.com:zsapicore/zs-error.git#v0.0.5"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
