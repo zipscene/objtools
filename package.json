@@ -1,6 +1,6 @@
 {
   "name": "objtools",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "private": true,
   "description": "Various utility functions for working with object, including object merging, inheritance, deep copying, etc.",
   "main": "./lib/index.js",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "zs-linter": "git+ssh://git@git.zipscene.com:zsapicore/zs-linter.git",
-    "zs-error": "git+ssh://git@git.zipscene.com:zsapicore/zs-error.git#v0.0.5"
+    "zs-error": "git+ssh://git@git.zipscene.com:zsapicore/zs-error.git#v0.0.6"
   },
   "devDependencies": {}
 }
