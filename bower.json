@@ -1,9 +1,9 @@
 {
 	"name": "objtools",
-	"version": "0.0.7",
+	"version": "0.0.11",
 	"private": true,
 	"description": "Various utility functions for working with object, including object merging, inheritance, deep copying, etc.",
-	"main": "./lib/index.js",
+	"main": "./dist/objtools.js",
 	"repository": {
 		"type": "git",
 		"url": "git@git.zipscene.com:zsapilibs/objtools.git"
