@@ -1,6 +1,6 @@
 {
 	"name": "objtools",
-	"version": "0.0.12",
+	"version": "0.0.13",
 	"private": true,
 	"description": "Various utility functions for working with object, including object merging, inheritance, deep copying, etc.",
 	"main": "./lib/index.js",
