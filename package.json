@@ -1,6 +1,6 @@
 {
 	"name": "objtools",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"private": true,
 	"description": "Various utility functions for working with object, including object merging, inheritance, deep copying, etc.",
 	"main": "./lib/index.js",
@@ -13,7 +13,7 @@
 		"bowerify": "node node_modules/bowerify/bin/cmd.js"
 	},
 	"dependencies": {
-		"zs-error": "git+ssh://git@git.zipscene.com:zsapicore/zs-error.git#v0.0.10"
+		"zs-error": "git+ssh://git@git.zipscene.com:zsapicore/zs-error.git#v0.0.13"
 	},
 	"devDependencies": {
 		"zs-linter": "git+ssh://git@git.zipscene.com:zsapicore/zs-linter.git",
