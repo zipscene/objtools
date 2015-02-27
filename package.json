@@ -1,22 +1,21 @@
 {
-	"name": "objtools",
-	"version": "0.0.16",
-	"private": true,
-	"description": "Various utility functions for working with object, including object merging, inheritance, deep copying, etc.",
-	"main": "./lib/index.js",
-	"repository": {
-		"type": "git",
-		"url": "git@git.zipscene.com:zsapilibs/objtools.git"
-	},
-	"scripts": {
-		"lint": "node node_modules/zs-linter/scripts/zslint",
-		"bowerify": "node node_modules/bowerify/bin/cmd.js"
-	},
-	"dependencies": {
-		"zs-error": "git+ssh://git@git.zipscene.com:zsapicore/zs-error.git#v0.0.13"
-	},
-	"devDependencies": {
-		"zs-linter": "git+ssh://git@git.zipscene.com:zsapicore/zs-linter.git",
-		"bowerify": "git+ssh://git@git.zipscene.com:zsapilibs/bowerify.git"
-	}
+  "name": "zs-objtools",
+  "version": "0.1.0",
+  "description": "Various utility functions for working with object, including object merging, inheritance, deep copying, etc.",
+  "main": "./lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@git.zipscene.com:zsapilibs/zs-objtools.git"
+  },
+  "scripts": {
+    "lint": "node node_modules/zs-linter/scripts/zslint",
+    "bowerify": "node node_modules/bowerify/bin/cmd.js"
+  },
+  "dependencies": {
+    "xerror": "^1.0.0"
+  },
+  "devDependencies": {
+    "zs-linter": "git+ssh://git@git.zipscene.com:zsapicore/zs-linter.git",
+    "bowerify": "git+ssh://git@git.zipscene.com:zsapilibs/bowerify.git"
+  }
 }
