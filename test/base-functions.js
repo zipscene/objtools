@@ -306,6 +306,11 @@ describe('Base Functions', function() {
 			done();
 		});
 
+		it('getPath should handle root path', function(done) {
+			expect(getPath(obj1, null)).to.deep.equal(obj1);
+			done();
+		});
+
 		it('setPath should set various paths', function(done) {
 			setPath(obj1, 'foo', 'biz');
 			expect(obj1.foo).to.equal('biz');
