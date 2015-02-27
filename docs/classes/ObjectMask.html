@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ObjectMask - xerror</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="xerror" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.1.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/ObjectMask.html">ObjectMask</a></li>
+                                <li><a href="../classes/objtools.html">objtools</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1>ObjectMask Class</h1>
+<div class="box meta">
+
+
+        <div class="foundat">
+            Defined in: <a href="../files/lib_object-mask.js.html#l3"><code>lib&#x2F;object-mask.js:3</code></a>
+        </div>
+
+
+</div>
+
+
+<div class="box intro">
+    <p>This class represents a mask, or whitelist, of fields on an object.  Such
+a mask is stored in a format that looks like this:</p>
+<p>{ foo: true, bar: { baz: true } }</p>
+<p>This mask applies to the properties &quot;foo&quot; and &quot;bar.baz&quot; on an object.
+Wilcards can also be used:</p>
+<p>{ foo: false, bar: false, _: true }</p>
+<p>This will allow all fields but foo and bar.  The use of arrays with
+a single element is equivalent to the use of wildcards, as arrays in
+the masked object are treated as objects with numeric keys.  These
+two masks are equivalent:</p>
+<p>{ foo: [ { bar: true, baz: true } ] }</p>
+<p>{ foo: { _: { bar: true, baz: true } } }</p>
+
+</div>
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_ObjectMask" class="method item">
+            <h3 class="name"><code>ObjectMask</code></h3>
+        
+                <div class="args">
+                    <span class="paren">(</span><ul class="args-list inline commas">
+                        <li class="arg">
+                                <code>mask</code>
+                        </li>
+                    </ul><span class="paren">)</span>
+                </div>
+        
+        
+        
+        
+        
+        
+        
+        
+            <div class="meta">
+                        <p>
+                        Defined in
+                <a href="../files/lib_object-mask.js.html#l3"><code>lib&#x2F;object-mask.js:3</code></a>
+                </p>
+        
+        
+        
+            </div>
+        
+            <div class="description">
+                
+            </div>
+        
+                <div class="params">
+                    <h4>Parameters:</h4>
+        
+                    <ul class="params-list">
+                        <li class="param">
+                                <code class="param-name">mask</code>
+                                <span class="type">Object</span>
+        
+        
+                            <div class="param-description">
+                                <ul>
+        <li>The data for the mask</li>
+        </ul>
+        
+                            </div>
+        
+                        </li>
+                    </ul>
+                </div>
+        
+        
+        
+        </div>
+    </div>
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_addMasks">addMasks</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_andMasks">andMasks</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_checkDottedFields">checkDottedFields</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_checkFields">checkFields</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_checkMaskPath">checkMaskPath</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_createFilterFunc">createFilterFunc</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_createMaskFromFieldList">createMaskFromFieldList</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_filterDottedObject">filterDottedObject</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_filterObject">filterObject</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_getDottedMaskedOutFields">getDottedMaskedOutFields</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_getMaskedOutFields">getMaskedOutFields</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_getSubMask">getSubMask</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toObject">toObject</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_validate">validate</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_addMasks" class="method item">
+    <h3 class="name"><code>addMasks</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>mask1</code>
+                </li>
+                <li class="arg">
+                        <code>mask2...</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/ObjectMask.html" class="crosslink">ObjectMask</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_object-mask.js.html#l120"><code>lib&#x2F;object-mask.js:120</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Combines two or more masks such that the result mask matches fields matched by
+any of the combined masks.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">mask1</code>
+                        <span class="type"><a href="../classes/ObjectMask.html" class="crosslink">ObjectMask</a> | Object</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">mask2...</code>
+                        <span class="type"><a href="../classes/ObjectMask.html" class="crosslink">ObjectMask</a> | Object</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/ObjectMask.html" class="crosslink">ObjectMask</a></span>:
+                    <ul>
+<li>The result of adding together the component masks</li>
+</ul>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_andMasks" class="method item">
+    <h3 class="name"><code>andMasks</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>mask1</code>
+                </li>
+                <li class="arg">
+                        <code>mask2...</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/ObjectMask.html" class="crosslink">ObjectMask</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_object-mask.js.html#l199"><code>lib&#x2F;object-mask.js:199</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Adds a set of masks together, but using a logical AND instead of a logical OR (as in addMasks).
+IE, a field must be allowed in all given masks to be in the result mask.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">mask1</code>
+                        <span class="type"><a href="../classes/ObjectMask.html" class="crosslink">ObjectMask</a> | Object</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">mask2...</code>
+                        <span class="type"><a href="../classes/ObjectMask.html" class="crosslink">ObjectMask</a> | Object</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/ObjectMask.html" class="crosslink">ObjectMask</a></span>:
+                    <ul>
+<li>The result of ANDing together the component masks</li>
+</ul>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_checkDottedFields" class="method item">
+    <h3 class="name"><code>checkDottedFields</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>dottedObj</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_object-mask.js.html#l383"><code>lib&#x2F;object-mask.js:383</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Given a dot-notation mapping from fields to values (only 1 level deep is checked),
+ensure that all fields are in the (structured) mask.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">dottedObj</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Mapping from dot-separated paths to values</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_checkFields" class="method item">
+    <h3 class="name"><code>checkFields</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>obj</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_object-mask.js.html#l371"><code>lib&#x2F;object-mask.js:371</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Given a structured document, ensures that
+all fields are allowed by the given mask.  Returns true or false.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">obj</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_checkMaskPath" class="method item">
+    <h3 class="name"><code>checkMaskPath</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>path</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_object-mask.js.html#l99"><code>lib&#x2F;object-mask.js:99</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns true if the given path is allowed by the mask.  false otherwise.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">path</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Dot-separated path</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
+                    <ul>
+<li>Whether or not the given path is allowed</li>
+</ul>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_createFilterFunc" class="method item">
+    <h3 class="name"><code>createFilterFunc</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Function</span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_object-mask.js.html#l414"><code>lib&#x2F;object-mask.js:414</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns a function that filters object fields based on a structured mask/whitelist.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Function</span>:
+                    <ul>
+<li>A function(obj) that is the equivalent of calling filterObject()
+on obj</li>
+</ul>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_createMaskFromFieldList" class="method item">
+    <h3 class="name"><code>createMaskFromFieldList</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>fields</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/ObjectMask.html" class="crosslink">ObjectMask</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_object-mask.js.html#l398"><code>lib&#x2F;object-mask.js:398</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Creates a structured mask given a list of fields that should be included in the mask.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">fields</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Array of fields to include</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/ObjectMask.html" class="crosslink">ObjectMask</a></span>:
+                    <ul>
+<li>The created mask</li>
+</ul>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_filterDottedObject" class="method item">
+    <h3 class="name"><code>filterDottedObject</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>dottedObj</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[maskedOutHook]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_object-mask.js.html#l331"><code>lib&#x2F;object-mask.js:331</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Given a dot-notation mapping from fields to values, remove all fields that are not
+allowed by the mask.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">dottedObj</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Map from dotted paths to values, such as { &quot;foo.bar&quot;: &quot;baz&quot; }</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[maskedOutHook]</code>
+                        <span class="type">Function</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Function to call for removed fields</li>
+</ul>
+
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name">path</code>
+                                    <span class="type">String</span>
+
+                                <div class="param-description">
+                                    <ul>
+<li>Path of the masked out field</li>
+</ul>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Object</span>:
+                    <ul>
+<li>The result</li>
+</ul>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_filterObject" class="method item">
+    <h3 class="name"><code>filterObject</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>obj</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[maskedOutHook]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_object-mask.js.html#l32"><code>lib&#x2F;object-mask.js:32</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns a copy of the given object, but only including the fields allowed by
+the mask.  If the maskedOutHook function is provided, it is called for
+each field disallowed by the mask (at the highest level it is disallowed).</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">obj</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Object to filter</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[maskedOutHook]</code>
+                        <span class="type">Function</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Function to call for fields disallowed
+by the mask</li>
+</ul>
+
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name">path</code>
+                                    <span class="type">String</span>
+
+                                <div class="param-description">
+                                    <ul>
+<li>Path on the object that was masked out</li>
+</ul>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Object</span>:
+                    <ul>
+<li>The object after removing masked out fields.  Note that
+the returned object may still contain references to the original object.
+Fields that are not masked out are copied by reference.</li>
+</ul>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getDottedMaskedOutFields" class="method item">
+    <h3 class="name"><code>getDottedMaskedOutFields</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>obj</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_object-mask.js.html#l355"><code>lib&#x2F;object-mask.js:355</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns an array of fields in the given object which are restricted by the given mask.  The
+object is in dotted notation as in filterDottedObject()</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">obj</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>The object to check against</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+                    <ul>
+<li>Paths to fields that are restricted by the mask</li>
+</ul>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getMaskedOutFields" class="method item">
+    <h3 class="name"><code>getMaskedOutFields</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>obj</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_object-mask.js.html#l316"><code>lib&#x2F;object-mask.js:316</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns an array of fields in the given object which are restricted by the given mask</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">obj</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>The object to check against</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+                    <ul>
+<li>Paths to fields that are restricted by the mask</li>
+</ul>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getSubMask" class="method item">
+    <h3 class="name"><code>getSubMask</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>path</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Boolean | Object</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_object-mask.js.html#l78"><code>lib&#x2F;object-mask.js:78</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns a subsection of a mask given a dot-separated path to the subsection.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">path</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Dot-separated path to submask to fetch</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean | Object</span>:
+                    <ul>
+<li>Mask component corresponding to the path</li>
+</ul>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toObject" class="method item">
+    <h3 class="name"><code>toObject</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_object-mask.js.html#l110"><code>lib&#x2F;object-mask.js:110</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns the internal object that represents this mask.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Object</span>:
+                    <ul>
+<li>Object representation of this mask</li>
+</ul>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_validate" class="method item">
+    <h3 class="name"><code>validate</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_object-mask.js.html#l297"><code>lib&#x2F;object-mask.js:297</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Check if a mask is valid in strict form (ie, it only contains objects and booleans)</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
+                    <ul>
+<li>Whether or not the mask is strictly valid</li>
+</ul>
+
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+
+
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,0 +1,962 @@
+{
+    "project": {
+        "name": "xerror",
+        "description": "Extended Error",
+        "version": "0.1.0"
+    },
+    "files": {
+        "dist/objtools.js": {
+            "name": "dist/objtools.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "dist/objtools.min.js": {
+            "name": "dist/objtools.min.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/index.js": {
+            "name": "lib/index.js",
+            "modules": {},
+            "classes": {
+                "objtools": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/object-mask.js": {
+            "name": "lib/object-mask.js",
+            "modules": {},
+            "classes": {
+                "ObjectMask": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "objtools": {
+            "name": "objtools",
+            "shortname": "objtools",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/index.js",
+            "line": 3,
+            "description": "General utility functions for manipulating object."
+        },
+        "ObjectMask": {
+            "name": "ObjectMask",
+            "shortname": "ObjectMask",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/object-mask.js",
+            "line": 3,
+            "description": "This class represents a mask, or whitelist, of fields on an object.  Such\na mask is stored in a format that looks like this:\n\n{ foo: true, bar: { baz: true } }\n\nThis mask applies to the properties \"foo\" and \"bar.baz\" on an object.\nWilcards can also be used:\n\n{ foo: false, bar: false, _: true }\n\nThis will allow all fields but foo and bar.  The use of arrays with\na single element is equivalent to the use of wildcards, as arrays in\nthe masked object are treated as objects with numeric keys.  These\ntwo masks are equivalent:\n\n{ foo: [ { bar: true, baz: true } ] }\n\n{ foo: { _: { bar: true, baz: true } } }",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "mask",
+                    "description": "- The data for the mask",
+                    "type": "Object"
+                }
+            ]
+        }
+    },
+    "classitems": [
+        {
+            "file": "dist/objtools.js",
+            "line": 1,
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 15,
+            "description": "Note about whitelists/filters/masks:\nFilters are objects that represent a subset of fields in an object to allow.  The simplest\nfilters are mapping from field names to a boolean 'true':\n{ foo: true, bar: true }\nNested fields can also be represented:\n{ foo: true, bar: { baz: true} }\nIn the case where a parent object matches a 'true', all sub-fields are allowed.  Wildcards\ncan also be used:\n{ foo: false, bar: false, _: true }\nwill allow all fields but foo and bar.\nArrays are equivalent to wildcards:\n{ foo: [ { bar: true, baz: true } ] }\nis equivalent to\n{ foo: { _: { bar: true, baz: true } } }",
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 32,
+            "description": "Returns a copy of the given object, but only including the fields allowed by\nthe given mask.  If the maskedOutHook function is provided, it is called for\neach field disallowed by the mask (at the highest level it is disallowed).",
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 71,
+            "description": "Returns a subsection of a mask given a dot-separated path to the subsection.",
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 88,
+            "description": "Returns true if the given path is allowed by the mask.  false otherwise.",
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 271,
+            "description": "Check if a whitelist is valid in strict form (ie, it only contains objects and booleans)",
+            "params": [
+                {
+                    "name": "whitelist",
+                    "description": "Object"
+                }
+            ],
+            "return": {
+                "description": "Boolean"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 329,
+            "description": "Given a structured document, ensures that\nall fields are in the given whitelist.  Returns true or false.",
+            "params": [
+                {
+                    "name": "fields",
+                    "description": "Object list of fields to verify exist in whitelist"
+                },
+                {
+                    "name": "whitelist",
+                    "description": "Object"
+                }
+            ],
+            "return": {
+                "description": "Boolean"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 345,
+            "description": "Given a dot-notation mapping from fields to values (only 1 level deep is checked),\nensure that all fields are in the (structured) whitelist.",
+            "params": [
+                {
+                    "name": "fields",
+                    "description": "Object list of fields to verify exist in whitelist"
+                },
+                {
+                    "name": "whitelist",
+                    "description": "Object"
+                }
+            ],
+            "return": {
+                "description": "Boolean"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 400,
+            "description": "Verifies that there are no mongo operators in the supplied query/update.  Returns true if\nthere are no operators present.",
+            "params": [
+                {
+                    "name": "d",
+                    "description": "Object document update"
+                }
+            ],
+            "return": {
+                "description": "Boolean"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 418,
+            "description": "??",
+            "params": [
+                {
+                    "name": "doc",
+                    "description": "Object"
+                },
+                {
+                    "name": "update",
+                    "description": "Object"
+                },
+                {
+                    "name": "whitelist",
+                    "description": "Object"
+                }
+            ],
+            "return": {
+                "description": "Object"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 434,
+            "description": "Given a map from dot-notation fields to new values, apply to the document.\nUpdates are done on the document itself, then the document is returned.\nReturns null on error (ie, try to set a subfield of a boolean)",
+            "params": [
+                {
+                    "name": "doc",
+                    "description": "??"
+                },
+                {
+                    "name": "update",
+                    "description": "??"
+                },
+                {
+                    "name": "return",
+                    "description": "??"
+                }
+            ],
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 457,
+            "description": "Returns whether or not the given query fields match the document.",
+            "params": [
+                {
+                    "name": "doc",
+                    "description": "The document to test"
+                },
+                {
+                    "name": "query",
+                    "description": "A one-layer-deep set of key/values to check doc for"
+                }
+            ],
+            "return": {
+                "description": "Boolean Whether or not the doc matches"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 484,
+            "description": "Performs complex object inheritance on a set of documents.\n\nThe inheritance is performed according to the following rules:\n\nCorresponding objects are recursively merged, unless the overlay object has the _replace key\nset to true, in which case the base object is entirely replaced by the overlay object, or unless\nthe overlay object has the _delete key, in which case the key on the base object is removed.\nThis has the same effect as setting the value in the overlay object to null.\n\nIn cases where the overlay object has the same key as the base object, the value of the key\non the overlay object replaces the value on the base, unless the overlay object has the\n_yield key set to true.  _yield only applies to the current level of depth.\n\nIf the types of corresponding keys do not match (except in the array case described below),\nthe overlay value always replaces the base value.\n\nA value of null on an overlay object will cause the corresponding key on the base to be removed.\nNull values are also removed on the base.\n\nArrays in the overlay object will replace anything in the base.  To add or remove elements,\ninstead of replacing the whole array, a special overlay object can be used (with the same key\nas the array on the base).  This object looks like:\n{\narray: true,\nadd: [item1, item2, item3],\nremove: [item4, item5, item6],\nreplace: [ item7, item8, item9 ]\t// replaces whole array\n}\nThis causes items 1, 2, and 3 to be added to the base array, and items 4, 5, and 6 to be removed\nfrom the base array.  The object can also look like this:\n{\narray: true,\nreplace: [item1, item2, item3]\n}\nWhich behaves as if it were just an array instead of this special object.",
+            "params": [
+                {
+                    "name": "base",
+                    "description": "object The base document"
+                },
+                {
+                    "name": "subDocument1",
+                    "description": "object Document to overlay"
+                },
+                {
+                    "name": "subDocument...N",
+                    "description": "object More documents to overlay"
+                }
+            ],
+            "return": {
+                "description": "object The flattened document after inheritance"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 626,
+            "description": "Returns a child object that, when overlayed on base using inheritObject, will create\nthe given result.",
+            "params": [
+                {
+                    "name": "base",
+                    "description": "object The base object for the inheritance"
+                },
+                {
+                    "name": "result",
+                    "description": "object The desired result"
+                }
+            ],
+            "return": {
+                "description": "object The child to apply - may return undefined if objects are identical"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 654,
+            "description": "Sets the value at a given path in an object",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "object The object"
+                },
+                {
+                    "name": "path",
+                    "description": "string The path, dot-separated"
+                },
+                {
+                    "name": "value",
+                    "description": "mixed Value to set"
+                }
+            ],
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 689,
+            "description": "Gets the value at a given path in an object",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "object The object"
+                },
+                {
+                    "name": "path",
+                    "description": "string The path, dot-separated"
+                },
+                {
+                    "name": "allowSkipArrays",
+                    "description": "boolean If true: If a field in an object is an array and the\npath key is non-numeric, and the array has exactly 1 element, then the first element\nof the array is used."
+                }
+            ],
+            "return": {
+                "description": "mixed The value at the path"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 715,
+            "description": "Creates a structured mask given a list of fields that should be included in the mask.",
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.js",
+            "line": 726,
+            "description": "Returns a function that filters object fields based on a structured mask/whitelist.",
+            "class": "objtools"
+        },
+        {
+            "file": "dist/objtools.min.js",
+            "line": 1,
+            "class": "objtools"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 9,
+            "description": "Determines whether a value is considered a scalar or an object.  Currently,\nprimitives plus Date types are considered scalar.",
+            "itemtype": "method",
+            "name": "isScalar",
+            "static": 1,
+            "params": [
+                {
+                    "name": "o",
+                    "description": "- Value to check",
+                    "type": "Mixed"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 23,
+            "description": "Checks whether two scalar values (as determined by isScalar()) are equal.",
+            "itemtype": "method",
+            "name": "scalarEquals",
+            "static": 1,
+            "params": [
+                {
+                    "name": "a1",
+                    "description": "- First value",
+                    "type": "Mixed"
+                },
+                {
+                    "name": "a2",
+                    "description": "- Second value",
+                    "type": "Mixed"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 38,
+            "description": "Returns a deep copy of the given value such that entities are not passed\nby reference.",
+            "itemtype": "method",
+            "name": "deepCopy",
+            "static": 1,
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "- The object or value to copy",
+                    "type": "Mixed"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Mixed"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 65,
+            "description": "Given an object, converts it into a one-level-deep object where the keys are dot-separated\npaths and the values are the values at those paths.",
+            "itemtype": "method",
+            "name": "collapseToDotted",
+            "static": 1,
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "- The object to convert",
+                    "type": "Object"
+                },
+                {
+                    "name": "includeRedundantLevels",
+                    "description": "- If set to true, the returned object also includes\nkeys for internal objects.  By default, an object such as { foo: { bar: \"baz\"} } will be converted\ninto { \"foo.bar\": \"baz\" }.  If includeRedundantLevels is set, it will instead be converted\ninto { \"foo\": { bar: \"baz\" }, \"foo.bar\": \"baz\" } .",
+                    "type": "Boolean",
+                    "optional": true
+                },
+                {
+                    "name": "stopAtArrays",
+                    "description": "- If set to true, the collapsing function will not descend into\narrays.",
+                    "type": "Boolean",
+                    "optional": true
+                }
+            ],
+            "example": [
+                "\n  By default, an object such as { foo: [ \"bar\", \"baz\" ] } is converted\n  into { \"foo.0\": \"bar\", \"foo.1\": \"baz\" }.  If stopAtArrays is set, this will instead be converted\n  into { \"foo\": [ \"bar\", \"baz\" ] } ."
+            ],
+            "return": {
+                "description": "- The result",
+                "type": "Object"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 105,
+            "description": "Returns whether or not the given query fields (in dotted notation) match the document\n(also in dotted notation).  The \"queries\" here are simple equality matches.",
+            "itemtype": "method",
+            "name": "matchDottedObject",
+            "static": 1,
+            "params": [
+                {
+                    "name": "doc",
+                    "description": "- The document to test",
+                    "type": "Object"
+                },
+                {
+                    "name": "query",
+                    "description": "- A one-layer-deep set of key/values to check doc for",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "- Whether or not the doc matches",
+                "type": "Boolean"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 127,
+            "description": "Same as matchDottedObject, but allows for non-dotted objects and queries.",
+            "itemtype": "method",
+            "name": "matchObject",
+            "static": 1,
+            "params": [
+                {
+                    "name": "doc",
+                    "description": "- Object to match against, in structured (not dotted) form",
+                    "type": "Object"
+                },
+                {
+                    "name": "query",
+                    "description": "- Set of fields (either dotted or structured) to match",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "- Whether or not the object matches",
+                "type": "Boolean"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 141,
+            "description": "Checks for deep equality between two object or values.",
+            "itemtype": "method",
+            "name": "deepEquals",
+            "static": 1,
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "Mixed"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "Mixed"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 176,
+            "description": "Sets the value at a given path in an object.",
+            "itemtype": "method",
+            "name": "setPath",
+            "static": 1,
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "- The object",
+                    "type": "Object"
+                },
+                {
+                    "name": "path",
+                    "description": "- The path, dot-separated",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "- Value to set",
+                    "type": "Mixed"
+                }
+            ],
+            "return": {
+                "description": "- The same object",
+                "type": "Object"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 200,
+            "description": "Deletes the value at a given path in an object.",
+            "itemtype": "method",
+            "name": "deletePath",
+            "static": 1,
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "path",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "- The object that was passed in",
+                "type": "Object"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 225,
+            "description": "Gets the value at a given path in an object.",
+            "itemtype": "method",
+            "name": "getPath",
+            "static": 1,
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "- The object",
+                    "type": "Object"
+                },
+                {
+                    "name": "path",
+                    "description": "- The path, dot-separated",
+                    "type": "String"
+                },
+                {
+                    "name": "allowSkipArrays",
+                    "description": "- If true: If a field in an object is an array and the\npath key is non-numeric, and the array has exactly 1 element, then the first element\nof the array is used.",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "- The value at the path",
+                "type": "Mixed"
+            },
+            "class": "objtools"
+        },
+        {
+            "file": "lib/object-mask.js",
+            "line": 32,
+            "description": "Returns a copy of the given object, but only including the fields allowed by\nthe mask.  If the maskedOutHook function is provided, it is called for\neach field disallowed by the mask (at the highest level it is disallowed).",
+            "itemtype": "method",
+            "name": "filterObject",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "- Object to filter",
+                    "type": "Object"
+                },
+                {
+                    "name": "maskedOutHook",
+                    "description": "- Function to call for fields disallowed\nby the mask",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "path",
+                            "description": "- Path on the object that was masked out",
+                            "type": "String"
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "- The object after removing masked out fields.  Note that\nthe returned object may still contain references to the original object.\nFields that are not masked out are copied by reference.",
+                "type": "Object"
+            },
+            "class": "ObjectMask"
+        },
+        {
+            "file": "lib/object-mask.js",
+            "line": 78,
+            "description": "Returns a subsection of a mask given a dot-separated path to the subsection.",
+            "itemtype": "method",
+            "name": "getSubMask",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "- Dot-separated path to submask to fetch",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "- Mask component corresponding to the path",
+                "type": "Boolean|Object"
+            },
+            "class": "ObjectMask"
+        },
+        {
+            "file": "lib/object-mask.js",
+            "line": 99,
+            "description": "Returns true if the given path is allowed by the mask.  false otherwise.",
+            "itemtype": "method",
+            "name": "checkMaskPath",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "- Dot-separated path",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "- Whether or not the given path is allowed",
+                "type": "Boolean"
+            },
+            "class": "ObjectMask"
+        },
+        {
+            "file": "lib/object-mask.js",
+            "line": 110,
+            "description": "Returns the internal object that represents this mask.",
+            "itemtype": "method",
+            "name": "toObject",
+            "return": {
+                "description": "- Object representation of this mask",
+                "type": "Object"
+            },
+            "class": "ObjectMask"
+        },
+        {
+            "file": "lib/object-mask.js",
+            "line": 120,
+            "description": "Combines two or more masks such that the result mask matches fields matched by\nany of the combined masks.",
+            "itemtype": "method",
+            "name": "addMasks",
+            "static": 1,
+            "params": [
+                {
+                    "name": "mask1",
+                    "description": "",
+                    "type": "ObjectMask|Object"
+                },
+                {
+                    "name": "mask2...",
+                    "description": "",
+                    "type": "ObjectMask|Object"
+                }
+            ],
+            "return": {
+                "description": "- The result of adding together the component masks",
+                "type": "ObjectMask"
+            },
+            "class": "ObjectMask"
+        },
+        {
+            "file": "lib/object-mask.js",
+            "line": 199,
+            "description": "Adds a set of masks together, but using a logical AND instead of a logical OR (as in addMasks).\nIE, a field must be allowed in all given masks to be in the result mask.",
+            "itemtype": "method",
+            "name": "andMasks",
+            "static": 1,
+            "params": [
+                {
+                    "name": "mask1",
+                    "description": "",
+                    "type": "ObjectMask|Object"
+                },
+                {
+                    "name": "mask2...",
+                    "description": "",
+                    "type": "ObjectMask|Object"
+                }
+            ],
+            "return": {
+                "description": "- The result of ANDing together the component masks",
+                "type": "ObjectMask"
+            },
+            "class": "ObjectMask"
+        },
+        {
+            "file": "lib/object-mask.js",
+            "line": 297,
+            "description": "Check if a mask is valid in strict form (ie, it only contains objects and booleans)",
+            "itemtype": "method",
+            "name": "validate",
+            "return": {
+                "description": "- Whether or not the mask is strictly valid",
+                "type": "Boolean"
+            },
+            "class": "ObjectMask"
+        },
+        {
+            "file": "lib/object-mask.js",
+            "line": 316,
+            "description": "Returns an array of fields in the given object which are restricted by the given mask",
+            "itemtype": "method",
+            "name": "getMaskedOutFields",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "- The object to check against",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "- Paths to fields that are restricted by the mask",
+                "type": "String[]"
+            },
+            "class": "ObjectMask"
+        },
+        {
+            "file": "lib/object-mask.js",
+            "line": 331,
+            "description": "Given a dot-notation mapping from fields to values, remove all fields that are not\nallowed by the mask.",
+            "itemtype": "method",
+            "name": "filterDottedObject",
+            "params": [
+                {
+                    "name": "dottedObj",
+                    "description": "- Map from dotted paths to values, such as { \"foo.bar\": \"baz\" }",
+                    "type": "Object"
+                },
+                {
+                    "name": "maskedOutHook",
+                    "description": "- Function to call for removed fields",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "path",
+                            "description": "- Path of the masked out field",
+                            "type": "String"
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "- The result",
+                "type": "Object"
+            },
+            "class": "ObjectMask"
+        },
+        {
+            "file": "lib/object-mask.js",
+            "line": 355,
+            "description": "Returns an array of fields in the given object which are restricted by the given mask.  The\nobject is in dotted notation as in filterDottedObject()",
+            "itemtype": "method",
+            "name": "getDottedMaskedOutFields",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "- The object to check against",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "- Paths to fields that are restricted by the mask",
+                "type": "String[]"
+            },
+            "class": "ObjectMask"
+        },
+        {
+            "file": "lib/object-mask.js",
+            "line": 371,
+            "description": "Given a structured document, ensures that\nall fields are allowed by the given mask.  Returns true or false.",
+            "itemtype": "method",
+            "name": "checkFields",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "ObjectMask"
+        },
+        {
+            "file": "lib/object-mask.js",
+            "line": 383,
+            "description": "Given a dot-notation mapping from fields to values (only 1 level deep is checked),\nensure that all fields are in the (structured) mask.",
+            "itemtype": "method",
+            "name": "checkDottedFields",
+            "params": [
+                {
+                    "name": "dottedObj",
+                    "description": "- Mapping from dot-separated paths to values",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "ObjectMask"
+        },
+        {
+            "file": "lib/object-mask.js",
+            "line": 398,
+            "description": "Creates a structured mask given a list of fields that should be included in the mask.",
+            "itemtype": "method",
+            "name": "createMaskFromFieldList",
+            "static": 1,
+            "params": [
+                {
+                    "name": "fields",
+                    "description": "- Array of fields to include",
+                    "type": "String[]"
+                }
+            ],
+            "return": {
+                "description": "- The created mask",
+                "type": "ObjectMask"
+            },
+            "class": "ObjectMask"
+        },
+        {
+            "file": "lib/object-mask.js",
+            "line": 414,
+            "description": "Returns a function that filters object fields based on a structured mask/whitelist.",
+            "itemtype": "method",
+            "name": "createFilterFunc",
+            "static": 1,
+            "return": {
+                "description": "- A function(obj) that is the equivalent of calling filterObject()\non obj",
+                "type": "Function"
+            },
+            "class": "ObjectMask"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type",
+            "line": " dist/objtools.js:1"
+        },
+        {
+            "message": "Missing item type\nNote about whitelists/filters/masks:\nFilters are objects that represent a subset of fields in an object to allow.  The simplest\nfilters are mapping from field names to a boolean 'true':\n{ foo: true, bar: true }\nNested fields can also be represented:\n{ foo: true, bar: { baz: true} }\nIn the case where a parent object matches a 'true', all sub-fields are allowed.  Wildcards\ncan also be used:\n{ foo: false, bar: false, _: true }\nwill allow all fields but foo and bar.\nArrays are equivalent to wildcards:\n{ foo: [ { bar: true, baz: true } ] }\nis equivalent to\n{ foo: { _: { bar: true, baz: true } } }",
+            "line": " dist/objtools.js:15"
+        },
+        {
+            "message": "Missing item type\nReturns a copy of the given object, but only including the fields allowed by\nthe given mask.  If the maskedOutHook function is provided, it is called for\neach field disallowed by the mask (at the highest level it is disallowed).",
+            "line": " dist/objtools.js:32"
+        },
+        {
+            "message": "Missing item type\nReturns a subsection of a mask given a dot-separated path to the subsection.",
+            "line": " dist/objtools.js:71"
+        },
+        {
+            "message": "Missing item type\nReturns true if the given path is allowed by the mask.  false otherwise.",
+            "line": " dist/objtools.js:88"
+        },
+        {
+            "message": "Missing item type\nCheck if a whitelist is valid in strict form (ie, it only contains objects and booleans)",
+            "line": " dist/objtools.js:271"
+        },
+        {
+            "message": "Missing item type\nGiven a structured document, ensures that\nall fields are in the given whitelist.  Returns true or false.",
+            "line": " dist/objtools.js:329"
+        },
+        {
+            "message": "Missing item type\nGiven a dot-notation mapping from fields to values (only 1 level deep is checked),\nensure that all fields are in the (structured) whitelist.",
+            "line": " dist/objtools.js:345"
+        },
+        {
+            "message": "Missing item type\nVerifies that there are no mongo operators in the supplied query/update.  Returns true if\nthere are no operators present.",
+            "line": " dist/objtools.js:400"
+        },
+        {
+            "message": "Missing item type\n??",
+            "line": " dist/objtools.js:418"
+        },
+        {
+            "message": "Missing item type\nGiven a map from dot-notation fields to new values, apply to the document.\nUpdates are done on the document itself, then the document is returned.\nReturns null on error (ie, try to set a subfield of a boolean)",
+            "line": " dist/objtools.js:434"
+        },
+        {
+            "message": "Missing item type\nReturns whether or not the given query fields match the document.",
+            "line": " dist/objtools.js:457"
+        },
+        {
+            "message": "Missing item type\nPerforms complex object inheritance on a set of documents.\n\nThe inheritance is performed according to the following rules:\n\nCorresponding objects are recursively merged, unless the overlay object has the _replace key\nset to true, in which case the base object is entirely replaced by the overlay object, or unless\nthe overlay object has the _delete key, in which case the key on the base object is removed.\nThis has the same effect as setting the value in the overlay object to null.\n\nIn cases where the overlay object has the same key as the base object, the value of the key\non the overlay object replaces the value on the base, unless the overlay object has the\n_yield key set to true.  _yield only applies to the current level of depth.\n\nIf the types of corresponding keys do not match (except in the array case described below),\nthe overlay value always replaces the base value.\n\nA value of null on an overlay object will cause the corresponding key on the base to be removed.\nNull values are also removed on the base.\n\nArrays in the overlay object will replace anything in the base.  To add or remove elements,\ninstead of replacing the whole array, a special overlay object can be used (with the same key\nas the array on the base).  This object looks like:\n{\narray: true,\nadd: [item1, item2, item3],\nremove: [item4, item5, item6],\nreplace: [ item7, item8, item9 ]\t// replaces whole array\n}\nThis causes items 1, 2, and 3 to be added to the base array, and items 4, 5, and 6 to be removed\nfrom the base array.  The object can also look like this:\n{\narray: true,\nreplace: [item1, item2, item3]\n}\nWhich behaves as if it were just an array instead of this special object.",
+            "line": " dist/objtools.js:484"
+        },
+        {
+            "message": "Missing item type\nReturns a child object that, when overlayed on base using inheritObject, will create\nthe given result.",
+            "line": " dist/objtools.js:626"
+        },
+        {
+            "message": "Missing item type\nSets the value at a given path in an object",
+            "line": " dist/objtools.js:654"
+        },
+        {
+            "message": "Missing item type\nGets the value at a given path in an object",
+            "line": " dist/objtools.js:689"
+        },
+        {
+            "message": "Missing item type\nCreates a structured mask given a list of fields that should be included in the mask.",
+            "line": " dist/objtools.js:715"
+        },
+        {
+            "message": "Missing item type\nReturns a function that filters object fields based on a structured mask/whitelist.",
+            "line": " dist/objtools.js:726"
+        },
+        {
+            "message": "Missing item type",
+            "line": " dist/objtools.min.js:1"
+        }
+    ]
+}
