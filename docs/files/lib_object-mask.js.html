@@ -162,7 +162,7 @@ ObjectMask.prototype.filterObject = function(obj, maskedOutHook) {
  *
  * @method getSubMask
  * @param {String} path - Dot-separated path to submask to fetch
- * @return {Boolean|Object} - Mask component corresponding to the path
+ * @return {ObjectMask} - Mask component corresponding to the path
  */
 ObjectMask.prototype.getSubMask = function(path) {
 	var mask = this.mask;
@@ -175,7 +175,7 @@ ObjectMask.prototype.getSubMask = function(path) {
 		var part = parts[partIdx];
 		cur = (cur[part] === undefined) ? cur._ : cur[part];
 	}
-	return cur || false;
+	return new ObjectMask(cur || false);
 };
 
 /**
@@ -186,7 +186,7 @@ ObjectMask.prototype.getSubMask = function(path) {
  * @return {Boolean} - Whether or not the given path is allowed
  */
 ObjectMask.prototype.checkPath = function(path) {
-	return this.getSubMask(path) === true;
+	return this.getSubMask(path).mask === true;
 };
 
 /**
@@ -222,8 +222,8 @@ ObjectMask.addMasks = function() {
 			resultMask = true;
 			return resultMask;
 		}
-		if(isScalar(newMask)) return resultMask;
-		if(isScalar(resultMask)) {
+		if(objtools.isScalar(newMask)) return resultMask;
+		if(objtools.isScalar(resultMask)) {
 			resultMask = objtools.deepCopy(newMask);
 			return resultMask;
 		}
@@ -261,6 +261,16 @@ ObjectMask.addMasks = function() {
 		if(newMask._ !== undefined) {
 			if(resultMask._ !== undefined) resultMask._ = addMask(resultMask._, newMask._);
 			else resultMask._ = objtools.deepCopy(newMask._);
+		}
+
+		// If there is a wildcard, remove any keys that are set to the same thing as the wildcard
+		// This isn&#x27;t strictly necessary, but removes redundant data
+		if(resultMask._ !== undefined) {
+			for(key in resultMask) {
+				if(key !== &#x27;_&#x27; &amp;&amp; objtools.deepEquals(resultMask[key], resultMask._)) {
+					delete resultMask[key];
+				}
+			}
 		}
 
 		return resultMask || false;
@@ -384,7 +394,7 @@ ObjectMask.andMasks = function() {
  */
 ObjectMask.prototype.validate = function() {
 	function valWhitelist(whitelist) {
-		if(whitelist !== true &amp;&amp; whitelist !== false &amp;&amp; (typeof whitelist != &#x27;object&#x27; || whitelist === null)) return false;
+		if(whitelist !== true &amp;&amp; whitelist !== false &amp;&amp; objtools.isScalar(whitelist)) return false;
 		if(typeof whitelist == &#x27;object&#x27;) {
 			for(var key in whitelist) {
 				if(!valWhitelist(whitelist[key])) return false;
@@ -423,7 +433,7 @@ ObjectMask.prototype.getMaskedOutFields = function(obj) {
 ObjectMask.prototype.filterDottedObject = function(dottedObj, maskedOutHook) {
 	var resultObj = {};
 	for(var key in dottedObj) {
-		if(!this.checkMaskPath(key)) {
+		if(!this.checkPath(key)) {
 			if(maskedOutHook) {
 				maskedOutHook(key);
 			}
@@ -473,7 +483,7 @@ ObjectMask.prototype.checkFields = function(obj) {
 ObjectMask.prototype.checkDottedFields = function(dottedObj) {
 	var self = this;
 	return Object.keys(dottedObj).every(function(path) {
-		return self.checkMaskPath(path);
+		return self.checkPath(path);
 	});
 };
 
@@ -487,6 +497,11 @@ ObjectMask.prototype.checkDottedFields = function(dottedObj) {
  */
 ObjectMask.createMaskFromFieldList = function(fields) {
 	var ret = {};
+	// We sort fields by length, long to short, to avoid more specific fields clobbering
+	// less specific fields.
+	fields = fields.slice(0).sort(function(a, b) {
+		return b.length - a.length;
+	});
 	for(var i = 0; i &lt; fields.length; i++) {
 		objtools.setPath(ret, fields[i], true);
 	}
@@ -502,9 +517,9 @@ ObjectMask.createMaskFromFieldList = function(fields) {
  * on obj
  */
 ObjectMask.prototype.createFilterFunc = function() {
-	var mask = this.mask;
+	var mask = this;
 	return function(obj) {
-		mask.filterObject(obj);
+		return mask.filterObject(obj);
 	};
 };
 

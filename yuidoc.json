@@ -2,6 +2,7 @@
 	"name": "xerror",
 	"description": "Extended Error",
 	"options": {
-		"outdir": "./docs"
+		"outdir": "./docs",
+		"exclude": "dist"
 	}
 }

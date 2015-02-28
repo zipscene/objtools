@@ -90,7 +90,7 @@ var ObjectMask = exports.ObjectMask = require(&#x27;./object-mask&#x27;);
 
 /**
  * Determines whether a value is considered a scalar or an object.  Currently,
- * primitives plus Date types are considered scalar.
+ * primitives plus Date types plus undefined and null plus functions are considered scalar.
  *
  * @method isScalar
  * @static
@@ -98,9 +98,42 @@ var ObjectMask = exports.ObjectMask = require(&#x27;./object-mask&#x27;);
  * @return {Boolean}
  */
 function isScalar(o) {
-	return typeof o != &#x27;object&#x27; || (o instanceof Date) || !o;
+	return typeof o !== &#x27;object&#x27; || (o instanceof Date) || !o;
 }
 exports.isScalar = isScalar;
+
+/**
+ * Checks for deep equality between two object or values.
+ *
+ * @method deepEquals
+ * @static
+ * @param {Mixed} a
+ * @param {Mixed} b
+ * @return {Boolean}
+ */
+function deepEquals(a, b) {
+	var i, key;
+	if(isScalar(a) &amp;&amp; isScalar(b)) {
+		return scalarEquals(a, b);
+	}
+	if(a === null || b === null || a === undefined || b === undefined) return a === b;
+	if(Array.isArray(a) &amp;&amp; Array.isArray(b)) {
+		if(a.length !== b.length) return false;
+		for(i = 0; i &lt; a.length; i++) if(!deepEquals(a[i], b[i])) return false;
+		return true;
+	} else if(!Array.isArray(a) &amp;&amp; !Array.isArray(b)) {
+		for(key in a) {
+			if(!deepEquals(a[key], b[key])) return false;
+		}
+		for(key in b) {
+			if(!deepEquals(a[key], b[key])) return false;
+		}
+		return true;
+	} else {
+		return false;
+	}
+}
+exports.deepEquals = deepEquals;
 
 /**
  * Checks whether two scalar values (as determined by isScalar()) are equal.
@@ -112,8 +145,8 @@ exports.isScalar = isScalar;
  * @return {Boolean}
  */
 function scalarEquals(a1, a2) {
-	if(a1 instanceof Date &amp;&amp; a2 instanceof Date) return a1.getTime() == a2.getTime();
-	return a1 == a2;
+	if(a1 instanceof Date &amp;&amp; a2 instanceof Date) return a1.getTime() === a2.getTime();
+	return a1 === a2;
 }
 exports.scalarEquals = scalarEquals;
 
@@ -196,9 +229,9 @@ exports.collapseToDotted = collapseToDotted;
  */
 function matchDottedObject(doc, query) {
 	if(query === true) return doc === true;
-	if(isScalar(query) || isScalar(doc)) return query === doc;
+	if(isScalar(query) || isScalar(doc)) return deepEquals(query, doc);
 	for(var queryKey in query) {
-		if(doc[queryKey] !== query[queryKey]) {
+		if(!deepEquals(doc[queryKey], query[queryKey])) {
 			return false;
 		}
 	}
@@ -219,41 +252,6 @@ function matchObject(doc, query) {
 	return matchDottedObject(exports.collapseToDotted(doc), exports.collapseToDotted(query));
 }
 exports.matchObject = matchObject;
-
-/**
- * Checks for deep equality between two object or values.
- *
- * @method deepEquals
- * @static
- * @param {Mixed} a
- * @param {Mixed} b
- * @return {Boolean}
- */
-function deepEquals(a, b) {
-	if(isScalar(a) &amp;&amp; isScalar(b)) {
-		if(a instanceof Date &amp;&amp; b instanceof Date) {
-			return a.getTime() == b.getTime();
-		} else {
-			return a === b;
-		}
-	}
-	if(a === null || b === null || a === undefined || b === undefined) return a === b;
-	if(Array.isArray(a) &amp;&amp; Array.isArray(b)) {
-		if(a.length != b.length) return false;
-		for(var i = 0; i &lt; a.length; i++) if(a[i] !== b[i]) return false;
-		return true;
-	} else if(!Array.isArray(a) &amp;&amp; !Array.isArray(b)) {
-		if(!Object.keys(a).every(function(k) {
-			return deepEquals(a[k], b[k]);
-		})) return false;
-		if(!Object.keys(b).every(function(k) {
-			return deepEquals(a[k], b[k]);
-		})) return false;
-	} else {
-		return false;
-	}
-}
-exports.deepEquals = deepEquals;
 
 /**
  * Sets the value at a given path in an object.
@@ -317,6 +315,7 @@ exports.deletePath = deletePath;
  * @return {Mixed} - The value at the path
  */
 function getPath(obj, path, allowSkipArrays) {
+	if(path === null || path === undefined) return obj;
 	var cur = obj;
 	var parts = path.split(&#x27;.&#x27;);
 	for(var i = 0; i &lt; parts.length; i++) {
