@@ -1,0 +1,5 @@
+{
+  "mocha": true,
+  "-W030": true,   // functions with side effects, needed for chai bdd interface
+  "extends": "../.jshintrc"
+}

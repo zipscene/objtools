@@ -1,6 +1,5 @@
 {
   "node": true,
-  "mocha": true,  // don't complain when using mocha globals
   "strict": false,
   "globalstrict": true,
   "undef": true,
@@ -14,6 +13,5 @@
   "loopfunc": true,
   "-W018": true,  // Confusing use of ! as in !! to convert a type to a boolean
   "-W116": true,  // If statements without curly braces
-  "-W082": true,   // Functions inside if statements
-  "-W030": true   // functions with side effects, needed for chai bdd interface
+  "-W082": true   // Functions inside if statements
 }
