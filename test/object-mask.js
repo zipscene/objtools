@@ -205,6 +205,70 @@ describe('ObjectMask', function() {
 			done();
 		});
 
+		it('getDottedMaskedOutFields()', function(done) {
+			var dottedObj = objtools.collapseToDotted(obj1);
+			var fields = new ObjectMask(mask1).getDottedMaskedOutFields(dottedObj);
+			expect(fields).to.deep.equal([
+				'num2',
+				'undef',
+				'obj.baz',
+				'arr.0.str2',
+				'arr.1.str2'
+			]);
+			done();
+		});
+
+		it('checkFields()', function(done) {
+			var mask = new ObjectMask(mask1);
+			expect(mask.checkFields({str1: 5})).to.be.true;
+			expect(mask.checkFields({num2: 5})).to.be.false;
+			expect(mask.checkFields({obj: {foo: 5}})).to.be.true;
+			expect(mask.checkFields({obj: {baz: 5}})).to.be.false;
+			done();
+		});
+
+		it('checkDottedFields()', function(done) {
+			var mask = new ObjectMask(mask1);
+			expect(mask.checkDottedFields({'obj.foo': 5})).to.be.true;
+			expect(mask.checkDottedFields({'obj.baz': 5})).to.be.false;
+			done();
+		});
+
+		it('createMaskFromFieldList()', function(done) {
+			var fields = [ 'foo', 'bar.baz', 'bar.baz.biz' ];
+			expect(ObjectMask.createMaskFromFieldList(fields).toObject()).to.deep.equal({
+				foo: true,
+				bar: {
+					baz: true
+				}
+			});
+			done();
+		});
+
+		it('createFilterFunc()', function(done) {
+			var func = new ObjectMask(mask1).createFilterFunc();
+			expect(func(obj1)).to.deep.equal({
+				str1: 'string',
+				str2: 'string2',
+				num1: 1,
+				nul1: null,
+				nul2: null,
+				obj: {
+					foo: 'test',
+					bar: 'test2'
+				},
+				arr: [
+					{
+						str1: 'one'
+					},
+					{
+						str1: 'three'
+					}
+				]
+			});
+			done();
+		});
+
 	});
 
 });
