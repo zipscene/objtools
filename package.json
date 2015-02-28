@@ -8,8 +8,7 @@
     "url": "git@git.zipscene.com:zsapilibs/zs-objtools.git"
   },
   "scripts": {
-    "lint": "node node_modules/zs-linter/scripts/zslint",
-    "bowerify": "node node_modules/bowerify/bin/cmd.js",
+    "lint": "node ./node_modules/jshint/bin/jshint --reporter unix --exclude ./node_modules . || exit 0",
     "docs": "node ./node_modules/yuidocjs/lib/cli.js .",
     "test": "node ./node_modules/mocha/bin/mocha ./test -R spec"
   },
@@ -17,10 +16,9 @@
     "xerror": "^1.0.0"
   },
   "devDependencies": {
-    "zs-linter": "git+ssh://git@git.zipscene.com:zsapicore/zs-linter.git",
-    "bowerify": "git+ssh://git@git.zipscene.com:zsapilibs/bowerify.git",
     "yuidocjs": "^0.5.0",
     "chai": "^2.0.0",
-    "mocha": "^2.1.0"
+    "mocha": "^2.1.0",
+    "jshint": "^2.6.0"
   }
 }

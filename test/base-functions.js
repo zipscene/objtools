@@ -62,25 +62,25 @@ describe('Base Functions', function() {
 
 		var obj1 = {
 			foo: {
-				bar: "baz",
+				bar: 'baz',
 				biz: [1, 2]
 			}
 		};
 		var obj2 = {
 			foo: {
-				bar: "baz",
+				bar: 'baz',
 				biz: [1, 2]
 			}
 		};
 		var obj3 = {
 			foo: {
-				bar: "biz"
+				bar: 'biz'
 			},
 			biz: [1, 2]
 		};
 		var obj4 = {
 			foo: {
-				bar: "biz"
+				bar: 'biz'
 			},
 			biz: [1]
 		};
