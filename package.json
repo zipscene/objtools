@@ -8,9 +8,9 @@
     "url": "git@git.zipscene.com:zsapilibs/zs-objtools.git"
   },
   "scripts": {
-    "lint": "node ./node_modules/eslint/bin/eslint . || exit 0",
-    "docs": "node ./node_modules/yuidocjs/lib/cli.js .",
-    "test": "node ./node_modules/mocha/bin/mocha ./test -R spec"
+    "lint": "node ./node_modules/.bin/eslint . || exit 0",
+    "docs": "node ./node_modules/.bin/yuidoc .",
+    "test": "node ./node_modules/.bin/mocha ./test -R spec"
   },
   "dependencies": {
     "xerror": "^1.0.0"

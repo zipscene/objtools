@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>lib/object-mask.js - xerror</title>
+    <title>lib/object-mask.js - zs-objtools</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -14,7 +14,7 @@
 <div id="doc">
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
-                <h1><img src="../assets/css/logo.png" title="xerror" width="117" height="52"></h1>
+                <h1><img src="../assets/css/logo.png" title="zs-objtools" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
             <em>API Docs for: 0.1.0</em>
@@ -128,29 +128,29 @@ module.exports = ObjectMask;
 ObjectMask.prototype.filterObject = function(obj, maskedOutHook) {
 	var mask = this.mask;
 	function filter(obj, mask, path) {
-		if(mask === true) return obj;
-		if(!mask || objtools.isScalar(obj)) {
-			if(maskedOutHook) maskedOutHook(path);
+		if (mask === true) return obj;
+		if (!mask || objtools.isScalar(obj)) {
+			if (maskedOutHook) maskedOutHook(path);
 			return undefined;
 		}
-		if(Array.isArray(mask)) {
+		if (Array.isArray(mask)) {
 			mask = { _: mask[0] || false };
 		}
-		if(typeof mask == &#x27;object&#x27;) {
+		if (typeof mask === &#x27;object&#x27;) {
 			var resultIsArray = Array.isArray(obj);
 			var resultObj = resultIsArray ? [] : {};
 			var maskVal, resultVal;
-			for(var key in obj) {
+			for (var key in obj) {
 				maskVal = (mask[key] === undefined) ? mask._ : mask[key];
 				resultVal = filter(obj[key], maskVal || false, path ? (path + &#x27;.&#x27; + key) : key);
-				if(resultVal !== undefined) {
-					if(resultIsArray) resultObj.push(resultVal);
+				if (resultVal !== undefined) {
+					if (resultIsArray) resultObj.push(resultVal);
 					else resultObj[key] = resultVal;
 				}
 			}
 			return resultObj;
 		} else {
-			if(maskedOutHook) maskedOutHook(path);
+			if (maskedOutHook) maskedOutHook(path);
 			return undefined;
 		}
 	}
@@ -168,10 +168,10 @@ ObjectMask.prototype.getSubMask = function(path) {
 	var mask = this.mask;
 	var parts = path.split(&#x27;.&#x27;);
 	var cur = mask;
-	for(var partIdx = 0; partIdx &lt; parts.length; partIdx++) {
-		if(cur === true) return true;
-		if(objtools.isScalar(cur)) return false;
-		if(Array.isArray(cur)) cur = { _: cur[0] || false };
+	for (var partIdx = 0; partIdx &lt; parts.length; partIdx++) {
+		if (cur === true) return true;
+		if (objtools.isScalar(cur)) return false;
+		if (Array.isArray(cur)) cur = { _: cur[0] || false };
 		var part = parts[partIdx];
 		cur = (cur[part] === undefined) ? cur._ : cur[part];
 	}
@@ -217,57 +217,62 @@ ObjectMask.addMasks = function() {
 	function addMask(resultMask, newMask) {
 		var key;
 
-		if(resultMask === true) return true;
-		if(newMask === true) {
+		if (resultMask === true) return true;
+		if (newMask === true) {
 			resultMask = true;
 			return resultMask;
 		}
-		if(objtools.isScalar(newMask)) return resultMask;
-		if(objtools.isScalar(resultMask)) {
+		if (objtools.isScalar(newMask)) return resultMask;
+		if (objtools.isScalar(resultMask)) {
 			resultMask = objtools.deepCopy(newMask);
 			return resultMask;
 		}
 
-		if(Array.isArray(resultMask)) {
+		if (Array.isArray(resultMask)) {
 			resultMask = { _: resultMask[0] || false };
 		}
-		if(Array.isArray(newMask)) {
+		if (Array.isArray(newMask)) {
 			newMask = { _: newMask[0] || false };
 		}
 
-		// If there are keys that exist in result but not in the newMask, and the result mask has a _ key (wildcard), combine
-		// the wildcard mask with the new mask, because in the existing result mask, that key has the wildcard permissions
-		if(newMask._ !== undefined) {
-			for(key in resultMask) {
-				if(key === &#x27;_&#x27;) continue;
-				if(newMask[key] === undefined) {
+		// If there are keys that exist in result but not in the newMask,
+		// and the result mask has a _ key (wildcard), combine
+		// the wildcard mask with the new mask, because in the existing
+		// result mask, that key has the wildcard permissions
+		if (newMask._ !== undefined) {
+			for (key in resultMask) {
+				if (key === &#x27;_&#x27;) continue;
+				if (newMask[key] === undefined) {
 					resultMask[key] = addMask(resultMask[key], newMask._);
 				}
 			}
 		}
 
 		// same here ... also, copy over or merge fields
-		for(key in newMask) {
-			if(key === &#x27;_&#x27;) continue;
-			if(resultMask[key] !== undefined) {
+		for (key in newMask) {
+			if (key === &#x27;_&#x27;) continue;
+			if (resultMask[key] !== undefined) {
 				resultMask[key] = addMask(resultMask[key], newMask[key]);
-			} else if(resultMask._ !== undefined) {
+			} else if (resultMask._ !== undefined) {
 				resultMask[key] = addMask(objtools.deepCopy(newMask[key]), resultMask._);
 			} else {
 				resultMask[key] = objtools.deepCopy(newMask[key]);
 			}
 		}
 		// fill in the _ key that we skipped earlier
-		if(newMask._ !== undefined) {
-			if(resultMask._ !== undefined) resultMask._ = addMask(resultMask._, newMask._);
-			else resultMask._ = objtools.deepCopy(newMask._);
+		if (newMask._ !== undefined) {
+			if (resultMask._ !== undefined) {
+				resultMask._ = addMask(resultMask._, newMask._);
+			} else {
+				resultMask._ = objtools.deepCopy(newMask._);
+			}
 		}
 
 		// If there is a wildcard, remove any keys that are set to the same thing as the wildcard
 		// This isn&#x27;t strictly necessary, but removes redundant data
-		if(resultMask._ !== undefined) {
-			for(key in resultMask) {
-				if(key !== &#x27;_&#x27; &amp;&amp; objtools.deepEquals(resultMask[key], resultMask._)) {
+		if (resultMask._ !== undefined) {
+			for (key in resultMask) {
+				if (key !== &#x27;_&#x27; &amp;&amp; objtools.deepEquals(resultMask[key], resultMask._)) {
 					delete resultMask[key];
 				}
 			}
@@ -277,13 +282,13 @@ ObjectMask.addMasks = function() {
 	}
 
 	var curArg;
-	for(var argIdx = 0; argIdx &lt; arguments.length; argIdx++) {
+	for (var argIdx = 0; argIdx &lt; arguments.length; argIdx++) {
 		curArg = arguments[argIdx];
-		if(curArg instanceof ObjectMask) {
+		if (curArg instanceof ObjectMask) {
 			curArg = curArg.toObject();
 		}
 		resultMask = addMask(resultMask, curArg);
-		if(resultMask === true) return true;
+		if (resultMask === true) return true;
 	}
 	return new ObjectMask(resultMask || false);
 };
@@ -305,31 +310,31 @@ ObjectMask.andMasks = function() {
 		var key;
 
 		// Degenerate cases
-		if(resultMask === true) return objtools.deepCopy(newMask);
-		if(newMask === true) return resultMask;
-		if(objtools.isScalar(resultMask) || objtools.isScalar(newMask)) return false;
+		if (resultMask === true) return objtools.deepCopy(newMask);
+		if (newMask === true) return resultMask;
+		if (objtools.isScalar(resultMask) || objtools.isScalar(newMask)) return false;
 
 		// Resolve arrays
-		if(Array.isArray(resultMask)) {
+		if (Array.isArray(resultMask)) {
 			resultMask = { _: resultMask[0] || false };
 		}
-		if(Array.isArray(newMask)) {
+		if (Array.isArray(newMask)) {
 			newMask = { _: newMask[0] || false };
 		}
 
 		// Handle keys that exist in both masks, excepting _
-		for(key in newMask) {
-			if(key === &#x27;_&#x27;) continue;
-			if(resultMask[key] !== undefined) {
+		for (key in newMask) {
+			if (key === &#x27;_&#x27;) continue;
+			if (resultMask[key] !== undefined) {
 				resultMask[key] = andMask(resultMask[key], newMask[key]);
 			}
 		}
 
 		// Handle keys that exist in resultMask but not in newMask
-		for(key in resultMask) {
-			if(key === &#x27;_&#x27;) continue;
-			if(newMask[key] === undefined) {
-				if(newMask._ !== undefined) {
+		for (key in resultMask) {
+			if (key === &#x27;_&#x27;) continue;
+			if (newMask[key] === undefined) {
+				if (newMask._ !== undefined) {
 					resultMask[key] = andMask(resultMask[key], newMask._);
 				} else {
 					resultMask[key] = false;
@@ -338,10 +343,10 @@ ObjectMask.andMasks = function() {
 		}
 
 		// Handle keys that exist in newMask but not resultMask
-		for(key in newMask) {
-			if(key === &#x27;_&#x27;) continue;
-			if(resultMask[key] === undefined) {
-				if(resultMask._ !== undefined) {
+		for (key in newMask) {
+			if (key === &#x27;_&#x27;) continue;
+			if (resultMask[key] === undefined) {
+				if (resultMask._ !== undefined) {
 					resultMask[key] = andMask(objtools.deepCopy(newMask[key]), resultMask._);
 				} else {
 					resultMask[key] = false;
@@ -350,37 +355,37 @@ ObjectMask.andMasks = function() {
 		}
 
 		// Handle _ (wildcard fields)
-		if(newMask._ !== undefined &amp;&amp; resultMask._ !== undefined) {
+		if (newMask._ !== undefined &amp;&amp; resultMask._ !== undefined) {
 			resultMask._ = andMask(resultMask._, newMask._);
 		} else {
 			delete resultMask._;
 		}
 
 		// To condense some cases, remove unnecessary falsy values
-		if(!resultMask._) {
+		if (!resultMask._) {
 			delete resultMask._;
 			// Since all values will default to false, we can remove any falsy values
-			for(key in resultMask) {
-				if(!resultMask[key]) {
+			for (key in resultMask) {
+				if (!resultMask[key]) {
 					delete resultMask[key];
 				}
 			}
 		}
 
 		// If there are no keys left in resultMask, condense to false
-		if(!Object.keys(resultMask).length) return false;
+		if (!Object.keys(resultMask).length) return false;
 
 		return resultMask;
 	}
 
 	var curArg;
-	for(var argIdx = 0; argIdx &lt; arguments.length; argIdx++) {
+	for (var argIdx = 0; argIdx &lt; arguments.length; argIdx++) {
 		curArg = arguments[argIdx];
-		if(curArg instanceof ObjectMask) {
+		if (curArg instanceof ObjectMask) {
 			curArg = curArg.toObject();
 		}
 		resultMask = andMask(resultMask, curArg);
-		if(resultMask === false) return false;
+		if (resultMask === false) return false;
 	}
 	return new ObjectMask(resultMask || false);
 };
@@ -394,10 +399,10 @@ ObjectMask.andMasks = function() {
  */
 ObjectMask.prototype.validate = function() {
 	function valWhitelist(whitelist) {
-		if(whitelist !== true &amp;&amp; whitelist !== false &amp;&amp; objtools.isScalar(whitelist)) return false;
-		if(typeof whitelist == &#x27;object&#x27;) {
-			for(var key in whitelist) {
-				if(!valWhitelist(whitelist[key])) return false;
+		if (whitelist !== true &amp;&amp; whitelist !== false &amp;&amp; objtools.isScalar(whitelist)) return false;
+		if (typeof whitelist === &#x27;object&#x27;) {
+			for (var key in whitelist) {
+				if (!valWhitelist(whitelist[key])) return false;
 			}
 		}
 		return true;
@@ -432,9 +437,9 @@ ObjectMask.prototype.getMaskedOutFields = function(obj) {
  */
 ObjectMask.prototype.filterDottedObject = function(dottedObj, maskedOutHook) {
 	var resultObj = {};
-	for(var key in dottedObj) {
-		if(!this.checkPath(key)) {
-			if(maskedOutHook) {
+	for (var key in dottedObj) {
+		if (!this.checkPath(key)) {
+			if (maskedOutHook) {
 				maskedOutHook(key);
 			}
 		} else {
@@ -502,7 +507,7 @@ ObjectMask.createMaskFromFieldList = function(fields) {
 	fields = fields.slice(0).sort(function(a, b) {
 		return b.length - a.length;
 	});
-	for(var i = 0; i &lt; fields.length; i++) {
+	for (var i = 0; i &lt; fields.length; i++) {
 		objtools.setPath(ret, fields[i], true);
 	}
 	return new ObjectMask(ret);
