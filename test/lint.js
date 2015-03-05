@@ -12,7 +12,7 @@ describe('Linter', function() {
 			if (finished) return;
 			finished = true;
 			if (error && typeof error === 'number') {
-				throw new Error('Project contains linter errors');
+				throw new Error('Project contains linter errors (exit code ' + error + ')');
 			} else if (error instanceof Error) {
 				throw error;
 			} else if (error) {
@@ -21,7 +21,7 @@ describe('Linter', function() {
 			done();
 		}
 
-		var lintProc = spawn('node', [ __dirname + '/../node_modules/eslint/bin/eslint', '.' ], {
+		var lintProc = spawn('node', [ __dirname + '/../../node_modules/.bin/eslint', '.' ], {
 			cwd: __dirname + '/..'
 		});
 
