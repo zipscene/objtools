@@ -107,7 +107,7 @@ describe('ObjectMask', function() {
 				},
 				arr: [
 					{
-						str2: 'two',
+						str2: 'two'
 					},
 					{
 						str2: 'four'
@@ -220,17 +220,17 @@ describe('ObjectMask', function() {
 
 		it('checkFields()', function(done) {
 			var mask = new ObjectMask(mask1);
-			expect(mask.checkFields({str1: 5})).to.be.true;
-			expect(mask.checkFields({num2: 5})).to.be.false;
-			expect(mask.checkFields({obj: {foo: 5}})).to.be.true;
-			expect(mask.checkFields({obj: {baz: 5}})).to.be.false;
+			expect(mask.checkFields({ str1: 5 })).to.be.true;
+			expect(mask.checkFields({ num2: 5 })).to.be.false;
+			expect(mask.checkFields({ obj: { foo: 5 } })).to.be.true;
+			expect(mask.checkFields({ obj: { baz: 5 } })).to.be.false;
 			done();
 		});
 
 		it('checkDottedFields()', function(done) {
 			var mask = new ObjectMask(mask1);
-			expect(mask.checkDottedFields({'obj.foo': 5})).to.be.true;
-			expect(mask.checkDottedFields({'obj.baz': 5})).to.be.false;
+			expect(mask.checkDottedFields({ 'obj.foo': 5 })).to.be.true;
+			expect(mask.checkDottedFields({ 'obj.baz': 5 })).to.be.false;
 			done();
 		});
 

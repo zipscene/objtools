@@ -9,19 +9,19 @@ describe('Linter', function() {
 		var finished = false;
 
 		function finish(error) {
-			if(finished) return;
+			if (finished) return;
 			finished = true;
-			if(error && typeof error === 'number') {
+			if (error && typeof error === 'number') {
 				throw new Error('Project contains linter errors');
-			} else if(error instanceof Error) {
+			} else if (error instanceof Error) {
 				throw error;
-			} else if(error) {
+			} else if (error) {
 				throw new Error('' + error);
 			}
 			done();
 		}
 
-		var lintProc = spawn('node', [__dirname + '/../node_modules/eslint/bin/eslint', '.'], {
+		var lintProc = spawn('node', [ __dirname + '/../node_modules/eslint/bin/eslint', '.' ], {
 			cwd: __dirname + '/..'
 		});
 
@@ -30,9 +30,9 @@ describe('Linter', function() {
 		});
 
 		lintProc.on('exit', function(code, signal) {
-			if(code !== null) {
+			if (code !== null) {
 				finish(code || null);
-			} else if(signal !== null) {
+			} else if (signal !== null) {
 				finish('Unexpected linter exit: ' + signal);
 			} else {
 				finish('Unexpected linter exit');

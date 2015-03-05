@@ -63,26 +63,26 @@ describe('Base Functions', function() {
 		var obj1 = {
 			foo: {
 				bar: 'baz',
-				biz: [1, 2]
+				biz: [ 1, 2 ]
 			}
 		};
 		var obj2 = {
 			foo: {
 				bar: 'baz',
-				biz: [1, 2]
+				biz: [ 1, 2 ]
 			}
 		};
 		var obj3 = {
 			foo: {
 				bar: 'biz'
 			},
-			biz: [1, 2]
+			biz: [ 1, 2 ]
 		};
 		var obj4 = {
 			foo: {
 				bar: 'biz'
 			},
-			biz: [1]
+			biz: [ 1 ]
 		};
 
 		it('should handle dates correctly', function(done) {
@@ -100,10 +100,10 @@ describe('Base Functions', function() {
 		});
 
 		it('should not coerce types', function(done) {
-			expect(objtools.deepEquals({a: null}, {a: null})).to.be.true;
-			expect(objtools.deepEquals({a: undefined}, {a: undefined})).to.be.true;
-			expect(objtools.deepEquals({a: null}, {a: undefined})).to.be.false;
-			expect(objtools.deepEquals({a: 0}, {a: null})).to.be.false;
+			expect(objtools.deepEquals({ a: null }, { a: null })).to.be.true;
+			expect(objtools.deepEquals({ a: undefined }, { a: undefined })).to.be.true;
+			expect(objtools.deepEquals({ a: null }, { a: undefined })).to.be.false;
+			expect(objtools.deepEquals({ a: 0 }, { a: null })).to.be.false;
 			done();
 		});
 
@@ -119,7 +119,7 @@ describe('Base Functions', function() {
 				n: null,
 				u: undefined
 			},
-			arr: [1, 2]
+			arr: [ 1, 2 ]
 		};
 
 		it('should correctly copy objects', function(done) {
@@ -149,9 +149,13 @@ describe('Base Functions', function() {
 					buz: 1
 				}
 			},
-			arr: [1, 2, {
-				foo: 3
-			}]
+			arr: [
+				1,
+				2,
+				{
+					foo: 3
+				}
+			]
 		};
 
 		it('should correctly collapse objects to dotted form', function(done) {
@@ -209,7 +213,7 @@ describe('Base Functions', function() {
 				bar: {
 					biz: 12
 				},
-				zip: [4, 5]
+				zip: [ 4, 5 ]
 			}, {
 				foo: 'foo',
 				'bar.biz': 12,
@@ -220,7 +224,7 @@ describe('Base Functions', function() {
 				bar: {
 					biz: 12
 				},
-				zip: [4, 5]
+				zip: [ 4, 5 ]
 			}, {
 				foo: 'foo',
 				'bar.biz': 12,
@@ -235,26 +239,26 @@ describe('Base Functions', function() {
 				bar: {
 					biz: 12
 				},
-				zip: [4, 5]
+				zip: [ 4, 5 ]
 			}, {
 				foo: 'foo',
 				'bar': {
 					biz: 12
 				},
-				'zip': [4, 5]
+				'zip': [ 4, 5 ]
 			})).to.be.true;
 			expect(objtools.matchDottedObject({
 				foo: 'foo',
 				bar: {
 					biz: 12
 				},
-				zip: [4, 5]
+				zip: [ 4, 5 ]
 			}, {
 				foo: 'foo',
 				'bar': {
 					biz: 12
 				},
-				'zip': [4, 2]
+				'zip': [ 4, 2 ]
 			})).to.be.false;
 			done();
 		});
@@ -321,7 +325,7 @@ describe('Base Functions', function() {
 
 		it('setPath should create parent objects as necessary', function(done) {
 			setPath(obj1, 'bar.biz.baz.buz', 10);
-			expect(obj1.bar).to.deep.equal({biz:{baz:{buz: 10}}});
+			expect(obj1.bar).to.deep.equal({ biz: { baz: { buz: 10 } } });
 			done();
 		});
 

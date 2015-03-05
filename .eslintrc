@@ -131,7 +131,7 @@
 		"space-after-keywords": [2, "always"],
 		"space-before-blocks": [2, "always"],
 		"space-before-function-parentheses": [2, "never"],
-		"space-in-brackets": [2, "always"],
+		"space-in-brackets": [2, "always", { propertyName: false }],
 		"space-in-parens": 0,
 		"space-infix-ops": 0,
 		"space-return-throw-case": 2,
