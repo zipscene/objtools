@@ -2,6 +2,17 @@
 	"env": {
 		"node": true
 	},
+	"ecmaFeatures": {
+		"arrowFunctions": true,
+		"blockBindings": true,
+		"defaultParams": true,
+		"forOf": true,
+		"objectLiteralComputedProperties": true,
+		"objectLiteralShorthandMethods": true,
+		"objectLiteralShorthandProperties": true,
+		"superInFunctions": true,
+		"templateStrings": true
+	},
 	"rules": {
 		"no-comma-dangle": 2,
 		"no-cond-assign": 2,
