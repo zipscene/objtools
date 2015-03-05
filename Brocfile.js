@@ -3,6 +3,14 @@ var pickFiles = require('broccoli-static-compiler');
 var mergeTrees = require('broccoli-merge-trees');
 var Promise = require('es6-promise').Promise;
 var fs = require('fs');
+var babelrc;
+if(fs.existsSync('./.babelrc')) {
+	try {
+		babelrc = JSON.parse(fs.readFileSync('./.babelrc', {encoding: 'utf8'}));
+	} catch (ex) {
+		console.log(ex);
+	}
+}
 
 // Returns a broc tree corresponding to the original source files
 function getSourceTrees() {
@@ -40,8 +48,8 @@ function getSourceTrees() {
 }
 
 var source = getSourceTrees();
-var transpiledTree = esTranspiler(source, {
-});
+
+var transpiledTree = esTranspiler(source, babelrc || {});
 
 
 module.exports = transpiledTree;
