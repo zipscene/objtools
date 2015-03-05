@@ -21,7 +21,7 @@ describe('Linter', function() {
 			done();
 		}
 
-		var lintProc = spawn('node', [__dirname + '/../node_modules/jshint/bin/jshint', '--reporter', 'unix', '.'], {
+		var lintProc = spawn('node', [__dirname + '/../node_modules/eslint/bin/eslint', '.'], {
 			cwd: __dirname + '/..'
 		});
 
