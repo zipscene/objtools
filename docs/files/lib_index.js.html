@@ -80,7 +80,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-exports.ObjectMask = require(&#x27;./object-mask&#x27;);
+import ObjectMask from &#x27;./object-mask&#x27;;
+exports.ObjectMask = ObjectMask;
 
 /**
  * General utility functions for manipulating object.
@@ -112,22 +113,21 @@ exports.isScalar = isScalar;
  * @return {Boolean}
  */
 function deepEquals(a, b) {
-	var i, key;
 	if (isScalar(a) &amp;&amp; isScalar(b)) {
 		return scalarEquals(a, b);
 	}
 	if (a === null || b === null || a === undefined || b === undefined) return a === b;
 	if (Array.isArray(a) &amp;&amp; Array.isArray(b)) {
 		if (a.length !== b.length) return false;
-		for (i = 0; i &lt; a.length; i++) {
+		for (let i = 0; i &lt; a.length; i++) {
 			if (!deepEquals(a[i], b[i])) return false;
 		}
 		return true;
 	} else if (!Array.isArray(a) &amp;&amp; !Array.isArray(b)) {
-		for (key in a) {
+		for (let key in a) {
 			if (!deepEquals(a[key], b[key])) return false;
 		}
-		for (key in b) {
+		for (let key in b) {
 			if (!deepEquals(a[key], b[key])) return false;
 		}
 		return true;

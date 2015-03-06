@@ -3,6 +3,6 @@
 	"description": "Object tools",
 	"options": {
 		"outdir": "./docs",
-		"exclude": "dist"
+		"exclude": "dist,tmp,test,node_modules"
 	}
 }

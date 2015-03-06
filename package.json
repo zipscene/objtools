@@ -10,9 +10,12 @@
   "scripts": {
     "lint": "node ./node_modules/.bin/eslint . || exit 0",
     "docs": "node ./node_modules/.bin/yuidoc .",
-    "test": "node ./node_modules/.bin/mocha ./dist/test -R spec"
+    "test": "npm run-script build && node ./node_modules/.bin/mocha ./dist/test -R spec",
+    "build": "./node_modules/.bin/grunt build && rm -rf tmp",
+    "watch": "./node_modules/.bin/grunt watch && rm -rf tmp"
   },
   "dependencies": {
+    "babel-runtime": "^4.6.6",
     "xerror": "^1.0.0"
   },
   "devDependencies": {
