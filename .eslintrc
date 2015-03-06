@@ -5,7 +5,13 @@
 	"ecmaFeatures": {
 		"arrowFunctions": true,
 		"blockBindings": true,
+		"binaryLiterals": true,
+		"octalLiterals": true,
+		"destructuring": true,
 		"defaultParams": true,
+		"restParams": true,
+		"spread": true,
+		"classes": true,
 		"forOf": true,
 		"objectLiteralComputedProperties": true,
 		"objectLiteralShorthandMethods": true,
