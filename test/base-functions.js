@@ -1,5 +1,5 @@
-var expect = require('chai').expect;
-var objtools = require('../lib');
+let expect = require('chai').expect;
+let objtools = require('../lib');
 
 describe('Base Functions', function() {
 
@@ -27,9 +27,9 @@ describe('Base Functions', function() {
 
 	describe('scalarEquals', function() {
 
-		var date1 = new Date('2014-01-01T00:00:00Z');
-		var date2 = new Date('2014-01-01T00:00:00Z');
-		var date3 = new Date('2014-01-01T00:00:01Z');
+		let date1 = new Date('2014-01-01T00:00:00Z');
+		let date2 = new Date('2014-01-01T00:00:00Z');
+		let date3 = new Date('2014-01-01T00:00:01Z');
 
 		it('should handle dates', function(done) {
 			expect(objtools.scalarEquals(date1, date2)).to.be.true;
@@ -38,8 +38,8 @@ describe('Base Functions', function() {
 		});
 
 		it('should handle other types', function(done) {
-			var func = function() {};
-			var obj = {};
+			let func = function() {};
+			let obj = {};
 			expect(objtools.scalarEquals(2, 2)).to.be.true;
 			expect(objtools.scalarEquals(true, true)).to.be.true;
 			expect(objtools.scalarEquals(null, null)).to.be.true;
@@ -56,29 +56,29 @@ describe('Base Functions', function() {
 
 	describe('deepEquals()', function() {
 
-		var date1 = new Date('2014-01-01T00:00:00Z');
-		var date2 = new Date('2014-01-01T00:00:00Z');
-		var date3 = new Date('2014-01-01T00:00:01Z');
+		let date1 = new Date('2014-01-01T00:00:00Z');
+		let date2 = new Date('2014-01-01T00:00:00Z');
+		let date3 = new Date('2014-01-01T00:00:01Z');
 
-		var obj1 = {
+		let obj1 = {
 			foo: {
 				bar: 'baz',
 				biz: [ 1, 2 ]
 			}
 		};
-		var obj2 = {
+		let obj2 = {
 			foo: {
 				bar: 'baz',
 				biz: [ 1, 2 ]
 			}
 		};
-		var obj3 = {
+		let obj3 = {
 			foo: {
 				bar: 'biz'
 			},
 			biz: [ 1, 2 ]
 		};
-		var obj4 = {
+		let obj4 = {
 			foo: {
 				bar: 'biz'
 			},
@@ -111,7 +111,7 @@ describe('Base Functions', function() {
 
 	describe('deepCopy()', function() {
 
-		var obj1 = {
+		let obj1 = {
 			foo: 'bar',
 			fuzz: 123,
 			biz: {
@@ -123,14 +123,14 @@ describe('Base Functions', function() {
 		};
 
 		it('should correctly copy objects', function(done) {
-			var copy = objtools.deepCopy(obj1);
+			let copy = objtools.deepCopy(obj1);
 			expect(copy).to.deep.equal(obj1);
 			expect(null).to.not.deep.equal(undefined);	// make sure chai does what we want it to
 			done();
 		});
 
 		it('should not maintain references to objects', function(done) {
-			var copy = objtools.deepCopy(obj1);
+			let copy = objtools.deepCopy(obj1);
 			expect(copy).to.deep.equal(obj1);
 			copy.biz.dat = 123;
 			expect(copy).to.not.deep.equal(obj1);
@@ -141,7 +141,7 @@ describe('Base Functions', function() {
 
 	describe('collapseToDotted()', function() {
 
-		var obj1 = {
+		let obj1 = {
 			foo: 123,
 			bar: {
 				biz: 12,
@@ -159,7 +159,7 @@ describe('Base Functions', function() {
 		};
 
 		it('should correctly collapse objects to dotted form', function(done) {
-			var dotted = objtools.collapseToDotted(obj1);
+			let dotted = objtools.collapseToDotted(obj1);
 			expect(dotted).to.deep.equal({
 				foo: 123,
 				'bar.biz': 12,
@@ -172,7 +172,7 @@ describe('Base Functions', function() {
 		});
 
 		it('should obey includeRedundantLevels', function(done) {
-			var dotted = objtools.collapseToDotted(obj1, true);
+			let dotted = objtools.collapseToDotted(obj1, true);
 			expect(dotted).to.deep.equal({
 				foo: 123,
 				bar: obj1.bar,
@@ -192,7 +192,7 @@ describe('Base Functions', function() {
 		});
 
 		it('should obey stopAtArrays', function(done) {
-			var dotted = objtools.collapseToDotted(obj1, false, true);
+			let dotted = objtools.collapseToDotted(obj1, false, true);
 			expect(dotted).to.deep.equal({
 				foo: 123,
 				'bar.biz': 12,
@@ -267,7 +267,7 @@ describe('Base Functions', function() {
 
 	describe('path functions', function() {
 
-		var obj1 = {
+		let obj1 = {
 			foo: 'bar',
 			baz: {
 				biz: 'buz',
@@ -286,9 +286,9 @@ describe('Base Functions', function() {
 			}
 		};
 
-		var getPath = objtools.getPath;
-		var deletePath = objtools.deletePath;
-		var setPath = objtools.setPath;
+		let getPath = objtools.getPath;
+		let deletePath = objtools.deletePath;
+		let setPath = objtools.setPath;
 
 		it('getPath should fetch basic object paths', function(done) {
 			expect(getPath(obj1, 'foo')).equals(obj1.foo);

@@ -1,10 +1,10 @@
-var expect = require('chai').expect;
-var objtools = require('../lib');
-var ObjectMask = objtools.ObjectMask;
+let expect = require('chai').expect;
+let objtools = require('../lib');
+let ObjectMask = objtools.ObjectMask;
 
 describe('ObjectMask', function() {
 
-	var obj1 = {
+	let obj1 = {
 		str1: 'string',
 		str2: 'string2',
 		num1: 1,
@@ -29,7 +29,7 @@ describe('ObjectMask', function() {
 		]
 	};
 
-	var mask1 = {
+	let mask1 = {
 		str1: true,
 		str2: true,
 		num1: true,
@@ -46,7 +46,7 @@ describe('ObjectMask', function() {
 		]
 	};
 
-	var mask2 = {
+	let mask2 = {
 		str1: true,
 		num2: true,
 		nul2: true,
@@ -65,7 +65,7 @@ describe('ObjectMask', function() {
 
 		it('basic functionality', function(done) {
 			obj1 = objtools.deepCopy(obj1);
-			var result;
+			let result;
 			result = new ObjectMask({
 				str1: true,
 				num1: true,
@@ -88,7 +88,7 @@ describe('ObjectMask', function() {
 
 		it('arrays and wildcards', function(done) {
 			obj1 = objtools.deepCopy(obj1);
-			var result;
+			let result;
 			result = new ObjectMask({
 				obj: {
 					_: true,
@@ -191,8 +191,8 @@ describe('ObjectMask', function() {
 		});
 
 		it('filterDottedObject()', function(done) {
-			var dottedObj = objtools.collapseToDotted(obj1);
-			var filtered = new ObjectMask(mask2).filterDottedObject(dottedObj);
+			let dottedObj = objtools.collapseToDotted(obj1);
+			let filtered = new ObjectMask(mask2).filterDottedObject(dottedObj);
 			expect(filtered).to.deep.equal({
 				str1: 'string',
 				num2: 2,
@@ -206,8 +206,8 @@ describe('ObjectMask', function() {
 		});
 
 		it('getDottedMaskedOutFields()', function(done) {
-			var dottedObj = objtools.collapseToDotted(obj1);
-			var fields = new ObjectMask(mask1).getDottedMaskedOutFields(dottedObj);
+			let dottedObj = objtools.collapseToDotted(obj1);
+			let fields = new ObjectMask(mask1).getDottedMaskedOutFields(dottedObj);
 			expect(fields).to.deep.equal([
 				'num2',
 				'undef',
@@ -219,7 +219,7 @@ describe('ObjectMask', function() {
 		});
 
 		it('checkFields()', function(done) {
-			var mask = new ObjectMask(mask1);
+			let mask = new ObjectMask(mask1);
 			expect(mask.checkFields({ str1: 5 })).to.be.true;
 			expect(mask.checkFields({ num2: 5 })).to.be.false;
 			expect(mask.checkFields({ obj: { foo: 5 } })).to.be.true;
@@ -228,14 +228,14 @@ describe('ObjectMask', function() {
 		});
 
 		it('checkDottedFields()', function(done) {
-			var mask = new ObjectMask(mask1);
+			let mask = new ObjectMask(mask1);
 			expect(mask.checkDottedFields({ 'obj.foo': 5 })).to.be.true;
 			expect(mask.checkDottedFields({ 'obj.baz': 5 })).to.be.false;
 			done();
 		});
 
 		it('createMaskFromFieldList()', function(done) {
-			var fields = [ 'foo', 'bar.baz', 'bar.baz.biz' ];
+			let fields = [ 'foo', 'bar.baz', 'bar.baz.biz' ];
 			expect(ObjectMask.createMaskFromFieldList(fields).toObject()).to.deep.equal({
 				foo: true,
 				bar: {
@@ -246,7 +246,7 @@ describe('ObjectMask', function() {
 		});
 
 		it('createFilterFunc()', function(done) {
-			var func = new ObjectMask(mask1).createFilterFunc();
+			let func = new ObjectMask(mask1).createFilterFunc();
 			expect(func(obj1)).to.deep.equal({
 				str1: 'string',
 				str2: 'string2',
