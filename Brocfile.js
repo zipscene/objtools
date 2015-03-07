@@ -3,6 +3,7 @@ var pickFiles = require('broccoli-static-compiler');
 var mergeTrees = require('broccoli-merge-trees');
 var Promise = require('es6-promise').Promise;
 var fs = require('fs');
+
 var babelrc;
 if(fs.existsSync('./.babelrc')) {
 	try {
