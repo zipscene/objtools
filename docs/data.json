@@ -35,7 +35,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "lib/index.js",
-            "line": 4,
+            "line": 3,
             "description": "General utility functions for manipulating object."
         },
         "ObjectMask": {
@@ -62,7 +62,7 @@
     "classitems": [
         {
             "file": "lib/index.js",
-            "line": 10,
+            "line": 9,
             "description": "Determines whether a value is considered a scalar or an object.  Currently,\nprimitives plus Date types plus undefined and null plus functions are considered scalar.",
             "itemtype": "method",
             "name": "isScalar",
@@ -82,7 +82,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 24,
+            "line": 23,
             "description": "Checks for deep equality between two object or values.",
             "itemtype": "method",
             "name": "deepEquals",
@@ -107,7 +107,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 58,
+            "line": 57,
             "description": "Checks whether two scalar values (as determined by isScalar()) are equal.",
             "itemtype": "method",
             "name": "scalarEquals",
@@ -132,7 +132,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 73,
+            "line": 72,
             "description": "Returns a deep copy of the given value such that entities are not passed\nby reference.",
             "itemtype": "method",
             "name": "deepCopy",
@@ -152,7 +152,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 102,
+            "line": 101,
             "description": "Given an object, converts it into a one-level-deep object where the keys are dot-separated\npaths and the values are the values at those paths.",
             "itemtype": "method",
             "name": "collapseToDotted",
@@ -187,7 +187,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 143,
+            "line": 142,
             "description": "Returns whether or not the given query fields (in dotted notation) match the document\n(also in dotted notation).  The \"queries\" here are simple equality matches.",
             "itemtype": "method",
             "name": "matchDottedObject",
@@ -212,7 +212,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 166,
+            "line": 165,
             "description": "Same as matchDottedObject, but allows for non-dotted objects and queries.",
             "itemtype": "method",
             "name": "matchObject",
@@ -237,7 +237,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 180,
+            "line": 179,
             "description": "Sets the value at a given path in an object.",
             "itemtype": "method",
             "name": "setPath",
@@ -267,7 +267,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 205,
+            "line": 204,
             "description": "Deletes the value at a given path in an object.",
             "itemtype": "method",
             "name": "deletePath",
@@ -292,7 +292,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 231,
+            "line": 230,
             "description": "Gets the value at a given path in an object.",
             "itemtype": "method",
             "name": "getPath",
@@ -322,7 +322,7 @@
         },
         {
             "file": "lib/object-mask.js",
-            "line": 32,
+            "line": 33,
             "description": "Returns a copy of the given object, but only including the fields allowed by\nthe mask.  If the maskedOutHook function is provided, it is called for\neach field disallowed by the mask (at the highest level it is disallowed).",
             "itemtype": "method",
             "name": "filterObject",
@@ -354,7 +354,7 @@
         },
         {
             "file": "lib/object-mask.js",
-            "line": 78,
+            "line": 79,
             "description": "Returns a subsection of a mask given a dot-separated path to the subsection.",
             "itemtype": "method",
             "name": "getSubMask",
@@ -373,7 +373,7 @@
         },
         {
             "file": "lib/object-mask.js",
-            "line": 99,
+            "line": 100,
             "description": "Returns true if the given path is allowed by the mask.  false otherwise.",
             "itemtype": "method",
             "name": "checkMaskPath",
@@ -392,7 +392,7 @@
         },
         {
             "file": "lib/object-mask.js",
-            "line": 110,
+            "line": 111,
             "description": "Returns the internal object that represents this mask.",
             "itemtype": "method",
             "name": "toObject",
@@ -404,7 +404,7 @@
         },
         {
             "file": "lib/object-mask.js",
-            "line": 120,
+            "line": 121,
             "description": "Combines two or more masks such that the result mask matches fields matched by\nany of the combined masks.",
             "itemtype": "method",
             "name": "addMasks",
@@ -429,7 +429,7 @@
         },
         {
             "file": "lib/object-mask.js",
-            "line": 214,
+            "line": 215,
             "description": "Adds a set of masks together, but using a logical AND instead of a logical OR (as in addMasks).\nIE, a field must be allowed in all given masks to be in the result mask.",
             "itemtype": "method",
             "name": "andMasks",
@@ -454,7 +454,7 @@
         },
         {
             "file": "lib/object-mask.js",
-            "line": 312,
+            "line": 313,
             "description": "Check if a mask is valid in strict form (ie, it only contains objects and booleans)",
             "itemtype": "method",
             "name": "validate",
@@ -466,7 +466,7 @@
         },
         {
             "file": "lib/object-mask.js",
-            "line": 331,
+            "line": 332,
             "description": "Returns an array of fields in the given object which are restricted by the given mask",
             "itemtype": "method",
             "name": "getMaskedOutFields",
@@ -485,7 +485,7 @@
         },
         {
             "file": "lib/object-mask.js",
-            "line": 346,
+            "line": 347,
             "description": "Given a dot-notation mapping from fields to values, remove all fields that are not\nallowed by the mask.",
             "itemtype": "method",
             "name": "filterDottedObject",
@@ -517,7 +517,7 @@
         },
         {
             "file": "lib/object-mask.js",
-            "line": 370,
+            "line": 371,
             "description": "Returns an array of fields in the given object which are restricted by the given mask.  The\nobject is in dotted notation as in filterDottedObject()",
             "itemtype": "method",
             "name": "getDottedMaskedOutFields",
@@ -536,7 +536,7 @@
         },
         {
             "file": "lib/object-mask.js",
-            "line": 386,
+            "line": 387,
             "description": "Given a structured document, ensures that\nall fields are allowed by the given mask.  Returns true or false.",
             "itemtype": "method",
             "name": "checkFields",
@@ -555,7 +555,7 @@
         },
         {
             "file": "lib/object-mask.js",
-            "line": 398,
+            "line": 399,
             "description": "Given a dot-notation mapping from fields to values (only 1 level deep is checked),\nensure that all fields are in the (structured) mask.",
             "itemtype": "method",
             "name": "checkDottedFields",
@@ -574,7 +574,7 @@
         },
         {
             "file": "lib/object-mask.js",
-            "line": 413,
+            "line": 414,
             "description": "Creates a structured mask given a list of fields that should be included in the mask.",
             "itemtype": "method",
             "name": "createMaskFromFieldList",
@@ -594,7 +594,7 @@
         },
         {
             "file": "lib/object-mask.js",
-            "line": 434,
+            "line": 435,
             "description": "Returns a function that filters object fields based on a structured mask/whitelist.",
             "itemtype": "method",
             "name": "createFilterFunc",
