@@ -17,8 +17,7 @@
 		"objectLiteralShorthandMethods": true,
 		"objectLiteralShorthandProperties": true,
 		"superInFunctions": true,
-		"templateStrings": true,
-		"modules": true
+		"templateStrings": true
 	},
 	"rules": {
 		"no-comma-dangle": 2,
