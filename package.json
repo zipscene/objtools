@@ -1,6 +1,6 @@
 {
   "name": "zs-objtools",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Various utility functions for working with object, including object merging, inheritance, deep copying, etc.",
   "main": "./dist/lib/index.js",
   "repository": {
@@ -12,7 +12,8 @@
     "docs": "node ./node_modules/.bin/yuidoc .",
     "test": "npm run-script build && node ./node_modules/.bin/mocha ./dist/test -R spec",
     "build": "./node_modules/.bin/grunt build && rm -rf tmp",
-    "watch": "./node_modules/.bin/grunt watch && rm -rf tmp"
+    "watch": "./node_modules/.bin/grunt watch && rm -rf tmp",
+    "prepublish": "npm run-script build && npm run-script docs"
   },
   "dependencies": {
     "babel-runtime": "^4.6.6",
@@ -29,9 +30,7 @@
     "eslint": "^0.16.0",
     "grunt": "^0.4.5",
     "grunt-broccoli": "^0.4.0",
-    "grunt-browserify": "^3.5.0",
     "grunt-cli": "^0.1.13",
-    "grunt-contrib-uglify": "^0.8.0",
     "mocha": "^2.1.0",
     "yuidocjs": "^0.5.0"
   },
