@@ -12,20 +12,10 @@ describe('ObjectMask', function() {
 		nul1: null,
 		nul2: null,
 		undef: undefined,
-		obj: {
-			foo: 'test',
-			bar: 'test2',
-			baz: 'test3'
-		},
+		obj: { foo: 'test', bar: 'test2', baz: 'test3' },
 		arr: [
-			{
-				str1: 'one',
-				str2: 'two'
-			},
-			{
-				str1: 'three',
-				str2: 'four'
-			}
+			{ str1: 'one', str2: 'two' },
+			{ str1: 'three', str2: 'four' }
 		]
 	};
 
@@ -35,30 +25,16 @@ describe('ObjectMask', function() {
 		num1: true,
 		nul1: true,
 		nul2: true,
-		obj: {
-			foo: true,
-			bar: true
-		},
-		arr: [
-			{
-				str1: true
-			}
-		]
+		obj: { foo: true, bar: true },
+		arr: [ { str1: true } ]
 	};
 
 	let mask2 = {
 		str1: true,
 		num2: true,
 		nul2: true,
-		obj: {
-			_: true,
-			foo: false
-		},
-		arr: [
-			{
-				str2: true
-			}
-		]
+		obj: { _: true, foo: false },
+		arr: [ { str2: true } ]
 	};
 
 	describe('filterObject()', function() {
@@ -70,18 +46,13 @@ describe('ObjectMask', function() {
 				str1: true,
 				num1: true,
 				nul1: true,
-				obj: {
-					bar: true,
-					nonexist: true
-				}
+				obj: { bar: true, nonexist: true }
 			}).filterObject(obj1);
 			expect(result).to.deep.equal({
 				str1: 'string',
 				num1: 1,
 				nul1: null,
-				obj: {
-					bar: 'test2'
-				}
+				obj: { bar: 'test2' }
 			});
 			done();
 		});
@@ -90,44 +61,21 @@ describe('ObjectMask', function() {
 			obj1 = objtools.deepCopy(obj1);
 			let result;
 			result = new ObjectMask({
-				obj: {
-					_: true,
-					bar: false
-				},
-				arr: [
-					{
-						str2: true
-					}
-				]
+				obj: { _: true, bar: false },
+				arr: [ { str2: true } ]
 			}).filterObject(obj1);
 			expect(result).to.deep.equal({
-				obj: {
-					foo: 'test',
-					baz: 'test3'
-				},
-				arr: [
-					{
-						str2: 'two'
-					},
-					{
-						str2: 'four'
-					}
-				]
+				obj: { foo: 'test', baz: 'test3' },
+				arr: [ { str2: 'two' }, { str2: 'four' } ]
 			});
 			done();
 		});
 
 		it('getSubMask()', function(done) {
 			expect(new ObjectMask({
-				foo: {
-					bar: {
-						baz: true
-					}
-				}
+				foo: { bar: { baz: true } }
 			}).getSubMask('foo').toObject()).to.deep.equal({
-				bar: {
-					baz: true
-				}
+				bar: { baz: true }
 			});
 			done();
 		});
@@ -146,15 +94,8 @@ describe('ObjectMask', function() {
 				num2: true,
 				nul1: true,
 				nul2: true,
-				obj: {
-					_: true
-				},
-				arr: {
-					_: {
-						str1: true,
-						str2: true
-					}
-				}
+				obj: { _: true },
+				arr: { _: { str1: true, str2: true } }
 			});
 			done();
 		});
@@ -163,9 +104,7 @@ describe('ObjectMask', function() {
 			expect(ObjectMask.andMasks(new ObjectMask(mask1), new ObjectMask(mask2)).toObject()).to.deep.equal({
 				str1: true,
 				nul2: true,
-				obj: {
-					bar: true
-				}
+				obj: { bar: true }
 			});
 			done();
 		});
@@ -173,9 +112,7 @@ describe('ObjectMask', function() {
 		it('validate()', function(done) {
 			expect(new ObjectMask(mask1).validate()).to.be.true;
 			expect(new ObjectMask(mask2).validate()).to.be.true;
-			expect(new ObjectMask({
-				foo: new Date()
-			}).validate()).to.be.false;
+			expect(new ObjectMask({ foo: new Date() }).validate()).to.be.false;
 			done();
 		});
 
@@ -238,9 +175,7 @@ describe('ObjectMask', function() {
 			let fields = [ 'foo', 'bar.baz', 'bar.baz.biz' ];
 			expect(ObjectMask.createMaskFromFieldList(fields).toObject()).to.deep.equal({
 				foo: true,
-				bar: {
-					baz: true
-				}
+				bar: { baz: true }
 			});
 			done();
 		});
@@ -253,18 +188,8 @@ describe('ObjectMask', function() {
 				num1: 1,
 				nul1: null,
 				nul2: null,
-				obj: {
-					foo: 'test',
-					bar: 'test2'
-				},
-				arr: [
-					{
-						str1: 'one'
-					},
-					{
-						str1: 'three'
-					}
-				]
+				obj: { foo: 'test', bar: 'test2' },
+				arr: [ { str1: 'one' }, { str1: 'three' } ]
 			});
 			done();
 		});
