@@ -265,6 +265,159 @@ describe('Base Functions', function() {
 
 	});
 
+	describe('syncObject()', function() {
+
+		it('should copy an object to the destination', function() {
+			let fromObj = {
+				foo: 'bar',
+				baz: {
+					qux: [
+						{
+							zip: 'zap',
+							bam: new Date('2014-01-01T00:00:00Z')
+						},
+						{
+							bip: 'boop'
+						}
+					]
+				},
+				foop: {
+					flap: 'flip'
+				}
+			};
+			let toObj = {
+				foo: 'bip',
+				zap: 'zip',
+				qux: {
+					boom: 123
+				},
+				foop: {
+					flap: 'flop'
+				}
+			};
+			let origFoop = toObj.foop;
+			objtools.syncObject(toObj, fromObj);
+			expect(toObj).to.deep.equal(fromObj);
+			// make sure it didn't modify fromObj
+			expect(fromObj).to.deep.equal({
+				foo: 'bar',
+				baz: {
+					qux: [
+						{
+							zip: 'zap',
+							bam: new Date('2014-01-01T00:00:00Z')
+						},
+						{
+							bip: 'boop'
+						}
+					]
+				},
+				foop: {
+					flap: 'flip'
+				}
+			});
+			// make sure it didn't change the internal object reference
+			expect(toObj.foop).to.equal(origFoop);
+		});
+
+		it('should skip fields when the onField hook returns false', function() {
+			let fromObj = {
+				foo: 'bar',
+				baz: {
+					qux: [
+						{
+							zip: 'zap',
+							bam: new Date('2014-01-01T00:00:00Z')
+						},
+						{
+							bip: 'boop'
+						}
+					]
+				},
+				foop: {
+					flap: 'flip'
+				}
+			};
+			let toObj = {
+				foo: 'bip',
+				zap: 'zip',
+				baz: {
+					qux: 123
+				},
+				qux: {
+					boom: 123
+				},
+				foop: {
+					flap: 'flop'
+				}
+			};
+			objtools.syncObject(toObj, fromObj, {
+				onField(field) {
+					return (field !== 'baz.qux');
+				}
+			});
+			expect(toObj).to.deep.equal({
+				foo: 'bar',
+				baz: {
+					qux: 123
+				},
+				foop: {
+					flap: 'flip'
+				}
+			});
+		});
+
+		it('should call onChange for changed fields', function() {
+			let fromObj = {
+				foo: 'bar',
+				baz: {
+					qux: [
+						{
+							zip: 'zap',
+							bam: new Date('2014-01-01T00:00:00Z')
+						},
+						{
+							bip: 'boop'
+						}
+					]
+				},
+				foop: {
+					flap: 'flip'
+				},
+				zap: 4
+			};
+			let toObj = {
+				foo: 'bip',
+				zoop: 'zip',
+				baz: {
+					qux: 123
+				},
+				qux: {
+					boom: 123
+				},
+				foop: {
+					flap: 'flop'
+				},
+				zap: 4
+			};
+			let changed = [];
+			objtools.syncObject(toObj, fromObj, {
+				onChange(field) {
+					changed.push(field);
+				}
+			});
+			expect(toObj).to.deep.equal(fromObj);
+			expect(changed.sort()).to.deep.equal([
+				'foo',
+				'zoop',
+				'baz.qux',
+				'qux',
+				'foop.flap'
+			].sort());
+		});
+
+	});
+
 	describe('path functions', function() {
 
 		let obj1 = {
