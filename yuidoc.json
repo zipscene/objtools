@@ -1,6 +1,6 @@
 {
 	"name": "zs-objtools",
-	"description": "Object tools",
+	"description": "Miscellaneous tools for manipulating objects and masks",
 	"options": {
 		"outdir": "./docs",
 		"exclude": "dist,tmp,test,node_modules"
