@@ -39,6 +39,11 @@ objtools.matchDottedObject({ 'foo.bar': 123, baz: 456 }, { 'foo.bar': 123 } )
 // Checks if all fields in the query match corresponding fields in
 // the object
 objtools.matchObject( { foo: { bar: 123} }, { 'foo.bar': 123 } );
+
+// Update the destination object in-place to match the source object.  This
+// also takes a third argument of hooks to register while traversing.  See
+// the docs for details.
+objtools.syncObject( { /* destination object */ }, { /* source object */ } );
 ```
 
 ## Path Functions
