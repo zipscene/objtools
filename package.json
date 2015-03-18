@@ -1,6 +1,6 @@
 {
   "name": "zs-objtools",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Various utility functions for working with object, including object merging, inheritance, deep copying, etc.",
   "main": "./dist/lib/index.js",
   "repository": {
