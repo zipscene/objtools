@@ -1,4 +1,5 @@
 let { expect } = require('chai');
+let XError = require('xerror');
 let _ = require('lodash');
 
 let objtools = require('../lib');
@@ -273,7 +274,7 @@ describe('ObjectMask', function() {
 		it('throws on attempt to remove wildcard', function() {
 			let orig = new ObjectMask({ _: [ true ] });
 			expect(() => orig.removeField('_')).to.throw();
-			expect(() => orig.removeField('foo.0')).to.throw();
+			expect(() => orig.removeField('foo.0')).to.throw(XError);
 		});
 	});
 });
