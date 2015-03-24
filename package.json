@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "babel-runtime": "^4.7.12",
+    "lodash": "^3.5.0",
     "xerror": "^1.0.0"
   },
   "devDependencies": {
@@ -32,6 +33,7 @@
     "grunt-broccoli": "^0.4.0",
     "grunt-cli": "^0.1.13",
     "mocha": "^2.2.1",
+    "source-map-support": "^0.2.10",
     "yuidocjs": "^0.6.0"
   },
   "publishConfig": {
