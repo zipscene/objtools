@@ -268,21 +268,10 @@ describe('ObjectMask', function() {
 			expect(orig.removeField('foo.bar.baz').checkFields(shouldFail)).to.be.false;
 		});
 
-		it('replaces arrays with underscore wildcards', function() {
-			let orig = new ObjectMask({ foo: [ { baz: true, foobar: true } ] });
-			expect(orig.checkFields(shouldPass)).to.be.true;
-			expect(orig.checkFields(shouldAlsoPass)).to.be.true;
-			expect(orig.checkFields(shouldFail)).to.be.true;
-			expect(orig.removeField('foo.bar.baz').checkFields(shouldPass), 'shouldPass').to.be.true;
-			expect(orig.removeField('foo.bar.baz').checkFields(shouldAlsoPass), 'shouldAlsoPass').to.be.true;
-			expect(orig.removeField('foo.bar.baz').checkFields(shouldFail), 'shouldFail').to.be.false;
-			expect(orig.removeField('foo.bar.baz')).to.deep.equal(expected);
-		});
-
 		it('throws on attempt to remove wildcard', function() {
 			let orig = new ObjectMask({ _: [ true ] });
 			expect(() => orig.removeField('_')).to.throw();
-			expect(() => orig.removeField('foo.0')).to.throw(XError);
+			expect(() => orig.removeField('foo._')).to.throw(XError);
 		});
 	});
 });
