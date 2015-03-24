@@ -40,6 +40,14 @@ describe('ObjectMask', function() {
 		arr: [ { str2: true } ]
 	};
 
+	describe('new ObjectMask()', function() {
+		it('underscorizes wildcard arrays', function() {
+			let orig = new ObjectMask({ foo: [ { baz: true } ] });
+			let expectedMask = { foo: { _: { baz: true } } };
+			expect(orig.mask).to.deep.equal(expectedMask);
+		});
+	});
+
 	describe('filterObject()', function() {
 
 		it('basic functionality', function(done) {
