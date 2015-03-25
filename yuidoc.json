@@ -1,6 +1,6 @@
 {
 	"name": "zs-objtools",
-	"description": "Miscellaneous tools for manipulating objects and masks",
+	"description": "Various utility functions for working with object, including object merging, inheritance, deep copying, etc.",
 	"options": {
 		"outdir": "./docs",
 		"exclude": "dist,tmp,test,node_modules"
