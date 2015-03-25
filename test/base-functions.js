@@ -60,30 +60,10 @@ describe('Base Functions', function() {
 		let date2 = new Date('2014-01-01T00:00:00Z');
 		let date3 = new Date('2014-01-01T00:00:01Z');
 
-		let obj1 = {
-			foo: {
-				bar: 'baz',
-				biz: [ 1, 2 ]
-			}
-		};
-		let obj2 = {
-			foo: {
-				bar: 'baz',
-				biz: [ 1, 2 ]
-			}
-		};
-		let obj3 = {
-			foo: {
-				bar: 'biz'
-			},
-			biz: [ 1, 2 ]
-		};
-		let obj4 = {
-			foo: {
-				bar: 'biz'
-			},
-			biz: [ 1 ]
-		};
+		let obj1 = { foo: { bar: 'baz', biz: [ 1, 2 ] } };
+		let obj2 = { foo: { bar: 'baz', biz: [ 1, 2 ] } };
+		let obj3 = { foo: { bar: 'biz' }, biz: [ 1, 2 ] };
+		let obj4 = { foo: { bar: 'biz' }, biz: [ 1 ] };
 
 		it('should handle dates correctly', function(done) {
 			expect(objtools.deepEquals(date1, date2)).to.be.true;
@@ -114,11 +94,7 @@ describe('Base Functions', function() {
 		let obj1 = {
 			foo: 'bar',
 			fuzz: 123,
-			biz: {
-				dat: new Date('2014-01-01T00:00:00Z'),
-				n: null,
-				u: undefined
-			},
+			biz: { dat: new Date('2014-01-01T00:00:00Z'), n: null, u: undefined },
 			arr: [ 1, 2 ]
 		};
 
@@ -143,19 +119,8 @@ describe('Base Functions', function() {
 
 		let obj1 = {
 			foo: 123,
-			bar: {
-				biz: 12,
-				baz: {
-					buz: 1
-				}
-			},
-			arr: [
-				1,
-				2,
-				{
-					foo: 3
-				}
-			]
+			bar: { biz: 12, baz: { buz: 1 } },
+			arr: [ 1, 2, { foo: 3 } ]
 		};
 
 		it('should correctly collapse objects to dotted form', function(done) {
@@ -210,9 +175,7 @@ describe('Base Functions', function() {
 		it('matchObject()', function(done) {
 			expect(objtools.matchObject({
 				foo: 'foo',
-				bar: {
-					biz: 12
-				},
+				bar: { biz: 12 },
 				zip: [ 4, 5 ]
 			}, {
 				foo: 'foo',
@@ -221,9 +184,7 @@ describe('Base Functions', function() {
 			})).to.be.true;
 			expect(objtools.matchObject({
 				foo: 'foo',
-				bar: {
-					biz: 12
-				},
+				bar: { biz: 12 },
 				zip: [ 4, 5 ]
 			}, {
 				foo: 'foo',
@@ -236,28 +197,20 @@ describe('Base Functions', function() {
 		it('matchDottedObject()', function(done) {
 			expect(objtools.matchDottedObject({
 				foo: 'foo',
-				bar: {
-					biz: 12
-				},
+				bar: { biz: 12 },
 				zip: [ 4, 5 ]
 			}, {
 				foo: 'foo',
-				'bar': {
-					biz: 12
-				},
+				'bar': { biz: 12 },
 				'zip': [ 4, 5 ]
 			})).to.be.true;
 			expect(objtools.matchDottedObject({
 				foo: 'foo',
-				bar: {
-					biz: 12
-				},
+				bar: { biz: 12 },
 				zip: [ 4, 5 ]
 			}, {
 				foo: 'foo',
-				'bar': {
-					biz: 12
-				},
+				'bar': { biz: 12 },
 				'zip': [ 4, 2 ]
 			})).to.be.false;
 			done();
@@ -424,18 +377,8 @@ describe('Base Functions', function() {
 			foo: 'bar',
 			baz: {
 				biz: 'buz',
-				arr: [
-					1,
-					2,
-					{
-						zip: 3
-					}
-				],
-				arr2: [
-					{
-						zip: 4
-					}
-				]
+				arr: [ 1, 2, { zip: 3 } ],
+				arr2: [ { zip: 4 } ]
 			}
 		};
 
