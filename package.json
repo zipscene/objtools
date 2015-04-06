@@ -1,6 +1,6 @@
 {
   "name": "zs-objtools",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Various utility functions for working with object, including object merging, inheritance, deep copying, etc.",
   "main": "./dist/lib/index.js",
   "repository": {
@@ -16,13 +16,13 @@
     "prepublish": "npm run-script build && npm run-script docs"
   },
   "dependencies": {
-    "babel-runtime": "^4.7.16",
+    "babel-runtime": "^5.0.9",
     "lodash": "^3.5.0",
     "xerror": "^1.0.0"
   },
   "devDependencies": {
     "broccoli": "^0.15.0",
-    "broccoli-babel-transpiler": "^4.0.1",
+    "broccoli-babel-transpiler": "^5.0.0",
     "broccoli-cli": "^1.0.0",
     "broccoli-merge-trees": "^0.2.1",
     "broccoli-static-compiler": "^0.2.1",
