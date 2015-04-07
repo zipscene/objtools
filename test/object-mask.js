@@ -5,7 +5,7 @@ let _ = require('lodash');
 let objtools = require('../lib');
 let ObjectMask = objtools.ObjectMask;
 
-describe.skip('ObjectMask', function() {
+describe('ObjectMask', function() {
 
 	let obj1 = {
 		str1: 'string',
