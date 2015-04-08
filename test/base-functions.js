@@ -544,14 +544,6 @@ describe('Base Functions', function() {
 			expect(actual).to.deep.equal({ 'a': 1 });
 		});
 
-		it('should convert values to an array when merging with arrays of `source`', function() {
-			let object = { 'a': { '1': 'y', 'b': 'z', 'length': 2 } };
-			let actual = objtools.merge(object, { 'a': [ 'x' ] });
-			expect(actual).to.deep.equal({ 'a': [ 'x', 'y' ] });
-			actual = objtools.merge({ 'a': {} }, { 'a': [] });
-			expect(actual).to.deep.equal({ 'a': [] });
-		});
-
 		it('should work with a function `object` value', function() {
 			function Foo() {}
 			let source = { 'a': 1 };
