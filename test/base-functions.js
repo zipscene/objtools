@@ -668,13 +668,52 @@ describe('Base Functions', function() {
 	});
 
 	describe('dottedDiff()', function() {
-		const a = { a: { b: 'c', d: { e: 'f' } } };
-		const b = { a: { b: 'c', d: true }, d: 'e', f: 'g' };
+		const obj1 = {
+			a: { b: 'c', d: { e: 'f' } },
+			d: 'efg'
+		};
+		const obj2 = {
+			a: { b: 'c', d: true },
+			d: 'e',
+			f: 'g'
+		};
+		const aScalar = 'scalar';
+		const arr1 = [ obj1.a, obj2.a, aScalar ];
+		const arr2 = [ obj1.d, obj2.d, aScalar ];
 
 		it('diffs two objects', function() {
-			let result = objtools.dottedDiff(a, b);
-			let expected = [ 'a.d', 'd', 'f' ];
-			expect(result).to.deep.equal(expected);
+			const result = objtools.dottedDiff(obj1, obj2);
+			const expected = [ 'a.d', 'd', 'f' ];
+			expect(result).to.contain.members(expected);
+			expect(result.length).to.equal(expected.length);
+		});
+
+		it('diffs two arrays', function() {
+			const result = objtools.dottedDiff(arr1, arr2);
+			const expected = [ '0', '1' ];
+			expect(result).to.contain.members(expected);
+			expect(result.length).to.equal(expected.length);
+		});
+
+		it('diffs an object and an array', function() {
+			const result = objtools.dottedDiff(obj1, arr1);
+			const expected = _.union(_.keys(obj1), _.keys(arr1));
+			expect(result).to.contain.members(expected);
+			expect(result.length).to.equal(expected.length);
+		});
+
+		it('diffs an object and a scalar', function() {
+			const result = objtools.dottedDiff(obj1, aScalar);
+			const expected = _.keys(obj1);
+			expect(result).to.contain.members(expected);
+			expect(result.length).to.equal(expected.length);
+		});
+
+		it('diffs a scalar and an object', function() {
+			const result = objtools.dottedDiff(aScalar, obj1);
+			const expected = _.keys(obj1);
+			expect(result).to.contain.members(expected);
+			expect(result.length).to.equal(expected.length);
 		});
 	});
 });
