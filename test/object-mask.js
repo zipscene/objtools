@@ -122,6 +122,29 @@ describe('ObjectMask', function() {
 		});
 	});
 
+	describe('#invertMask()', function() {
+		it('inverts a flat mask using a wildcard', function() {
+			const mask = new ObjectMask({ foo: true });
+			const result = ObjectMask.invertMask(mask);
+			const expected = { _: true, foo: false };
+			expect(result.mask).to.deep.equal(expected);
+		});
+
+		it('handles wildcards', function() {
+			const mask = new ObjectMask({ _: true, foo: false });
+			const result = ObjectMask.invertMask(mask);
+			const expected = { foo: true };
+			expect(result.mask).to.deep.equal(expected);
+		});
+
+		it('recurses to submasks', function() {
+			const mask = new ObjectMask({ foo: { _: true, bar: false } });
+			const result = ObjectMask.invertMask(mask);
+			const expected = { _: true, foo: { bar: true } };
+			expect(result.mask).to.deep.equal(expected);
+		});
+	});
+
 	describe('#validate()', function() {
 		expect(new ObjectMask(mask1).validate()).to.be.true;
 		expect(new ObjectMask(mask2).validate()).to.be.true;
