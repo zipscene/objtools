@@ -631,13 +631,12 @@ describe('Base Functions', function() {
 					o: [ { p: 'q' }, null ]
 				}
 			};
-
 			expect(result).to.deep.equal(expected);
 		});
 
 		it('diffs n objects', function() {
-			let result = objtools.diffObjects(a, b, c);
-			let expected = {
+			const result = objtools.diffObjects(a, b, c);
+			const expected = {
 				c: [ 'd', 1, false ],
 				e: [ 'f', 'f', null ],
 				g: [ 'h', { h: true }, null ],
@@ -652,8 +651,8 @@ describe('Base Functions', function() {
 		});
 
 		it('handles scalars', function() {
-			let result = objtools.diffObjects(a, b, aScalar);
-			let expected = _.extend([ null, null, aScalar ], {
+			const result = objtools.diffObjects(a, b, aScalar);
+			const expected = _.extend([ null, null, aScalar ], {
 				a: [ 'b', 'b', null ],
 				c: [ 'd', 1, null ],
 				e: [ 'f', 'f', null ],
