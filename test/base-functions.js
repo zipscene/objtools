@@ -589,10 +589,6 @@ describe('Base Functions', function() {
 			expect(result).to.contain.members(expected);
 			expect(result.length).to.equal(expected.length);
 		});
-
-		it('handles non-sparse arrays', function() {
-			objtools.getDuplicates([ 'a', , 'b' ]);
-		});
 	});
 
 	describe('diffObjects()', function() {
