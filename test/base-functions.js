@@ -2,7 +2,6 @@ let expect = require('chai').expect;
 let _ = require('lodash');
 let objtools = require('../lib');
 
-/** Used as a reference to the global object. */
 const falsey = [ '', 0, false, NaN, null, undefined ];
 
 describe('Base Functions', function() {
@@ -514,7 +513,6 @@ describe('Base Functions', function() {
 					'set': function() { pass = false; }
 				});
 				objtools.merge(object, { 'a': value }, _.identity);
-				if (!pass) process.exit();
 				expect(pass).to.be.true;
 			});
 		});
@@ -528,30 +526,6 @@ describe('Base Functions', function() {
 				{ 'name': 'fred', 'age': 40, 'height': '5\'5"' }
 			] };
 			expect(objtools.merge(names, ages, heights)).to.deep.equal(expected);
-		});
-
-		it('should treat sources that are sparse arrays as dense', function() {
-			let array = Array(3);
-			array[0] = 1;
-			array[2] = 3;
-			let actual = objtools.merge([], array);
-			let expected = array.slice();
-			expected[1] = undefined;
-			expect(actual).to.contain.key('1');
-			expect(actual).to.deep.equal(expected);
-		});
-
-		it('should merge `arguments` objects', function() {
-			let object1 = { 'value': (function() { return arguments; }(1, 2, 3)) };
-			let object2 = { 'value': { '3': 4 } };
-			let expected = { '0': 1, '1': 2, '2': 3, '3': 4 };
-			let actual = objtools.merge(object1, object2);
-			expect(_.isArguments(actual.value)).to.be.false;
-			expect(actual.value).to.deep.equal(expected);
-
-			delete object1.value[3];
-			actual = objtools.merge(object2, object1);
-			expect(actual.value).to.deep.equal(expected);
 		});
 
 		it('should work with four arguments', function() {
@@ -584,15 +558,6 @@ describe('Base Functions', function() {
 			let actual = objtools.merge(Foo, source);
 			expect(actual === Foo);
 			expect(Foo.a === 1);
-		});
-
-		it('should work with a non-plain `object` value', function() {
-			function Foo() {}
-			let object = new Foo();
-			let source = { 'a': 1 };
-			let actual = objtools.merge(object, source);
-			expect(actual).to.equal(object);
-			expect(object.a).to.equal(1);
 		});
 
 		it('should pass thru primitive `object` values', function() {
