@@ -44,6 +44,42 @@ objtools.matchObject( { foo: { bar: 123} }, { 'foo.bar': 123 } );
 // also takes a third argument of hooks to register while traversing.  See
 // the docs for details.
 objtools.syncObject( { /* destination object */ }, { /* source object */ } );
+
+// Recursively merge source objects into a base object
+objtools.merge(
+	{ 'characters': [ { 'name': 'barney' }, { 'name': 'fred' } ] },
+	{ 'characters': [ { 'age': 36 }, { 'age': 40 } ] },
+	{ 'characters': [ { 'height': '5\'4"' }, { 'height': '5\'5"' } ] }
+)
+// => { 'characters': [
+//			{ 'name': 'barney', 'age': 36, 'height': '5\'4"' },
+//			{ 'name': 'fred', 'age': 40, 'height': '5\'5"' }
+// ] }
+
+// Get duplicates in an array
+objtools.getDuplicates([ 'a', 'b', 'a', 'c', 'c' ]);
+// => [ 'a', 'c' ];
+
+// Get a structured diff of objects
+objtools.diffObjects({
+	a: 'b', c: 'd', e: 'f', g: 'h',
+	i: { j: 'k' },
+	l: { m: 'n', o: { p: 'q' } }
+}, {
+	a: 'b', c: 1, e: 'f',
+	g: { h: true },
+	i: { k: 'j' },
+	l: { m: 'nop' }
+})
+// => {
+//		c: [ 'd', 1 ],
+//		g: [ 'h', { h: true } ],
+//		i: [ { j: 'k' }, { k: 'j' } ],
+//		l: {
+//			m: [ 'n', 'nop' ],
+//			o: [ { p: 'q' }, null ]
+//		}
+//	};
 ```
 
 ## Path Functions
@@ -71,6 +107,15 @@ Examples of the path functions:
 objtools.getPath(obj, 'foo.bar.1');		// gets 2
 objtools.setPath(obj, 'foo.biz', 4);	// equivalent to obj.foo.biz = 4
 objtools.deletePath(obj, 'foo.biz');	// equivalent to delete obj.foo.biz
+objtools.dottedDiff({									// returns an array of the shortest diff paths
+	a: { b: 'c', d: { e: 'f' } },
+	d: 'efg'
+}, {
+	a: { b: 'c', d: true },
+	d: 'e',
+	f: 'g'
+});
+// => [ 'a.d', 'd', 'f' ];
 ```
 
 ## Masks
@@ -128,7 +173,8 @@ the `bar` object except for `baz` is:
 }
 ```
 
-Arrays can also be used as aliases for wildcards.  These two masks are equivalent:
+Arrays can also be used as aliases for wildcards. They are converted to underscore wildcards on
+instantiation. These two masks are equivalent:
 
 ```javascript
 { _: { foo: true, bar: true } }
