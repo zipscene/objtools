@@ -670,11 +670,11 @@ describe('Base Functions', function() {
 		};
 		const obj2 = {
 			a: { b: 'c', d: true },
-			d: 'e',
+			d: new Date('2015-01-01'),
 			f: 'g'
 		};
 		const aScalar = 'scalar';
-		const anotherScalar = 'ralacs';
+		const anotherScalar = new Date('2015-01-01');
 		const arr1 = [ obj1.a, obj2.a, aScalar ];
 		const arr2 = [ obj1.d, obj2.d, aScalar ];
 
@@ -711,6 +711,19 @@ describe('Base Functions', function() {
 			const expected = [ '' ];
 			expect(result).to.contain.members(expected);
 			expect(result.length).to.equal(expected.length);
+		});
+
+		it('handles dates', function() {
+			expect(objtools.dottedDiff({
+				foo: new Date()
+			}, {
+				foo: new Date(0)
+			})).to.deep.equal([ 'foo' ]);
+			expect(objtools.dottedDiff({
+				foo: new Date(0)
+			}, {
+				foo: new Date(0)
+			})).to.deep.equal([]);
 		});
 
 		it('diffs two scalars', function() {
