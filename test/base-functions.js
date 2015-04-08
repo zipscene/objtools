@@ -495,13 +495,13 @@ describe('Base Functions', function() {
 			expect(args).to.deep.equal(expected, 'non-primitive property values');
 		});
 
-		it('should not treat the second argument as a `customizer` callback', function() {
-			function callback() {}
+		it('should no-op for function sources', function() {
+			function callback(val) { return val + 1; }
 			callback.b = 2;
 			let actual = objtools.merge({ 'a': 1 }, callback);
-			expect(actual).to.deep.equal({ 'a': 1, 'b': 2 });
+			expect(actual).to.deep.equal({ 'a': 1 });
 			actual = objtools.merge({ 'a': 1 }, callback, { 'c': 3 });
-			expect(actual).to.deep.equal({ 'a': 1, 'b': 2, 'c': 3 });
+			expect(actual).to.deep.equal({ 'a': 1, 'c': 3 });
 		});
 
 		it('should not assign the `customizer` result if it is the same as the destination value', function() {
