@@ -674,6 +674,7 @@ describe('Base Functions', function() {
 			f: 'g'
 		};
 		const aScalar = 'scalar';
+		const anotherScalar = 'ralacs';
 		const arr1 = [ obj1.a, obj2.a, aScalar ];
 		const arr2 = [ obj1.d, obj2.d, aScalar ];
 
@@ -700,16 +701,25 @@ describe('Base Functions', function() {
 
 		it('diffs an object and a scalar', function() {
 			const result = objtools.dottedDiff(obj1, aScalar);
-			const expected = _.keys(obj1);
+			const expected = [ '' ];
 			expect(result).to.contain.members(expected);
 			expect(result.length).to.equal(expected.length);
 		});
 
 		it('diffs a scalar and an object', function() {
 			const result = objtools.dottedDiff(aScalar, obj1);
-			const expected = _.keys(obj1);
+			const expected = [ '' ];
 			expect(result).to.contain.members(expected);
 			expect(result.length).to.equal(expected.length);
+		});
+
+		it('diffs two scalars', function() {
+			expect(objtools.dottedDiff(aScalar, anotherScalar)).to.equal('');
+		});
+
+		it('handles deep equal values', function() {
+			expect(objtools.dottedDiff(obj1, _.cloneDeep(obj1))).to.deep.equal([]);
+			expect(objtools.dottedDiff(aScalar, aScalar)).to.deep.equal([]);
 		});
 	});
 });
