@@ -581,6 +581,20 @@ describe('Base Functions', function() {
 
 	});
 
+	describe('getDuplicates()', function() {
+		const arr = [ 'a', 'b', 'a', 'c', 'c' ];
+		it('gets the duplicates in an array of strings', function() {
+			const result = objtools.getDuplicates(arr);
+			const expected = [ 'a', 'c' ];
+			expect(result).to.contain.members(expected);
+			expect(result.length).to.equal(expected.length);
+		});
+
+		it('handles non-sparse arrays', function() {
+			objtools.getDuplicates([ 'a', , 'b' ]);
+		});
+	});
+
 	describe('diffObjects()', function() {
 		const a = {
 			a: 'b', // value the same in all objects
