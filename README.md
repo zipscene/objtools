@@ -60,7 +60,7 @@ objtools.merge(
 objtools.getDuplicates([ 'a', 'b', 'a', 'c', 'c' ]);
 // => [ 'a', 'c' ];
 
-// Get a structured diff of objects
+// Get a structured diff of collections
 objtools.diffObjects({
 	a: 'b', c: 'd', e: 'f', g: 'h',
 	i: { j: 'k' },
@@ -80,6 +80,32 @@ objtools.diffObjects({
 //			o: [ { p: 'q' }, null ]
 //		}
 //	};
+
+// Get a structured diff of objects and scalars
+const result = objtools.diffObjects({
+	a: 'b', c: 'd', e: 'f', g: 'h',
+	i: { j: 'k' },
+	l: { m: 'n', o: { p: 'q' } }
+}, {
+	a: 'b', c: 1, e: 'f',
+	g: { h: true },
+	i: { k: 'j' },
+	l: { m: 'nop' }
+}, 'scalar');
+
+const expected = _.extend([ null, null, 'scalar' ], {
+	a: [ 'b', 'b', null ],
+	c: [ 'd', 1, null ],
+	e: [ 'f', 'f', null ],
+	g: [ 'h', { h: true }, null ],
+	i: [ { j: 'k' }, { k: 'j' }, null ],
+	l: {
+		m: [ 'n', 'nop', null ],
+		o: [ { p: 'q' }, null, null ]
+	}
+});
+_.isEqual(result, expected);
+// => true
 ```
 
 ## Path Functions
