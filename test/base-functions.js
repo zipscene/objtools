@@ -1,5 +1,8 @@
 let expect = require('chai').expect;
+let _ = require('lodash');
 let objtools = require('../lib');
+
+const falsey = [ '', 0, false, NaN, null, undefined ];
 
 describe('Base Functions', function() {
 
@@ -439,6 +442,289 @@ describe('Base Functions', function() {
 
 	});
 
+	describe('merge()', function() {
+		it('should pass thru falsey `object` values', function() {
+			let actual = _.map(falsey, value => objtools.merge(value));
+			expect(actual).to.deep.equal(falsey);
+		});
+
+		it('should not error when `object` is nullish and source objects are provided', function() {
+			let expected = _.times(2, _.constant(true));
+			let actual = _.map([ null, undefined ], value => _.isEqual(objtools.merge(value, { 'a': 1 }), value));
+			expect(actual).to.deep.equal(expected);
+		});
+
+		it('should work as an iteratee for methods like `_.reduce`', function() {
+			let array = [ { 'a': 1 }, { 'b': 2 }, { 'c': 3 } ];
+			let expected = { 'a': 1, 'b': 2, 'c': 3 };
+			let actual = _.reduce(array, objtools.merge, { 'a': 0 });
+			expect(actual).to.deep.equal(expected);
+		});
+
+		it('should provide the correct `customizer` arguments', function() {
+			let object = { 'a': 1 };
+			let source = { 'a': 2 };
+			let args, expected = [ 1, 2, 'a', _.cloneDeep(object), _.cloneDeep(source) ];
+			objtools.merge(_.cloneDeep(object), _.cloneDeep(source), function() {
+				args = _.toArray(_.cloneDeep(arguments));
+			});
+			expect(args).to.deep.equal(expected, 'primitive property values');
+
+			args = null;
+			object = { 'a': 1 };
+			source = { 'b': 2 };
+			expected = [ undefined, 2, 'b', object, source ];
+			objtools.merge(_.cloneDeep(object), _.cloneDeep(source), function() {
+				args = _.toArray(_.cloneDeep(arguments));
+			});
+			expect(args).to.deep.equal(expected, 'missing destination property');
+
+			args = [];
+			let objectValue = [ 1, 2 ];
+			let sourceValue = { 'b': 2 };
+			object = { 'a': objectValue };
+			source = { 'a': sourceValue };
+			expected = [
+				[ objectValue, sourceValue, 'a', object, source ],
+				// note: this differs from the lodash test bc that test is wrong
+				[ undefined, 2, 'b', objectValue, sourceValue ]
+			];
+			objtools.merge(_.cloneDeep(object), _.cloneDeep(source), function() {
+				args.push(_.toArray(_.cloneDeep(arguments)));
+			});
+			expect(args).to.deep.equal(expected, 'non-primitive property values');
+		});
+
+		it('should no-op for function sources', function() {
+			function callback(val) { return val + 1; }
+			callback.b = 2;
+			let actual = objtools.merge({ 'a': 1 }, callback);
+			expect(actual).to.deep.equal({ 'a': 1 });
+			actual = objtools.merge({ 'a': 1 }, callback, { 'c': 3 });
+			expect(actual).to.deep.equal({ 'a': 1, 'c': 3 });
+		});
+
+		it('should not assign the `customizer` result if it is the same as the destination value', function() {
+			_.each([ 'a', [ 'a' ], { 'a': 1 }, NaN ], function(value) {
+				let object = {};
+				let pass = true;
+				Object.defineProperty(object, 'a', {
+					'get': _.constant(value),
+					'set': function() { pass = false; }
+				});
+				objtools.merge(object, { 'a': value }, _.identity);
+				expect(pass).to.be.true;
+			});
+		});
+
+		it('should merge `source` into the destination object', function() {
+			const names = { 'characters': [ { 'name': 'barney' }, { 'name': 'fred' } ] };
+			const ages = { 'characters': [ { 'age': 36 }, { 'age': 40 } ] };
+			const heights = { 'characters': [ { 'height': '5\'4"' }, { 'height': '5\'5"' } ] };
+			const expected = { 'characters': [
+				{ 'name': 'barney', 'age': 36, 'height': '5\'4"' },
+				{ 'name': 'fred', 'age': 40, 'height': '5\'5"' }
+			] };
+			expect(objtools.merge(names, ages, heights)).to.deep.equal(expected);
+		});
+
+		it('should work with four arguments', function() {
+			let expected = { 'a': 4 };
+			let actual = objtools.merge({ 'a': 1 }, { 'a': 2 }, { 'a': 3 }, expected);
+			expect(actual).to.deep.equal(expected);
+		});
+
+		it('should assign `null` values', function() {
+			let actual = objtools.merge({ 'a': 1 }, { 'a': null });
+			expect(actual.a).to.equal(null);
+		});
+
+		it('should not assign `undefined` values', function() {
+			let actual = objtools.merge({ 'a': 1 }, { 'a': undefined, 'b': undefined });
+			expect(actual).to.deep.equal({ 'a': 1 });
+		});
+
+		it('should work with a function `object` value', function() {
+			function Foo() {}
+			let source = { 'a': 1 };
+			let actual = objtools.merge(Foo, source);
+			expect(actual === Foo);
+			expect(Foo.a === 1);
+		});
+
+		it('should pass thru primitive `object` values', function() {
+			let values = [ true, 1, '1' ];
+			let actual = _.map(values, value => objtools.merge(value, { 'a': 1 }));
+			expect(actual).to.deep.equal( values);
+		});
+
+		it('should handle merging if `customizer` returns `undefined`', function() {
+			let actual = objtools.merge({ 'a': { 'b': [ 1, 1 ] } }, { 'a': { 'b': [ 0 ] } }, _.noop);
+			expect(actual).to.deep.equal({ 'a': { 'b': [ 0, 1 ] } });
+			actual = objtools.merge([], [ undefined ], _.identity);
+			expect(actual).to.deep.equal([ undefined ]);
+		});
+
+		it('should defer to `customizer` when it returns a value other than `undefined`', function() {
+			const customizer = (a, b) => (_.isArray(a) ? a.concat(b) : undefined);
+			let actual = objtools.merge({ 'a': { 'b': [ 0, 1 ] } }, { 'a': { 'b': [ 2 ] } }, customizer);
+			expect(actual).to.deep.equal({ 'a': { 'b': [ 0, 1, 2 ] } });
+		});
+
+	});
+
+	describe('getDuplicates()', function() {
+		const arr = [ 'a', 'b', 'a', 'c', 'c' ];
+		it('gets the duplicates in an array of strings', function() {
+			const result = objtools.getDuplicates(arr);
+			const expected = [ 'a', 'c' ];
+			expect(result).to.contain.members(expected);
+			expect(result.length).to.equal(expected.length);
+		});
+	});
+
+	describe('diffObjects()', function() {
+		const a = {
+			a: 'b', // value the same in all objects
+			c: 'd', // value exists in all objects with different values
+			e: 'f', // value only exists in some objects
+			g: 'h', // value is a scalar in some objects and non-scalar in others
+			i: { j: 'k' }, // value is a collection with non-overlapping fields across objects
+			l: { m: 'n', o: { p: 'q' } } // value is a collection with some overlapping fields across objects
+		};
+		const b = {
+			a: 'b',
+			c: 1,
+			e: 'f',
+			g: { h: true },
+			i: { k: 'j' },
+			l: { m: 'nop' }
+		};
+		const c = {
+			a: 'b',
+			c: false,
+			i: { jk: true },
+			l: { m: 'no', p: 'q' }
+		};
+		const aScalar = 'scalar';
+
+		it('diffs two objects', function() {
+			const result = objtools.diffObjects(a, b);
+			const expected = {
+				c: [ 'd', 1 ],
+				g: [ 'h', { h: true } ],
+				i: [ { j: 'k' }, { k: 'j' } ],
+				l: {
+					m: [ 'n', 'nop' ],
+					o: [ { p: 'q' }, null ]
+				}
+			};
+			expect(result).to.deep.equal(expected);
+		});
+
+		it('diffs n objects', function() {
+			const result = objtools.diffObjects(a, b, c);
+			const expected = {
+				c: [ 'd', 1, false ],
+				e: [ 'f', 'f', null ],
+				g: [ 'h', { h: true }, null ],
+				i: [ { j: 'k' }, { k: 'j' }, { jk: true } ],
+				l: {
+					m: [ 'n', 'nop', 'no' ],
+					o: [ { p: 'q' }, null, null ],
+					p: [ null, null, 'q' ]
+				}
+			};
+			expect(result).to.deep.equal(expected);
+		});
+
+		it('handles scalars', function() {
+			const result = objtools.diffObjects(a, b, aScalar);
+			const expected = _.extend([ null, null, aScalar ], {
+				a: [ 'b', 'b', null ],
+				c: [ 'd', 1, null ],
+				e: [ 'f', 'f', null ],
+				g: [ 'h', { h: true }, null ],
+				i: [ { j: 'k' }, { k: 'j' }, null ],
+				l: {
+					m: [ 'n', 'nop', null ],
+					o: [ { p: 'q' }, null, null ]
+				}
+			});
+			expect(result).to.deep.equal(expected);
+		});
+	});
+
+	describe('dottedDiff()', function() {
+		const obj1 = {
+			a: { b: 'c', d: { e: 'f' } },
+			d: 'efg'
+		};
+		const obj2 = {
+			a: { b: 'c', d: true },
+			d: new Date('2015-01-01'),
+			f: 'g'
+		};
+		const aScalar = 'scalar';
+		const anotherScalar = new Date('2015-01-01');
+		const arr1 = [ obj1.a, obj2.a, aScalar ];
+		const arr2 = [ obj1.d, obj2.d, aScalar ];
+
+		it('diffs two objects', function() {
+			const result = objtools.dottedDiff(obj1, obj2);
+			const expected = [ 'a.d', 'd', 'f' ];
+			expect(result).to.contain.members(expected);
+			expect(result.length).to.equal(expected.length);
+		});
+
+		it('diffs two arrays', function() {
+			const result = objtools.dottedDiff(arr1, arr2);
+			const expected = [ '0', '1' ];
+			expect(result).to.contain.members(expected);
+			expect(result.length).to.equal(expected.length);
+		});
+
+		it('diffs an object and an array', function() {
+			const result = objtools.dottedDiff(obj1, arr1);
+			const expected = _.union(_.keys(obj1), _.keys(arr1));
+			expect(result).to.contain.members(expected);
+			expect(result.length).to.equal(expected.length);
+		});
+
+		it('diffs an object and a scalar', function() {
+			const result = objtools.dottedDiff(obj1, aScalar);
+			const expected = [ '' ];
+			expect(result).to.contain.members(expected);
+			expect(result.length).to.equal(expected.length);
+		});
+
+		it('diffs a scalar and an object', function() {
+			const result = objtools.dottedDiff(aScalar, obj1);
+			const expected = [ '' ];
+			expect(result).to.contain.members(expected);
+			expect(result.length).to.equal(expected.length);
+		});
+
+		it('handles dates', function() {
+			expect(objtools.dottedDiff({
+				foo: new Date()
+			}, {
+				foo: new Date(0)
+			})).to.deep.equal([ 'foo' ]);
+			expect(objtools.dottedDiff({
+				foo: new Date(0)
+			}, {
+				foo: new Date(0)
+			})).to.deep.equal([]);
+		});
+
+		it('diffs two scalars', function() {
+			expect(objtools.dottedDiff(aScalar, anotherScalar)).to.equal('');
+		});
+
+		it('handles deep equal values', function() {
+			expect(objtools.dottedDiff(obj1, _.cloneDeep(obj1))).to.deep.equal([]);
+			expect(objtools.dottedDiff(aScalar, aScalar)).to.deep.equal([]);
+		});
+	});
 });
-
-
