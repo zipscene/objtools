@@ -180,5 +180,9 @@ ObjectMask.addMasks(mask, mask2, ...)
 // Combine two or more masks such that the result mask matches only what ALL of the
 // source masks match (ie, a logical AND)
 ObjectMask.andMasks(mask, mask2, ...)
+
+// Invert a mask (new mask matches all unmatched paths, doesn't match all matched paths)
+// Similar to logical 'not'
+ObjectMask.invertMask(mask);
 ```
 
