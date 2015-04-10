@@ -1,7 +1,4 @@
-let spectrophotometer = require('spectrophotometer');
-let benchset = spectrophotometer.benchset;
-let compare = spectrophotometer.compare;
-let bench = spectrophotometer.bench;
+let { benchset, compare, bench } = require('spectrophotometer');
 let objtools = require('../lib');
 let _ = require('lodash');
 
