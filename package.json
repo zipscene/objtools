@@ -11,6 +11,7 @@
     "lint": "node ./node_modules/.bin/eslint . || exit 0",
     "docs": "node ./node_modules/.bin/yuidoc .",
     "test": "npm run-script build && node ./node_modules/.bin/mocha ./dist/test -R spec",
+    "bench": "npm run-script build && node ./dist/benchmark/index.js",
     "build": "./node_modules/.bin/grunt build && rm -rf tmp",
     "watch": "./node_modules/.bin/grunt watch && rm -rf tmp",
     "prepublish": "npm run-script build && npm run-script docs"
@@ -35,6 +36,7 @@
     "grunt-cli": "^0.1.13",
     "mocha": "^2.2.1",
     "source-map-support": "^0.2.10",
+    "spectrophotometer": "^1.0.1",
     "yuidocjs": "^0.6.0"
   },
   "publishConfig": {
