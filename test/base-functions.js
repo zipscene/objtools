@@ -571,6 +571,32 @@ describe('Base Functions', function() {
 			expect(actual).to.deep.equal({ 'a': { 'b': [ 0, 1, 2 ] } });
 		});
 
+		it('handles deep heterogeneous types', function() {
+			let obj = { a: {
+				b: [ 'c' ],
+				d: 'e',
+				f: { g: 'h' },
+				i: 'jk',
+				l: [ 'o', 'l' ]
+			} };
+			const source = { a: {
+				b: 'c',
+				d: [ 'e' ],
+				f: 'gh',
+				i: { j: 'k' },
+				l: { o: 'l' }
+			} };
+
+			let result = objtools.merge(obj, source);
+			const expected = { a: {
+				b: 'c',
+				d: [ 'e' ],
+				f: 'gh',
+				i: { j: 'k' },
+				l: _.extend([ 'o', 'l' ], { o: 'l' })
+			} };
+			expect(result).to.deep.equal(expected);
+		});
 	});
 
 	describe('getDuplicates()', function() {
