@@ -48,6 +48,15 @@ describe('ObjectMask', function() {
 		});
 	});
 
+	describe('isObjectMask()', function() {
+		it('returns true for ObjectMasks', function() {
+			expect(ObjectMask.isObjectMask(new ObjectMask())).to.be.true;
+		});
+		it('returns false for non-ObjectMasks', function() {
+			expect(ObjectMask.isObjectMask({ mask: {}, isObjectMask: true })).to.be.false;
+		});
+	});
+
 	describe('addMasks()', function() {
 		it('adds masks', function() {
 			expect(ObjectMask.addMasks(new ObjectMask(mask1), new ObjectMask(mask2)).toObject()).to.deep.equal({
