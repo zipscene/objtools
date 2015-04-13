@@ -63,6 +63,82 @@ describe('ObjectMask', function() {
 		});
 	});
 
+	describe('subtractMasks()', function() {
+		const minuend = new ObjectMask({
+			str1: true,
+			num1: true,
+			nul1: true,
+			nul2: true,
+			obj: { _: true, baz: false },
+			obj1: { foo: true, bar: true },
+			obj2: { _: true },
+			obj3: { foo: { foo: true, bar: true } },
+			obj4: { _: true },
+			obj5: { _: { _: true, foo: false } }
+		});
+		const subtrahend = new ObjectMask({
+			str1: true,
+			num2: true,
+			nul2: true,
+			obj: { quux: true },
+			obj1: { _: true, foo: false },
+			obj2: { _: { str2: true } },
+			obj3: { _: { bar: false }, foo: { bar: true } },
+			obj4: { _: true },
+			obj5: { _: { bar: true } }
+		});
+		const difference = ObjectMask.subtractMasks(minuend, subtrahend);
+
+		it('subtracts a mask', function() {
+			const expected = {
+				num1: true,
+				nul1: true,
+				obj: { _: true, baz: false, quux: false },
+				obj1: { foo: true },
+				obj2: { _: { _: true, str2: false } },
+				obj3: { foo: { foo: true } },
+				obj5: { _: { _: true, foo: false, bar: false } }
+			};
+			expect(difference.toObject()).to.deep.equal(expected);
+		});
+
+		it('no longer matches what the subtrahend matches', function() {
+			const obj = {
+				str1: 0,
+				nul2: 2,
+				obj: { quux: 3 },
+				obj1: { bar: 4 },
+				obj2: { foo: { str2: 5 } },
+				obj3: { foo: { bar: 6 } }
+			};
+			const filtered = { obj: {}, obj1: {}, obj2: { foo: {} }, obj3: { foo: {} } };
+			expect(subtrahend.filterObject(obj)).to.deep.equal(obj, 'subtrahend doesnt match obj');
+			expect(minuend.filterObject(obj)).to.deep.equal(obj, 'minuend doesnt match obj');
+			expect(difference.filterObject(obj)).to.deep.equal(filtered, 'difference matches obj');
+		});
+
+		it('still matches what the subtrahend did not match', function() {
+			const obj = {
+				num1: 0,
+				nul1: 1,
+				obj: { foo: 2 },
+				obj1: { foo: 3 },
+				obj2: { foo: { bar: 4 } },
+				obj3: { foo: { foo: 5 } }
+			};
+			const filtered = { obj: {}, obj1: {}, obj2: { foo: {} }, obj3: { foo: {} } };
+			expect(subtrahend.filterObject(obj)).to.deep.equal(filtered, 'subtrahend matches obj');
+			expect(minuend.filterObject(obj)).to.deep.equal(obj, 'minuend doesnt match obj');
+			expect(difference.filterObject(obj)).to.deep.equal(obj, 'difference doesnt match obj');
+		});
+
+		it('still doesnt match what the minuend did not match', function() {
+			const obj = { foo: 0, baz: { quux: 1 } };
+			expect(minuend.filterObject(obj)).to.deep.equal({});
+			expect(difference.filterObject(obj)).to.deep.equal({});
+		});
+	});
+
 	describe('andMasks()', function() {
 		it('makes a mask that matches all fields that either mask matches', function() {
 			const result = ObjectMask.andMasks(new ObjectMask(mask1), new ObjectMask(mask2)).toObject();
@@ -100,9 +176,6 @@ describe('ObjectMask', function() {
 			obj5: { _: { bar: true } }
 		});
 		const difference = new ObjectMask(minuend.mask).subtractMask(subtrahend);
-		console.log('minuend:', minuend.mask);
-		console.log('subtrahend:', subtrahend.mask);
-		console.log('difference:', difference.mask);
 
 		it('subtracts a mask', function() {
 			const expected = {
