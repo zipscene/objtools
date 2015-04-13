@@ -85,7 +85,8 @@ describe('ObjectMask', function() {
 			obj1: { foo: true, bar: true },
 			obj2: { _: true },
 			obj3: { foo: { foo: true, bar: true } },
-			obj4: { _: true }
+			obj4: { _: true },
+			obj5: { _: { _: true, foo: false } }
 		});
 		const subtrahend = new ObjectMask({
 			str1: true,
@@ -95,7 +96,8 @@ describe('ObjectMask', function() {
 			obj1: { _: true, foo: false },
 			obj2: { _: { str2: true } },
 			obj3: { _: { bar: false }, foo: { bar: true } },
-			obj4: { _: true }
+			obj4: { _: true },
+			obj5: { _: { bar: true } }
 		});
 		const difference = new ObjectMask(minuend.mask).subtractMask(subtrahend);
 		console.log('minuend:', minuend.mask);
@@ -109,7 +111,8 @@ describe('ObjectMask', function() {
 				obj: { _: true, baz: false, quux: false },
 				obj1: { foo: true },
 				obj2: { _: { _: true, str2: false } },
-				obj3: { foo: { foo: true } }
+				obj3: { foo: { foo: true } },
+				obj5: { _: { _: true, foo: false, bar: false } }
 			};
 			expect(difference.toObject()).to.deep.equal(expected);
 		});
