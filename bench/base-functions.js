@@ -265,3 +265,21 @@ benchset('Diff Functions', function() {
 	});
 });
 
+benchset('Misc Functions', function() {
+	const obj1 = { a: {
+		b: [ 'c' ],
+		d: 'e',
+		f: { g: 'h' },
+		i: 'jk',
+		l: [ 'o', 'l' ]
+	} };
+	const syncObj = {};
+
+	bench('syncObject', function() {
+		objtools.syncObject(syncObj, obj1);
+	});
+
+	bench('getDuplicates', function() {
+		objtools.getDuplicates(['r', 'x', 'k', 'm', 'r', 'x', 'k']);
+	});
+});
