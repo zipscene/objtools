@@ -186,3 +186,29 @@ benchset('Path functions', function() {
 		objtools.deletePath(obj, 'foo.bar.0');
 	});
 });
+
+benchset('Scalar Functions', function() {
+	const obj1 = { a: {
+		b: [ 'c' ],
+		d: 'e',
+		f: { g: 'h' },
+		i: 'jk',
+		l: [ 'o', 'l' ]
+	} };
+
+	const obj2 = { a: {
+		b: 'c',
+		d: [ 'e' ],
+		f: 'gh',
+		i: { j: 'k' },
+		l: { o: 'l' }
+	} };
+
+	bench('isScalar', function() {
+		objtools.isScalar(obj1);
+	});
+
+	bench('scalarEquals', function() {
+		objtools.scalarEquals(obj1, obj2);
+	});
+});
