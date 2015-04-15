@@ -212,3 +212,29 @@ benchset('Scalar Functions', function() {
 		objtools.scalarEquals(obj1, obj2);
 	});
 });
+
+benchset('Dotted Functions', function() {
+	const obj1 = { a: {
+		b: [ 'c' ],
+		d: 'e',
+		f: { g: 'h' },
+		i: 'jk',
+		l: [ 'o', 'l' ]
+	} };
+
+	const obj2 = { a: {
+		b: 'c',
+		d: [ 'e' ],
+		f: 'gh',
+		i: { j: 'k' },
+		l: { o: 'l' }
+	} };
+
+	bench('collapseToDotted', function() {
+		objtools.collapseToDotted(obj1);
+	});
+
+	bench('matchDottedObject', function() {
+		objtools.matchDottedObject(obj1, obj2);
+	});
+});
