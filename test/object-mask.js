@@ -273,9 +273,19 @@ describe('ObjectMask', function() {
 	});
 
 	describe('#checkPath()', function() {
+		const mask = new ObjectMask({
+			obj: { _: true, foo: false },
+			arr: [ { str2: true } ]
+		});
+
 		it('checks if the mask matches the path', function() {
-			expect(new ObjectMask(mask1).checkPath('arr.8.str1')).to.be.true;
-			expect(new ObjectMask(mask1).checkPath('arr.8.str2')).to.be.false;
+			expect(mask.checkPath('arr.8.str1')).to.be.false;
+			expect(mask.checkPath('arr.8.str2')).to.be.true;
+		});
+
+		it('handles wildcards', function() {
+			expect(mask.checkPath('obj.bar.foo')).to.be.true;
+			expect(mask.checkPath('obj.foo.foo')).to.be.false;
 		});
 	});
 
