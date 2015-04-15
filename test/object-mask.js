@@ -263,12 +263,21 @@ describe('ObjectMask', function() {
 	});
 
 	describe('#getSubMask()', function() {
+		const mask = new ObjectMask({
+			obj: { _: true, foo: false },
+			arr: [ { str2: true } ]
+		});
+
 		it('gets a submask', function() {
 			expect(new ObjectMask({
 				foo: { bar: { baz: true } }
 			}).getSubMask('foo').toObject()).to.deep.equal({
 				bar: { baz: true }
 			});
+		});
+		it('handles wildcards', function() {
+			expect(mask.getSubMask('obj.bar').mask).to.be.true;
+			expect(mask.getSubMask('obj.foo').mask).to.be.false;
 		});
 	});
 
