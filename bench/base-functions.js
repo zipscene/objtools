@@ -181,4 +181,8 @@ benchset('Path functions', function() {
 	bench('#setPath', function() {
 		objtools.setPath(obj, 'foo.bar.0.baz', 5);
 	});
+
+	bench('#deletePath', function() {
+		objtools.deletePath(obj, 'foo.bar.0');
+	});
 });
