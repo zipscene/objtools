@@ -7,39 +7,6 @@ let ObjectMask = objtools.ObjectMask;
 
 describe('ObjectMask', function() {
 
-	let obj1 = {
-		str1: 'string',
-		str2: 'string2',
-		num1: 1,
-		num2: 2,
-		nul1: null,
-		nul2: null,
-		undef: undefined,
-		obj: { foo: 'test', bar: 'test2', baz: 'test3' },
-		arr: [
-			{ str1: 'one', str2: 'two' },
-			{ str1: 'three', str2: 'four' }
-		]
-	};
-
-	let mask1 = {
-		str1: true,
-		str2: true,
-		num1: true,
-		nul1: true,
-		nul2: true,
-		obj: { foo: true, bar: true },
-		arr: [ { str1: true } ]
-	};
-
-	let mask2 = {
-		str1: true,
-		num2: true,
-		nul2: true,
-		obj: { _: true, foo: false },
-		arr: [ { str2: true } ]
-	};
-
 	describe('new ObjectMask()', function() {
 		it('underscorizes wildcard arrays', function() {
 			let orig = new ObjectMask({ foo: [ { baz: true } ] });
@@ -58,8 +25,25 @@ describe('ObjectMask', function() {
 	});
 
 	describe('addMasks()', function() {
-		it('adds masks', function() {
-			expect(ObjectMask.addMasks(new ObjectMask(mask1), new ObjectMask(mask2)).toObject()).to.deep.equal({
+		const mask1 = ({
+			str1: true,
+			str2: true,
+			num1: true,
+			nul1: true,
+			nul2: true,
+			obj: { foo: true, bar: true },
+			arr: [ { str1: true } ]
+		});
+		const mask2 = new ObjectMask({
+			str1: true,
+			num2: true,
+			nul2: true,
+			obj: { _: true, foo: false },
+			arr: [ { str2: true } ]
+		});
+		const result = ObjectMask.addMasks(mask1, mask2);
+		it('makes a mask that matches what either mask matches', function() {
+			const expected = {
 				str1: true,
 				str2: true,
 				num1: true,
@@ -68,7 +52,8 @@ describe('ObjectMask', function() {
 				nul2: true,
 				obj: { _: true },
 				arr: { _: { str1: true, str2: true } }
-			});
+			};
+			expect(result.checkFields(expected)).to.be.true;
 		});
 	});
 
@@ -93,7 +78,6 @@ describe('ObjectMask', function() {
 			obj4: { _: true }
 		});
 		const difference = ObjectMask.subtractMasks(minuend, subtrahend);
-
 		it('subtracts a mask', function() {
 			const expected = {
 				num1: true,
@@ -104,7 +88,6 @@ describe('ObjectMask', function() {
 			};
 			expect(difference.toObject()).to.deep.equal(expected);
 		});
-
 		it('no longer matches what the subtrahend matches', function() {
 			const obj = {
 				str1: 0,
@@ -118,7 +101,6 @@ describe('ObjectMask', function() {
 			expect(minuend.filterObject(obj)).to.deep.equal(obj, 'minuend doesnt match obj');
 			expect(difference.filterObject(obj)).to.deep.equal(filtered, 'difference matches obj');
 		});
-
 		it('still matches what the subtrahend did not match', function() {
 			const obj = {
 				num1: 0,
@@ -132,13 +114,11 @@ describe('ObjectMask', function() {
 			expect(minuend.filterObject(obj)).to.deep.equal(obj, 'minuend doesnt match obj');
 			expect(difference.filterObject(obj)).to.deep.equal(obj, 'difference doesnt match obj');
 		});
-
 		it('still doesnt match what the minuend did not match', function() {
 			const obj = { foo: 0, baz: { quux: 1 } };
 			expect(minuend.filterObject(obj)).to.deep.equal({});
 			expect(difference.filterObject(obj)).to.deep.equal({});
 		});
-
 		it('throws on attempt to subtract collection from scalar', function() {
 			const a = new ObjectMask({ _: true }), b = { _: { foo: true } };
 			expect(() => ObjectMask.subtractMasks(a, b)).to.throw(XError);
@@ -147,14 +127,30 @@ describe('ObjectMask', function() {
 	});
 
 	describe('andMasks()', function() {
-		it('makes a mask that matches all fields that either mask matches', function() {
-			const result = ObjectMask.andMasks(new ObjectMask(mask1), new ObjectMask(mask2)).toObject();
+		const mask1 = new ObjectMask({
+			str1: true,
+			str2: true,
+			num1: true,
+			nul1: true,
+			nul2: true,
+			obj: { foo: true, bar: true },
+			arr: [ { str1: true } ]
+		});
+		const mask2 = new ObjectMask({
+			str1: true,
+			num2: true,
+			nul2: true,
+			obj: { _: true, foo: false },
+			arr: [ { str2: true } ]
+		});
+		it('makes a mask that matches all fields that both masks match', function() {
+			const result = ObjectMask.andMasks(mask1, mask2);
 			const expected = {
 				str1: true,
 				nul2: true,
 				obj: { bar: true }
 			};
-			expect(result).to.deep.equal(expected);
+			expect(result.checkFields(expected)).to.be.true;
 		});
 	});
 
@@ -179,7 +175,6 @@ describe('ObjectMask', function() {
 			obj4: { _: true }
 		});
 		const difference = new ObjectMask(minuend.mask).subtractMask(subtrahend);
-
 		it('subtracts a mask', function() {
 			const expected = {
 				num1: true,
@@ -190,7 +185,6 @@ describe('ObjectMask', function() {
 			};
 			expect(difference.toObject()).to.deep.equal(expected);
 		});
-
 		it('no longer matches what the subtrahend matches', function() {
 			const obj = {
 				str1: 0,
@@ -204,7 +198,6 @@ describe('ObjectMask', function() {
 			expect(minuend.filterObject(obj)).to.deep.equal(obj, 'minuend doesnt match obj');
 			expect(difference.filterObject(obj)).to.deep.equal(filtered, 'difference matches obj');
 		});
-
 		it('still matches what the subtrahend did not match', function() {
 			const obj = {
 				num1: 0,
@@ -218,13 +211,11 @@ describe('ObjectMask', function() {
 			expect(minuend.filterObject(obj)).to.deep.equal(obj, 'minuend doesnt match obj');
 			expect(difference.filterObject(obj)).to.deep.equal(obj, 'difference doesnt match obj');
 		});
-
 		it('still doesnt match what the minuend did not match', function() {
 			const obj = { foo: 0, baz: { quux: 1 } };
 			expect(minuend.filterObject(obj)).to.deep.equal({});
 			expect(difference.filterObject(obj)).to.deep.equal({});
 		});
-
 		it('throws on attempt to subtract collection from scalar', function() {
 			const a = new ObjectMask({ _: true }), b = { _: { foo: true } };
 			expect(() => ObjectMask.subtractMasks(a, b)).to.throw(XError);
@@ -233,14 +224,28 @@ describe('ObjectMask', function() {
 	});
 
 	describe('#filterObject()', function() {
+		let obj = {
+			str1: 'string',
+			str2: 'string2',
+			num1: 1,
+			num2: 2,
+			nul1: null,
+			nul2: null,
+			undef: undefined,
+			obj: { foo: 'test', bar: 'test2', baz: 'test3' },
+			arr: [
+				{ str1: 'one', str2: 'two' },
+				{ str1: 'three', str2: 'four' }
+			]
+		};
 		it('gets the fields in an object the mask matches', function() {
-			obj1 = objtools.deepCopy(obj1);
-			const result = new ObjectMask({
+			const mask = new ObjectMask({
 				str1: true,
 				num1: true,
 				nul1: true,
 				obj: { bar: true, nonexist: true }
-			}).filterObject(obj1);
+			});
+			const result = mask.filterObject(objtools.deepCopy(obj));
 			expect(result).to.deep.equal({
 				str1: 'string',
 				num1: 1,
@@ -248,13 +253,12 @@ describe('ObjectMask', function() {
 				obj: { bar: 'test2' }
 			});
 		});
-
 		it('handles arrays and wildcards', function() {
-			obj1 = objtools.deepCopy(obj1);
-			const result = new ObjectMask({
+			const mask = new ObjectMask({
 				obj: { _: true, bar: false },
 				arr: [ { str2: true } ]
-			}).filterObject(obj1);
+			});
+			const result = mask.filterObject(objtools.deepCopy(obj));
 			expect(result).to.deep.equal({
 				obj: { foo: 'test', baz: 'test3' },
 				arr: [ { str2: 'two' }, { str2: 'four' } ]
@@ -263,19 +267,13 @@ describe('ObjectMask', function() {
 	});
 
 	describe('#getSubMask()', function() {
-		const mask = new ObjectMask({
-			obj: { _: true, foo: false },
-			arr: [ { str2: true } ]
-		});
-
 		it('gets a submask', function() {
-			expect(new ObjectMask({
-				foo: { bar: { baz: true } }
-			}).getSubMask('foo').toObject()).to.deep.equal({
-				bar: { baz: true }
-			});
+			const mask = new ObjectMask({ foo: { bar: { baz: true } } });
+			const result = mask.getSubMask('foo').toObject();
+			expect(result).to.deep.equal({ bar: { baz: true } });
 		});
 		it('handles wildcards', function() {
+			const mask = new ObjectMask({ obj: { _: true, foo: false } });
 			expect(mask.getSubMask('obj.bar').mask).to.be.true;
 			expect(mask.getSubMask('obj.foo').mask).to.be.false;
 		});
@@ -286,12 +284,10 @@ describe('ObjectMask', function() {
 			obj: { _: true, foo: false },
 			arr: [ { str2: true } ]
 		});
-
 		it('checks if the mask matches the path', function() {
 			expect(mask.checkPath('arr.8.str1')).to.be.false;
 			expect(mask.checkPath('arr.8.str2')).to.be.true;
 		});
-
 		it('handles wildcards', function() {
 			expect(mask.checkPath('obj.bar.foo')).to.be.true;
 			expect(mask.checkPath('obj.foo.foo')).to.be.false;
@@ -305,14 +301,12 @@ describe('ObjectMask', function() {
 			const expected = { _: true, foo: false };
 			expect(result.mask).to.deep.equal(expected);
 		});
-
 		it('handles wildcards', function() {
 			const mask = new ObjectMask({ _: true, foo: false });
 			const result = ObjectMask.invertMask(mask);
 			const expected = { foo: true };
 			expect(result.mask).to.deep.equal(expected);
 		});
-
 		it('recurses to submasks', function() {
 			const mask = new ObjectMask({ foo: { _: true, bar: false } });
 			const result = ObjectMask.invertMask(mask);
@@ -322,104 +316,228 @@ describe('ObjectMask', function() {
 	});
 
 	describe('#validate()', function() {
-		expect(new ObjectMask(mask1).validate()).to.be.true;
-		expect(new ObjectMask(mask2).validate()).to.be.true;
-		expect(new ObjectMask({ foo: new Date() }).validate()).to.be.false;
+		let mask1 = {
+			str1: true,
+			str2: true,
+			num1: true,
+			nul1: true,
+			nul2: true,
+			obj: { foo: true, bar: true },
+			arr: [ { str1: true } ]
+		};
+		let mask2 = {
+			str1: true,
+			num2: true,
+			nul2: true,
+			obj: { _: true, foo: false },
+			arr: [ { str2: true } ]
+		};
+		it('returns true iff the mask is valid', function() {
+			expect(new ObjectMask(mask1).validate()).to.be.true;
+			expect(new ObjectMask(mask2).validate()).to.be.true;
+			expect(new ObjectMask({ foo: new Date() }).validate()).to.be.false;
+		});
 	});
 
 	describe('#getMaskedOutFields()', function() {
-		expect(new ObjectMask(mask1).getMaskedOutFields(obj1).sort()).to.deep.equal([
-			'num2',
-			'undef',
-			'obj.baz',
-			'arr.0.str2',
-			'arr.1.str2'
-		].sort());
+		const obj = {
+			str1: 'string',
+			str2: 'string2',
+			num1: 1,
+			num2: 2,
+			nul1: null,
+			nul2: null,
+			undef: undefined,
+			obj: { foo: 'test', bar: 'test2', baz: 'test3' },
+			arr: [
+				{ str1: 'one', str2: 'two' },
+				{ str1: 'three', str2: 'four' }
+			]
+		};
+		const mask = new ObjectMask({
+			str1: true,
+			str2: true,
+			num1: true,
+			nul1: true,
+			nul2: true,
+			obj: { foo: true, bar: true },
+			arr: [ { str1: true } ]
+		});
+		it('returns a list of fields disallowed by the mask', function() {
+			const expected = [ 'num2', 'undef', 'obj.baz', 'arr.0.str2', 'arr.1.str2' ];
+			expect(mask.getMaskedOutFields(obj).sort()).to.deep.equal(expected.sort());
+		});
 	});
 
 	describe('#filterDottedObject()', function() {
-		let dottedObj = objtools.collapseToDotted(obj1);
-		let filtered = new ObjectMask(mask2).filterDottedObject(dottedObj);
-		expect(filtered).to.deep.equal({
+		const obj = {
 			str1: 'string',
+			str2: 'string2',
+			num1: 1,
 			num2: 2,
+			nul1: null,
 			nul2: null,
-			'obj.bar': 'test2',
-			'obj.baz': 'test3',
-			'arr.0.str2': 'two',
-			'arr.1.str2': 'four'
+			undef: undefined,
+			obj: { foo: 'test', bar: 'test2', baz: 'test3' },
+			arr: [
+				{ str1: 'one', str2: 'two' },
+				{ str1: 'three', str2: 'four' }
+			]
+		};
+		const mask = new ObjectMask({
+			str1: true,
+			num2: true,
+			nul2: true,
+			obj: { _: true, foo: false },
+			arr: [ { str2: true } ]
+		});
+		it('filters disallowed fields from a dotted object', function() {
+			const filtered = mask.filterDottedObject(objtools.collapseToDotted(obj));
+			const expected = {
+				'str1': 'string',
+				'num2': 2,
+				'nul2': null,
+				'obj.bar': 'test2',
+				'obj.baz': 'test3',
+				'arr.0.str2': 'two',
+				'arr.1.str2': 'four'
+			};
+			expect(filtered).to.deep.equal(expected);
 		});
 	});
 
 	describe('#getDottedMaskedOutFields()', function() {
-		let dottedObj = objtools.collapseToDotted(obj1);
-		let fields = new ObjectMask(mask1).getDottedMaskedOutFields(dottedObj);
-		expect(fields).to.deep.equal([
-			'num2',
-			'undef',
-			'obj.baz',
-			'arr.0.str2',
-			'arr.1.str2'
-		]);
+		let obj = {
+			str1: 'string',
+			str2: 'string2',
+			num1: 1,
+			num2: 2,
+			nul1: null,
+			nul2: null,
+			undef: undefined,
+			obj: { foo: 'test', bar: 'test2', baz: 'test3' },
+			arr: [
+				{ str1: 'one', str2: 'two' },
+				{ str1: 'three', str2: 'four' }
+			]
+		};
+		let mask = new ObjectMask({
+			str1: true,
+			str2: true,
+			num1: true,
+			nul1: true,
+			nul2: true,
+			obj: { foo: true, bar: true },
+			arr: [ { str1: true } ]
+		});
+		const fields = mask.getDottedMaskedOutFields(objtools.collapseToDotted(obj));
+		it('gets a list of fields in a dotted object disallowed by the mask', function() {
+			const expected = [ 'num2', 'undef', 'obj.baz', 'arr.0.str2', 'arr.1.str2' ];
+			expect(fields).to.deep.equal(expected);
+		});
 	});
 
 	describe('#checkFields()', function() {
-		let mask = new ObjectMask(mask1);
-		expect(mask.checkFields({ str1: 5 })).to.be.true;
-		expect(mask.checkFields({ num2: 5 })).to.be.false;
-		expect(mask.checkFields({ obj: { foo: 5 } })).to.be.true;
-		expect(mask.checkFields({ obj: { baz: 5 } })).to.be.false;
+		const mask = new ObjectMask({
+			str1: true,
+			str2: true,
+			num1: true,
+			nul1: true,
+			nul2: true,
+			obj: { foo: true, bar: true },
+			arr: [ { str1: true } ]
+		});
+		it('returns a predicate for whether a dotted field is allowed by a mask', function() {
+			expect(mask.checkFields({ str1: 5 })).to.be.true;
+			expect(mask.checkFields({ num2: 5 })).to.be.false;
+			expect(mask.checkFields({ obj: { foo: 5 } })).to.be.true;
+			expect(mask.checkFields({ obj: { baz: 5 } })).to.be.false;
+		});
 	});
 
 	describe('#checkDottedFields()', function() {
-		let mask = new ObjectMask(mask1);
-		expect(mask.checkDottedFields({ 'obj.foo': 5 })).to.be.true;
-		expect(mask.checkDottedFields({ 'obj.baz': 5 })).to.be.false;
+		const mask = new ObjectMask({
+			str1: true,
+			str2: true,
+			num1: true,
+			nul1: true,
+			nul2: true,
+			obj: { foo: true, bar: true },
+			arr: [ { str1: true } ]
+		});
+		it('returns a predicate for whether a dotted object matches the mask', function() {
+			expect(mask.checkDottedFields({ 'obj.foo': 5 })).to.be.true;
+			expect(mask.checkDottedFields({ 'obj.baz': 5 })).to.be.false;
+		});
 	});
 
 	describe('#createMaskFromFieldList()', function() {
-		let fields = [ 'foo', 'bar.baz', 'bar.baz.biz' ];
-		expect(ObjectMask.createMaskFromFieldList(fields).toObject()).to.deep.equal({
-			foo: true,
-			bar: { baz: true }
+		const fields = [ 'foo', 'bar.baz', 'bar.baz.biz' ];
+		const result = ObjectMask.createMaskFromFieldList(fields).toObject();
+		it('makes a mask that matches the fields in the fieldlist', function() {
+			const expected = { foo: true, bar: { baz: true } };
+			expect(result).to.deep.equal(expected);
 		});
 	});
 
 	describe('#createFilterFunc()', function() {
-		let func = new ObjectMask(mask1).createFilterFunc();
-		expect(func(obj1)).to.deep.equal({
+		const obj = {
 			str1: 'string',
 			str2: 'string2',
 			num1: 1,
+			num2: 2,
 			nul1: null,
 			nul2: null,
-			obj: { foo: 'test', bar: 'test2' },
-			arr: [ { str1: 'one' }, { str1: 'three' } ]
+			undef: undefined,
+			obj: { foo: 'test', bar: 'test2', baz: 'test3' },
+			arr: [
+				{ str1: 'one', str2: 'two' },
+				{ str1: 'three', str2: 'four' }
+			]
+		};
+		const mask = new ObjectMask({
+			str1: true,
+			str2: true,
+			num1: true,
+			nul1: true,
+			nul2: true,
+			obj: { foo: true, bar: true },
+			arr: [ { str1: true } ]
+		});
+		const func = mask.createFilterFunc();
+		it('makes a predicate for whether an object matches a mask', function() {
+			const expected = {
+				str1: 'string',
+				str2: 'string2',
+				num1: 1,
+				nul1: null,
+				nul2: null,
+				obj: { foo: 'test', bar: 'test2' },
+				arr: [ { str1: 'one' }, { str1: 'three' } ]
+			};
+			expect(func(obj)).to.deep.equal(expected);
 		});
 	});
 
 	describe('#addField()', function() {
 		it('does not affect masks that already match', function() {
-			let orig = new ObjectMask({ foo: true });
-			let expected = _.cloneDeep(orig);
+			const orig = new ObjectMask({ foo: true });
+			const expected = _.cloneDeep(orig);
 			expect(orig.addField('foo.bar')).to.deep.equal(expected);
 		});
-
 		it('recurses to subfields', function() {
-			let orig = new ObjectMask({ foo: false, baz: true });
-			let expected = new ObjectMask({ foo: { bar: true }, baz: true });
+			const orig = new ObjectMask({ foo: false, baz: true });
+			const expected = new ObjectMask({ foo: { bar: true }, baz: true });
 			expect(orig.addField('foo.bar')).to.deep.equal(expected);
 		});
-
 		it('prunes to become more general', function() {
-			let orig = new ObjectMask({ foo: { bar: true } });
-			let expected = new ObjectMask({ foo: true });
+			const orig = new ObjectMask({ foo: { bar: true } });
+			const expected = new ObjectMask({ foo: true });
 			expect(orig.addField('foo')).to.deep.equal(expected);
 		});
-
 		it('does not become more restrictive', function() {
-			let orig = new ObjectMask({ _: true });
-			let shouldPass = { foo: { baz: 1 } };
+			const orig = new ObjectMask({ _: true });
+			const shouldPass = { foo: { baz: 1 } };
 			expect(orig.checkFields(shouldPass)).to.be.true;
 			expect(orig.addField('foo.bar').checkFields(shouldPass)).to.be.true;
 		});
@@ -433,7 +551,6 @@ describe('ObjectMask', function() {
 			bar: { baz: false, foobar: true },
 			_: { baz: true, foobar: true } }
 		});
-
 		it('branches wildcards', function() {
 			let orig = new ObjectMask({ foo: { _: { baz: true, foobar: true } } });
 			expect(orig.removeField('foo.bar.baz').checkFields(shouldPass), 'post: shouldPass').to.be.true;
@@ -441,7 +558,6 @@ describe('ObjectMask', function() {
 			expect(orig.removeField('foo.bar.baz').checkFields(shouldFail), 'post: shouldFail').to.be.false;
 			expect(orig.removeField('foo.bar.baz')).to.deep.equal(expected);
 		});
-
 		it('doesnt remove other fields', function() {
 			let orig = new ObjectMask({ foo: { _: { baz: true, foobar: true } } });
 			expect(orig.checkFields(shouldPass), 'pre: shouldPass').to.be.true;
@@ -451,14 +567,12 @@ describe('ObjectMask', function() {
 			expect(orig.removeField('foo.bar.baz').checkFields(shouldAlsoPass), 'post: shouldAlsoPass').to.be.true;
 			expect(orig.removeField('foo.bar.baz').checkFields(shouldFail), 'post: shouldFail').to.be.false;
 		});
-
 		it('doesnt match new fields', function() {
 			let orig = new ObjectMask({ _: { bar: { baz: true } } });
 			let shouldFail = { foo: { bar: { foobar: true } } };
 			expect(orig.checkFields(shouldFail)).to.be.false;
 			expect(orig.removeField('foo.bar.baz').checkFields(shouldFail)).to.be.false;
 		});
-
 		it('throws on attempt to remove wildcard', function() {
 			let orig = new ObjectMask({ _: [ true ] });
 			expect(() => orig.removeField('_')).to.throw();
