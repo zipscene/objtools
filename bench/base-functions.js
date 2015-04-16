@@ -280,6 +280,6 @@ benchset('Misc Functions', function() {
 	});
 
 	bench('getDuplicates', function() {
-		objtools.getDuplicates(['r', 'x', 'k', 'm', 'r', 'x', 'k']);
+		objtools.getDuplicates([ 'r', 'x', 'k', 'm', 'r', 'x', 'k' ]);
 	});
 });
