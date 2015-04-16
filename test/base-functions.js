@@ -136,18 +136,29 @@ describe('Base Functions', function() {
 		});
 	});
 
-	describe('match functions', function() {
+	describe('matchObject()', function() {
+		// it's not like an ObjectMask
 		const obj = { foo: 'foo', bar: { biz: 12 }, zip: [ 4, 5 ] };
-		it('matchObject()', function() {
-			const dotted1 = { 'foo': 'foo', 'bar.biz': 12, 'zip.1': 5 };
-			const dotted2 = { 'foo': 'foo', 'bar.biz': 12, 'zip.2': 5 };
-			expect(objtools.matchObject(obj, dotted1)).to.be.true;
-			expect(objtools.matchObject(obj, dotted2)).to.be.false;
+		it('returns true if it matches', function() {
+			expect(objtools.matchObject(obj, { foo: 'foo' })).to.be.true;
+			expect(objtools.matchObject(obj, { bar: { biz: 12 } })).to.be.true;
+			expect(objtools.matchObject(obj, { zip: [ 4 ] })).to.be.true;
 		});
-		it('matchDottedObject()', function() {
-			const dotted1 = { 'foo': 'foo', 'bar': { biz: 12 }, 'zip': [ 4, 5 ] };
-			const dotted2 = { 'foo': 'foo', 'bar': { biz: 12 }, 'zip': [ 4, 2 ] };
+		it('returns false if it doesnt match', function() {
+			expect(objtools.matchObject(obj, { foo: true })).to.be.false;
+			expect(objtools.matchObject(obj, { bar: { _: 12 } })).to.be.false;
+			expect(objtools.matchObject(obj, { zip: [ 4, 5, 6 ] })).to.be.false;
+		});
+	});
+
+	describe('matchDottedObject()', function() {
+		const obj = { foo: 'foo', bar: { biz: 12 }, zip: [ 4, 5 ] };
+		const dotted1 = { 'foo': 'foo', 'bar': { biz: 12 }, 'zip': [ 4, 5 ] };
+		const dotted2 = { 'foo': 'foo', 'bar': { biz: 12 }, 'zip': [ 4, 2 ] };
+		it('returns true if it matches', function() {
 			expect(objtools.matchDottedObject(obj, dotted1)).to.be.true;
+		});
+		it('returns false if it doesnt match', function() {
 			expect(objtools.matchDottedObject(obj, dotted2)).to.be.false;
 		});
 	});
