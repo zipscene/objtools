@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "babel-runtime": "^5.0.9",
-    "lodash": "^3.5.0",
+    "lodash": "^3.7.0",
     "xerror": "^1.0.0"
   },
   "devDependencies": {

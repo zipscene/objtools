@@ -174,11 +174,21 @@ benchset('#matchObject', function() {
 benchset('Path functions', function() {
 	let obj = { foo: { bar: [ { baz: 5 } ] } };
 
-	bench('#getPath', function() {
-		objtools.getPath(obj, 'foo.bar.0.baz');
+	compare('get path', function() {
+		bench('objtools.getPath', function() {
+			objtools.getPath(obj, 'foo.bar.0.baz');
+		});
+		bench('lodash.get', function() {
+			_.get(obj, 'foo.bar[0].baz');
+		});
 	});
 
-	bench('#setPath', function() {
-		objtools.setPath(obj, 'foo.bar.0.baz', 5);
+	compare('set path', function() {
+		bench('objtools.setPath', function() {
+			objtools.setPath(obj, 'foo.bar.0.baz', 5);
+		});
+		bench('lodash.set', function() {
+			_.set(obj, 'foo.bar[0].baz', 5);
+		});
 	});
 });
