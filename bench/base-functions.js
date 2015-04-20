@@ -191,4 +191,105 @@ benchset('Path functions', function() {
 			_.set(obj, 'foo.bar[0].baz', 5);
 		});
 	});
+
+	bench('#deletePath', function() {
+		objtools.deletePath(obj, 'foo.bar.0');
+	});
+});
+
+benchset('Scalar Functions', function() {
+	const obj1 = { a: {
+		b: [ 'c' ],
+		d: 'e',
+		f: { g: 'h' },
+		i: 'jk',
+		l: [ 'o', 'l' ]
+	} };
+
+	const obj2 = { a: {
+		b: 'c',
+		d: [ 'e' ],
+		f: 'gh',
+		i: { j: 'k' },
+		l: { o: 'l' }
+	} };
+
+	bench('isScalar', function() {
+		objtools.isScalar(obj1);
+	});
+
+	bench('scalarEquals', function() {
+		objtools.scalarEquals(obj1, obj2);
+	});
+});
+
+benchset('Dotted Functions', function() {
+	const obj1 = { a: {
+		b: [ 'c' ],
+		d: 'e',
+		f: { g: 'h' },
+		i: 'jk',
+		l: [ 'o', 'l' ]
+	} };
+
+	const obj2 = { a: {
+		b: 'c',
+		d: [ 'e' ],
+		f: 'gh',
+		i: { j: 'k' },
+		l: { o: 'l' }
+	} };
+
+	bench('collapseToDotted', function() {
+		objtools.collapseToDotted(obj1);
+	});
+
+	bench('matchDottedObject', function() {
+		objtools.matchDottedObject(obj1, obj2);
+	});
+});
+
+benchset('Diff Functions', function() {
+	const obj1 = { a: {
+		b: [ 'c' ],
+		d: 'e',
+		f: { g: 'h' },
+		i: 'jk',
+		l: [ 'o', 'l' ]
+	} };
+
+	const obj2 = { a: {
+		b: 'c',
+		d: [ 'e' ],
+		f: 'gh',
+		i: { j: 'k' },
+		l: { o: 'l' }
+	} };
+
+	bench('diffObjects', function() {
+		objtools.diffObjects(obj1, obj2);
+	});
+
+	bench('dottedDiff', function() {
+		objtools.dottedDiff(obj1. obj2);
+	});
+});
+
+benchset('Misc Functions', function() {
+	const obj1 = { a: {
+		b: [ 'c' ],
+		d: 'e',
+		f: { g: 'h' },
+		i: 'jk',
+		l: [ 'o', 'l' ]
+	} };
+	const syncObj = {};
+
+	bench('syncObject', function() {
+		objtools.syncObject(syncObj, obj1);
+	});
+
+	bench('getDuplicates', function() {
+		objtools.getDuplicates([ 'r', 'x', 'k', 'm', 'r', 'x', 'k' ]);
+	});
 });
