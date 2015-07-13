@@ -7,7 +7,7 @@ var fs = require('fs');
 
 // Returns a broc tree corresponding to the original source files
 function getSourceTrees() {
-	var pathsToSearch = [ 'lib', 'src', 'test', 'bin' ];
+	var pathsToSearch = [ 'lib', 'src', 'test', 'bin', 'bench' ];
 
 	return {
 		read: function(readTree) {
