@@ -106,6 +106,10 @@ const expected = _.extend([ null, null, 'scalar' ], {
 });
 _.isEqual(result, expected);
 // => true
+
+// Get a consistent hash of an object or primitive which is unlikely to conflict with other objects
+const obj = { a: 1, b: '2' };
+let hash = objtools.objectHash(obj);  // Long hex string
 ```
 
 ## Path Functions
