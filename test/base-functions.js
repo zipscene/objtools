@@ -541,4 +541,55 @@ describe('Base Functions', function() {
 			expect(objtools.dottedDiff(aScalar, aScalar)).to.deep.equal([]);
 		});
 	});
+
+	describe('objectHash()', function() {
+		const obj1a = {
+			a: 1,
+			b: '2',
+			c: [ 'xyz', null, null ],
+			d: {
+				asdf: 'jkl;'
+			}
+		};
+		const obj1b = {
+			b: '2',
+			c: [ 'xyz', null, null ],
+			d: {
+				asdf: 'jkl;'
+			},
+			a: 1
+		};
+		const obj2a = {
+			b: '2',
+			c: [ null, 'xyz', null ],
+			d: {
+				asdf: 'jkl;'
+			},
+			a: 1
+		};
+		const prim1 = 12345;
+		const prim2 = false;
+		it('returns a hash', function() {
+			let hash = objtools.objectHash(obj1a);
+			expect(hash).to.be.a('string');
+		});
+		it('hashes primitives', function() {
+			let hash1 = objtools.objectHash(prim1);
+			expect(hash1).to.be.a('string');
+			let hash2 = objtools.objectHash(prim2);
+			expect(hash2).to.be.a('string');
+		});
+		it('hashes are consistent', function() {
+			let hash1 = objtools.objectHash(obj1a);
+			let hash2 = objtools.objectHash(obj1b);
+			expect(hash1).to.equal(hash2);
+		});
+		it('hashes for different objects do not conflict', function() {
+			let hash1 = objtools.objectHash(obj1a);
+			let hash2 = objtools.objectHash(obj1b);
+			let hash3 = objtools.objectHash(obj2a);
+			expect(hash1).to.not.equal(hash3);
+			expect(hash2).to.not.equal(hash3);
+		});
+	});
 });
