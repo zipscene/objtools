@@ -592,4 +592,34 @@ describe('Base Functions', function() {
 			expect(hash2).to.not.equal(hash3);
 		});
 	});
+
+	describe('sanitizeDate()', function() {
+		it('should convert a number of miliseconds to a Date instance', () => {
+			let date = Date.now();
+			let sanitized = objtools.sanitizeDate(date);
+			expect(sanitized).to.be.an.instanceof(Date);
+			expect(sanitized.getTime()).to.equal(date);
+		});
+
+		it('should concert a date string to a Date instance', () => {
+			let date = new Date();
+			let sanitized = objtools.sanitizeDate(date.toISOString());
+			expect(sanitized).to.be.an.instanceof(Date);
+			expect(sanitized.getTime()).to.equal(date.getTime());			
+		});
+
+		it('should return the same object if a date instance is passed in', () => {
+			let date = new Date();
+			let sanitized = objtools.sanitizeDate(date);
+			expect(sanitized).to.be.an.instanceof(Date);
+			expect(sanitized).to.deep.equal(date);	
+		});
+
+		it('should flatten object with a field `date`', () => {
+			let date = { date: new Date() };
+			let sanitized = objtools.sanitizeDate(date);
+			expect(sanitized).to.be.an.instanceof(Date);
+			expect(sanitized).to.deep.equal(date.date);	
+		});
+	});
 });
