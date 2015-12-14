@@ -2,6 +2,12 @@ const expect = require('chai').expect;
 const _ = require('lodash');
 const objtools = require('../lib');
 
+class TestClass {
+	testMethod() {
+		return true;
+	}
+}
+
 describe('Base Functions', function() {
 	describe('isScalar()', function() {
 		it('should return true for scalar values', function() {
@@ -76,6 +82,9 @@ describe('Base Functions', function() {
 			biz: { dat: new Date('2014-01-01T00:00:00Z'), n: null, u: undefined },
 			arr: [ 1, 2 ]
 		};
+		const obj2 = {
+			foo: new TestClass()
+		};
 		it('should correctly copy objects', function() {
 			const copy = objtools.deepCopy(obj1);
 			expect(copy).to.deep.equal(obj1);
@@ -86,6 +95,11 @@ describe('Base Functions', function() {
 			expect(copy).to.deep.equal(obj1);
 			copy.biz.dat = 123;
 			expect(copy).to.not.deep.equal(obj1);
+		});
+		it('should treat non-plain objects as primitives', function() {
+			const copy = objtools.deepCopy(obj2);
+			expect(copy.foo).to.equal(obj2.foo);
+			expect(copy.foo.testMethod).to.equal(obj2.foo.testMethod);
 		});
 	});
 
@@ -605,21 +619,21 @@ describe('Base Functions', function() {
 			let date = new Date();
 			let sanitized = objtools.sanitizeDate(date.toISOString());
 			expect(sanitized).to.be.an.instanceof(Date);
-			expect(sanitized.getTime()).to.equal(date.getTime());			
+			expect(sanitized.getTime()).to.equal(date.getTime());
 		});
 
 		it('should return the same object if a date instance is passed in', () => {
 			let date = new Date();
 			let sanitized = objtools.sanitizeDate(date);
 			expect(sanitized).to.be.an.instanceof(Date);
-			expect(sanitized).to.deep.equal(date);	
+			expect(sanitized).to.deep.equal(date);
 		});
 
 		it('should flatten object with a field `date`', () => {
 			let date = { date: new Date() };
 			let sanitized = objtools.sanitizeDate(date);
 			expect(sanitized).to.be.an.instanceof(Date);
-			expect(sanitized).to.deep.equal(date.date);	
+			expect(sanitized).to.deep.equal(date.date);
 		});
 	});
 });
