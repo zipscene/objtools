@@ -2,6 +2,47 @@ let { benchset, compare, bench } = require('spectrophotometer');
 let objtools = require('../lib');
 let _ = require('lodash');
 
+benchset('#isPlainObject', function() {
+
+	compare('truthy', function() {
+		const obj1 = { foo: 'bar' };
+
+		bench('objtools.isPlainObject', function() {
+			objtools.isPlainObject(obj1);
+		});
+
+		bench('lodash.isPlainObject', function() {
+			_.isPlainObject(obj1);
+		});
+	});
+
+	compare('falsy - scalar', function() {
+		const obj1 = 42;
+
+		bench('objtools.isPlainObject', function() {
+			objtools.isPlainObject(obj1);
+		});
+
+		bench('lodash.isPlainObject', function() {
+			_.isPlainObject(obj1);
+		});
+	});
+
+	compare('falsy - class', function() {
+		function TestConstructor() {}
+		const obj1 = new TestConstructor();
+
+		bench('objtools.isPlainObject', function() {
+			objtools.isPlainObject(obj1);
+		});
+
+		bench('lodash.isPlainObject', function() {
+			_.isPlainObject(obj1);
+		});
+	});
+
+});
+
 benchset('#merge', function() {
 	compare('small objects', function() {
 		const obj1 = { foo: 1, bar: { zip: 3 } };

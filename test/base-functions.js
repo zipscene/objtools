@@ -635,4 +635,29 @@ describe('Base Functions', function() {
 			expect(sanitized).to.deep.equal(date.date);
 		});
 	});
+
+	describe('isPlainObject()', function() {
+		function TestConstructor() {}
+		const values = {
+			emptyObject: {},
+			'null': null,
+			plainObject: { foo: 'bar' },
+			'function': function() {},
+			nativeFunction: String,
+			date: new Date(),
+			'undefined': undefined,
+			'false': false,
+			string: 'foo',
+			'true': true,
+			classObject: new TestConstructor(),
+			objectCreate: Object.create(null),
+			jsonDecoded: JSON.parse('{"foo":"bar"}')
+		};
+
+		_.forEach(values, function(value, key) {
+			it('should handle ' + key, function() {
+				expect(objtools.isPlainObject(value)).to.equal(_.isPlainObject(value));
+			});
+		});
+	});
 });
