@@ -96,11 +96,6 @@ describe('Base Functions', function() {
 			copy.biz.dat = 123;
 			expect(copy).to.not.deep.equal(obj1);
 		});
-		it('should treat non-plain objects as primitives', function() {
-			const copy = objtools.deepCopy(obj2);
-			expect(copy.foo).to.equal(obj2.foo);
-			expect(copy.foo.testMethod).to.equal(obj2.foo.testMethod);
-		});
 	});
 
 	describe('collapseToDotted()', function() {
