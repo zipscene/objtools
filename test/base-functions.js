@@ -646,12 +646,35 @@ describe('Base Functions', function() {
 			'true': true,
 			classObject: new TestConstructor(),
 			objectCreate: Object.create(null),
+			array: [],
 			jsonDecoded: JSON.parse('{"foo":"bar"}')
 		};
 
 		_.forEach(values, function(value, key) {
 			it('should handle ' + key, function() {
 				expect(objtools.isPlainObject(value)).to.equal(_.isPlainObject(value));
+			});
+		});
+	});
+
+	describe('isEmpty()', function() {
+		const values = {
+			emptyObject: {},
+			'null': null,
+			plainObject: { foo: 'bar' },
+			'function': function() {},
+			date: new Date(),
+			'undefined': undefined,
+			string: 'foo',
+			emptyString: '',
+			array: [ 'foo' ],
+			emptyArray: [],
+			jsonDecoded: JSON.parse('{"foo":"bar"}')
+		};
+
+		_.forEach(values, function(value, key) {
+			it('should handle ' + key, function() {
+				expect(objtools.isEmpty(value)).to.equal(_.isEmpty(value));
 			});
 		});
 	});
