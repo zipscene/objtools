@@ -11,6 +11,9 @@ var objtools = require('zs-objtools');
 // Check whether a value should be treated as a scalar entity
 objtools.isScalar(val)
 
+// Faster equivalent to lodash.isPlainObject()
+objtools.isPlainObject(val)
+
 // Check whether two objects deeply equal each other
 objtools.deepEquals(a, b)
 
