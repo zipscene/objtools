@@ -43,6 +43,31 @@ benchset('#isPlainObject', function() {
 
 });
 
+benchset('#isEmpty', function() {
+
+	const values = {
+		emptyObject: {},
+		fullObject: { foo: 'bar' },
+		emptyArray: [],
+		fullArray: [ 2 ],
+		emptyString: '',
+		fullString: 'foo'
+	};
+
+	_.forEach(values, function(value, key) {
+		compare(key, function() {
+			bench('objtools.isEmpty', function() {
+				objtools.isEmpty(value);
+			});
+
+			bench('lodash.isEmpty', function() {
+				_.isEmpty(value);
+			});
+		});
+	});
+
+});
+
 benchset('#merge', function() {
 	compare('small objects', function() {
 		const obj1 = { foo: 1, bar: { zip: 3 } };
