@@ -289,9 +289,8 @@ describe('Base Functions', function() {
 			expect(actual).to.deep.equal(falsey);
 		});
 		it('should not error when `object` is nullish and source objects are provided', function() {
-			let expected = _.times(2, _.constant(true));
-			let actual = _.map([ null, undefined ], value => _.isEqual(objtools.merge(value, { 'a': 1 }), value));
-			expect(actual).to.deep.equal(expected);
+			expect(objtools.merge(null, { a: 1 })).to.deep.equal({ a: 1 });
+			expect(objtools.merge(undefined, { a: 1 })).to.deep.equal({ a: 1 });
 		});
 		it('should work as an iteratee for methods like `_.reduce`', function() {
 			let array = [ { 'a': 1 }, { 'b': 2 }, { 'c': 3 } ];
@@ -377,10 +376,10 @@ describe('Base Functions', function() {
 			expect(objtools.merge(Foo, source)=== Foo);
 			expect(Foo.a === 1);
 		});
-		it('should pass thru primitive `object` values', function() {
+		it('should override primitive `object` values', function() {
 			const values = [ true, 1, '1' ];
 			const actual = _.map(values, value => objtools.merge(value, { 'a': 1 }));
-			expect(actual).to.deep.equal(values);
+			expect(actual).to.deep.equal([ { a: 1 }, { a: 1 }, { a: 1 } ]);
 		});
 		it('should handle merging if `customizer` returns `undefined`', function() {
 			const actual = objtools.merge({ 'a': { 'b': [ 1, 1 ] } }, { 'a': { 'b': [ 0 ] } }, _.noop);
