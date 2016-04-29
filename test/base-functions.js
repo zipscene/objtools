@@ -324,12 +324,6 @@ describe('Base Functions', function() {
 			});
 			expect(args).to.deep.equal(expected, 'non-primitive property values');
 		});
-		it('should no-op for function sources', function() {
-			function callback(val) { return val + 1; }
-			callback.b = 2;
-			expect(objtools.merge({ 'a': 1 }, callback)).to.deep.equal({ 'a': 1 });
-			expect(objtools.merge({ 'a': 1 }, callback, { 'c': 3 })).to.deep.equal({ 'a': 1, 'c': 3 });
-		});
 		it('should not assign the `customizer` result if it is the same as the destination value', function() {
 			_.each([ 'a', [ 'a' ], { 'a': 1 }, NaN ], function(value) {
 				let object = {};
@@ -409,6 +403,13 @@ describe('Base Functions', function() {
 				l: _.extend([ 'o', 'l' ], { o: 'l' })
 			} };
 			expect(objtools.merge(obj, source)).to.deep.equal(expected);
+		});
+		it('copies constructors', function() {
+			let obj = {
+				foo: String
+			};
+			let result = objtools.merge({}, obj);
+			expect(result.foo).to.equal(String);
 		});
 	});
 
