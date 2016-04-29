@@ -96,6 +96,10 @@ describe('Base Functions', function() {
 			copy.biz.dat = 123;
 			expect(copy).to.not.deep.equal(obj1);
 		});
+		it('should copy non-primitive objects', function() {
+			const copy = objtools.deepCopy(obj2);
+			expect(copy.foo).to.equal(obj2.foo);
+		});
 	});
 
 	describe('collapseToDotted()', function() {
@@ -410,6 +414,14 @@ describe('Base Functions', function() {
 			};
 			let result = objtools.merge({}, obj);
 			expect(result.foo).to.equal(String);
+		});
+		it('copies non-plain objects', function() {
+			function TestClass() {}
+			let obj = {
+				foo: new TestClass()
+			};
+			let result = objtools.merge({}, obj);
+			expect(result.foo).to.equal(obj.foo);
 		});
 	});
 
