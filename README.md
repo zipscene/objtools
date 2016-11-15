@@ -6,7 +6,7 @@ examples of how to use are provided below.  See the `docs` directory for full in
 ## Utility Functions
 
 ```javascript
-var objtools = require('zs-objtools');
+var objtools = require('objtools');
 
 // Check whether a value should be treated as a scalar entity
 objtools.isScalar(val)
@@ -223,7 +223,7 @@ These are some of the functions that can be performed on masks.  See the docs di
 for details.  This is not a complete list.
 
 ```javascript
-var ObjectMask = require('zs-objtools').ObjectMask;
+var ObjectMask = require('objtools').ObjectMask;
 
 // Create a mask
 var mask = new ObjectMask({
