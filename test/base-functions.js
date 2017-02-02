@@ -187,14 +187,16 @@ describe('Base Functions', function() {
 				{ zip: 'zap', bam: new Date('2014-01-01T00:00:00Z') },
 				{ bip: 'boop' }
 			] },
-			foop: { flap: 'flip' }
+			foop: { flap: 'flip' },
+			qax: new Date('2014-01-02T00:00:00Z')
 		};
 		it('should copy an object to the destination', function() {
 			let toObj = {
 				foo: 'bip',
 				zap: 'zip',
 				qux: { boom: 123 },
-				foop: { flap: 'flop' }
+				foop: { flap: 'flop' },
+				qax: new Date('2014-01-01T00:00:00Z')
 			};
 			const origFoop = toObj.foop;
 			const expected = objtools.deepCopy(fromObj);
@@ -217,7 +219,8 @@ describe('Base Functions', function() {
 			expect(toObj).to.deep.equal({
 				foo: 'bar',
 				baz: { qux: 123 },
-				foop: { flap: 'flip' }
+				foop: { flap: 'flip' },
+				qax: new Date('2014-01-02T00:00:00Z')
 			});
 		});
 		it('should call onChange for changed fields', function() {
@@ -231,7 +234,7 @@ describe('Base Functions', function() {
 			};
 			let changed = [];
 			objtools.syncObject(toObj, fromObj, { onChange: (field) => changed.push(field) });
-			const expected = [ 'foo', 'zoop', 'baz.qux', 'qux', 'foop.flap', 'zap' ];
+			const expected = [ 'foo', 'zoop', 'baz.qux', 'qax', 'qux', 'foop.flap', 'zap' ];
 			expect(toObj).to.deep.equal(fromObj);
 			expect(changed.sort()).to.deep.equal(expected.sort());
 		});
