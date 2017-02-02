@@ -184,7 +184,7 @@ describe('Base Functions', function() {
 		const fromObj = {
 			foo: 'bar',
 			baz: { qux: [
-				{ zip: 'zap', bam: new Date('2014-01-02T00:00:00Z') },
+				{ zip: 'zap', bam: new Date('2014-01-01T00:00:00Z') },
 				{ bip: 'boop' }
 			] },
 			foop: { flap: 'flip' },
