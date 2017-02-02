@@ -184,17 +184,19 @@ describe('Base Functions', function() {
 		const fromObj = {
 			foo: 'bar',
 			baz: { qux: [
-				{ zip: 'zap', bam: new Date('2014-01-01T00:00:00Z') },
+				{ zip: 'zap', bam: new Date('2014-01-02T00:00:00Z') },
 				{ bip: 'boop' }
 			] },
-			foop: { flap: 'flip' }
+			foop: { flap: 'flip' },
+			qux: new Date('2014-01-01T00:00:00Z')
 		};
 		it('should copy an object to the destination', function() {
 			let toObj = {
 				foo: 'bip',
 				zap: 'zip',
 				qux: { boom: 123 },
-				foop: { flap: 'flop' }
+				foop: { flap: 'flop' },
+				qux: new Date('2014-01-01T00:00:00Z')
 			};
 			const origFoop = toObj.foop;
 			const expected = objtools.deepCopy(fromObj);
@@ -217,7 +219,8 @@ describe('Base Functions', function() {
 			expect(toObj).to.deep.equal({
 				foo: 'bar',
 				baz: { qux: 123 },
-				foop: { flap: 'flip' }
+				foop: { flap: 'flip' },
+				qux: new Date('2014-01-01T00:00:00Z')
 			});
 		});
 		it('should call onChange for changed fields', function() {
