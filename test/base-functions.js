@@ -188,7 +188,7 @@ describe('Base Functions', function() {
 				{ bip: 'boop' }
 			] },
 			foop: { flap: 'flip' },
-			qax: new Date('2014-01-01T00:00:00Z')
+			qax: new Date('2014-01-02T00:00:00Z')
 		};
 		it('should copy an object to the destination', function() {
 			let toObj = {
@@ -220,7 +220,7 @@ describe('Base Functions', function() {
 				foo: 'bar',
 				baz: { qux: 123 },
 				foop: { flap: 'flip' },
-				qax: new Date('2014-01-01T00:00:00Z')
+				qax: new Date('2014-01-02T00:00:00Z')
 			});
 		});
 		it('should call onChange for changed fields', function() {
