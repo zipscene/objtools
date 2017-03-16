@@ -88,7 +88,7 @@ describe('ObjectMask', function() {
 				nul1: true,
 				obj: { _: true, baz: false, quux: false },
 				obj1: { foo: true },
-				obj3: { foo: { foo: true } }
+				obj3: { _: { _: true, bar: true }, foo: { foo: true } }
 			};
 			expect(difference.toObject()).to.deep.equal(expected);
 		});
@@ -185,7 +185,7 @@ describe('ObjectMask', function() {
 				nul1: true,
 				obj: { _: true, baz: false, quux: false },
 				obj1: { foo: true },
-				obj3: { foo: { foo: true } }
+				obj3: { _: { _: true, bar: true }, foo: { foo: true } }
 			};
 			expect(difference.toObject()).to.deep.equal(expected);
 		});
