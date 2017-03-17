@@ -62,6 +62,8 @@ describe('ObjectMask', function() {
 	});
 
 	describe('subtractMasks()', function() {
+		const subtract = (a, b) => ObjectMask.subtractMasks(a, b).mask;
+
 		const minuend = new ObjectMask({
 			str1: true,
 			num1: true,
@@ -93,10 +95,10 @@ describe('ObjectMask', function() {
 			expect(difference.toObject()).to.deep.equal(expected);
 		});
 		it('subtracts primitive masks', function() {
-			expect(ObjectMask.subtractMasks(true, true).mask).to.equal(false);
-			expect(ObjectMask.subtractMasks(true, false).mask).to.equal(true);
-			expect(ObjectMask.subtractMasks(false, true).mask).to.equal(false);
-			expect(ObjectMask.subtractMasks(false, false).mask).to.equal(false);
+			expect(subtract(true, true)).to.equal(false);
+			expect(subtract(true, false)).to.equal(true);
+			expect(subtract(false, true)).to.equal(false);
+			expect(subtract(false, false)).to.equal(false);
 		});
 		it('no longer matches what the subtrahend matches', function() {
 			const obj = {
