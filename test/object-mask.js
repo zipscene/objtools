@@ -62,6 +62,8 @@ describe('ObjectMask', function() {
 	});
 
 	describe('subtractMasks()', function() {
+		const subtract = (a, b) => ObjectMask.subtractMasks(a, b).mask;
+
 		const minuend = new ObjectMask({
 			str1: true,
 			num1: true,
@@ -82,15 +84,25 @@ describe('ObjectMask', function() {
 			obj4: { _: true }
 		});
 		const difference = ObjectMask.subtractMasks(minuend, subtrahend);
+
 		it('subtracts a mask', function() {
 			const expected = {
 				num1: true,
 				nul1: true,
 				obj: { _: true, baz: false, quux: false },
 				obj1: { foo: true },
-				obj3: { foo: { foo: true } }
+				obj3: { _: { _: true, bar: true }, foo: { foo: true } }
 			};
 			expect(difference.toObject()).to.deep.equal(expected);
+		});
+		it('subtracts primitive masks', function() {
+			expect(subtract(true, true)).to.equal(false);
+			expect(subtract(true, false)).to.equal(true);
+			expect(subtract(false, true)).to.equal(false);
+			expect(subtract(false, false)).to.equal(false);
+		});
+		it('returns false when subtracting a scalar from false', function() {
+			expect(subtract(false, { _: true, foo: false })).to.equal(false);
 		});
 		it('no longer matches what the subtrahend matches', function() {
 			const obj = {
@@ -123,10 +135,9 @@ describe('ObjectMask', function() {
 			expect(minuend.filterObject(obj)).to.deep.equal({});
 			expect(difference.filterObject(obj)).to.deep.equal({});
 		});
-		it('throws on attempt to subtract collection from scalar', function() {
-			const a = new ObjectMask({ _: true }), b = { _: { foo: true } };
-			expect(() => ObjectMask.subtractMasks(a, b)).to.throw(XError);
-			expect(() => ObjectMask.subtractMasks(true, b)).to.throw(XError);
+		it('throws on attempt to subtract with scalars', function() {
+			expect(() => ObjectMask.subtractMasks(3, { _: { foo: true } })).to.throw(XError);
+			expect(() => ObjectMask.subtractMasks({ _: { foo: true } }, 3)).to.throw(XError);
 		});
 	});
 
@@ -185,7 +196,7 @@ describe('ObjectMask', function() {
 				nul1: true,
 				obj: { _: true, baz: false, quux: false },
 				obj1: { foo: true },
-				obj3: { foo: { foo: true } }
+				obj3: { _: { _: true, bar: true }, foo: { foo: true } }
 			};
 			expect(difference.toObject()).to.deep.equal(expected);
 		});
@@ -220,10 +231,9 @@ describe('ObjectMask', function() {
 			expect(minuend.filterObject(obj)).to.deep.equal({});
 			expect(difference.filterObject(obj)).to.deep.equal({});
 		});
-		it('throws on attempt to subtract collection from scalar', function() {
-			const a = new ObjectMask({ _: true }), b = { _: { foo: true } };
-			expect(() => ObjectMask.subtractMasks(a, b)).to.throw(XError);
-			expect(() => ObjectMask.subtractMasks(true, b)).to.throw(XError);
+		it('throws on attempt to subtract with scalars', function() {
+			expect(() => ObjectMask.subtractMasks(3, { _: { foo: true } })).to.throw(XError);
+			expect(() => ObjectMask.subtractMasks({ _: { foo: true } }, 3)).to.throw(XError);
 		});
 	});
 
