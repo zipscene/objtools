@@ -135,6 +135,10 @@ describe('ObjectMask', function() {
 			expect(minuend.filterObject(obj)).to.deep.equal({});
 			expect(difference.filterObject(obj)).to.deep.equal({});
 		});
+		it('throws on attempt to subtract with scalars', function() {
+			expect(() => ObjectMask.subtractMasks(3, { _: { foo: true } })).to.throw(XError);
+			expect(() => ObjectMask.subtractMasks({ _: { foo: true } }, 3)).to.throw(XError);
+		});
 	});
 
 	describe('andMasks()', function() {
@@ -226,6 +230,10 @@ describe('ObjectMask', function() {
 			const obj = { foo: 0, baz: { quux: 1 } };
 			expect(minuend.filterObject(obj)).to.deep.equal({});
 			expect(difference.filterObject(obj)).to.deep.equal({});
+		});
+		it('throws on attempt to subtract with scalars', function() {
+			expect(() => ObjectMask.subtractMasks(3, { _: { foo: true } })).to.throw(XError);
+			expect(() => ObjectMask.subtractMasks({ _: { foo: true } }, 3)).to.throw(XError);
 		});
 	});
 
