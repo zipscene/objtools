@@ -238,6 +238,27 @@ describe('Base Functions', function() {
 			expect(toObj).to.deep.equal(fromObj);
 			expect(changed.sort()).to.deep.equal(expected.sort());
 		});
+		it('should work with arrays and nested arrays', function() {
+			let fromArrObj = {
+				a: [ [ 1, 2, 3 ], [ 44 ] ],
+				b: [ 1, 2, 3, 4, 5 ],
+				c: [ 10 ],
+				d: [ { stuff: 'good', bar: 'foo' } ]
+			};
+			let toArrObj = {
+				a: [ [ 11, 2, 3, 4 ], [ 44 ], [ 55 ] ],
+				b: [ 1, 2, 3 ],
+				c: [ 10, 11 ],
+				d: [ { stuff: 'just ok', foo: 'bar' } ]
+			};
+			objtools.syncObject(toArrObj, fromArrObj);
+			expect(toArrObj).to.deep.equal({
+				a: [ [ 1, 2, 3 ], [ 44 ] ],
+				b: [ 1, 2, 3, 4, 5 ],
+				c: [ 10 ],
+				d: [ { stuff: 'good', bar: 'foo' } ]
+			});
+		});
 	});
 
 	describe('path functions', function() {
