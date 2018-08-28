@@ -1,8 +1,8 @@
 {
   "name": "objtools",
-  "version": "1.6.5",
+  "version": "2.0.0",
   "description": "Various utility functions for working with object, including object merging, inheritance, deep copying, etc.",
-  "main": "./dist/lib/index.js",
+  "main": "./lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/zipscene/objtools.git"
@@ -19,30 +19,23 @@
   "scripts": {
     "lint": "node ./node_modules/.bin/eslint . || exit 0",
     "docs": "node ./node_modules/.bin/yuidoc .",
-    "test": "npm run-script build && node ./node_modules/.bin/mocha ./dist/test -R spec",
-    "bench": "npm run-script build && node ./dist/bench/index.js",
-    "build": "rm -rf dist && ./node_modules/.bin/broccoli build dist && rm -rf tmp",
-    "prepublish": "npm run-script build && npm run-script docs"
+    "test": "node ./node_modules/.bin/mocha ./test -R spec",
+    "bench": "node ./bench/index.js",
+    "prepublishOnly": "npm run-script docs"
   },
   "dependencies": {
-    "babel-runtime": "5.6.15",
-    "lodash": "^3.7.0",
-    "xerror": "^1.0.0"
+    "lodash": "^4.17.10",
+    "xerror": "^1.1.2"
   },
   "devDependencies": {
-    "broccoli": "^0.16.4",
-    "broccoli-babel-transpiler": "^5.2.3",
-    "broccoli-cli": "^1.0.0",
-    "broccoli-merge-trees": "^0.2.1",
-    "broccoli-static-compiler": "^0.2.1",
-    "broccoli-wrap": "0.0.2",
-    "chai": "^2.1.2",
-    "es6-promise": "^2.0.1",
-    "eslint": "^0.17.1",
-    "mocha": "^2.2.1",
-    "source-map-support": "^0.2.10",
-    "spectrophotometer": "^1.0.1",
-    "yuidocjs": "^0.6.0"
+    "chai": "^4.1.2",
+    "eslint": "^5.4.0",
+    "mocha": "^5.2.0",
+    "spectrophotometer": "^2.0.0",
+    "yuidocjs": "^0.10.2"
   },
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">= 8.0.0"
+  }
 }
