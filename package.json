@@ -1,6 +1,6 @@
 {
   "name": "objtools",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Various utility functions for working with object, including object merging, inheritance, deep copying, etc.",
   "main": "./lib/index.js",
   "repository": {
@@ -18,24 +18,21 @@
   ],
   "scripts": {
     "lint": "node ./node_modules/.bin/eslint . || exit 0",
-    "docs": "node ./node_modules/.bin/yuidoc .",
     "test": "node ./node_modules/.bin/mocha ./test -R spec",
-    "bench": "node ./bench/index.js",
-    "prepublishOnly": "npm run-script docs"
+    "bench": "node ./bench/index.js"
   },
   "dependencies": {
-    "lodash": "^4.17.10",
-    "xerror": "^1.1.2"
+    "lodash": "^4.17.20",
+    "xerror": "^2.0.0"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "eslint": "^5.4.0",
-    "mocha": "^5.2.0",
-    "spectrophotometer": "^2.0.0",
-    "yuidocjs": "^0.10.2"
+    "chai": "^4.2.0",
+    "eslint": "^7.11.0",
+    "mocha": "^8.2.0",
+    "spectrophotometer": "^3.0.2"
   },
   "license": "Apache-2.0",
   "engines": {
-    "node": ">= 8.0.0"
+    "node": ">= 14.0.0"
   }
 }
