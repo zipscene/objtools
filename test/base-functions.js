@@ -289,6 +289,9 @@ describe('Base Functions', function() {
 		it('getPath should handle root path', function() {
 			expect(objtools.getPath(obj1, null)).to.deep.equal(obj1);
 		});
+		it('getPath should not fetch object prototype', function() {
+			expect(objtools.getPath(obj1, '__proto__')).to.not.equal(Object.prototype);
+		});
 		it('setPath should set various paths', function() {
 			objtools.setPath(obj1, 'foo', 'biz');
 			expect(obj1.foo).to.equal('biz');
@@ -303,9 +306,17 @@ describe('Base Functions', function() {
 			objtools.setPath(obj1, 'baz.arr.1.buz', 11);
 			expect(obj1.baz.arr[1]).to.deep.equal({ buz: 11 });
 		});
+		it('setPath should not pollute prototype', function() {
+			objtools.setPath(obj1, '__proto__.polluted', true);
+			expect({}.polluted).to.equal(undefined);
+		});
 		it('deletePath should delete paths', function() {
 			objtools.deletePath(obj1, 'baz.arr');
 			expect(obj1.baz.arr).to.equal(undefined);
+		});
+		it('deletePath should not pollute prototype', function() {
+			objtools.deletePath(obj1, '__proto__.toString');
+			expect({}.toString).to.not.equal(undefined);
 		});
 	});
 
@@ -450,6 +461,10 @@ describe('Base Functions', function() {
 			};
 			let result = objtools.merge({}, obj);
 			expect(result.foo).to.equal(obj.foo);
+		});
+		it('should not pollute prototype', () => {
+			objtools.merge({}, JSON.parse('{"__proto__": {"polluted": true}}'));
+			expect({}.polluted).to.equal(undefined);
 		});
 	});
 
